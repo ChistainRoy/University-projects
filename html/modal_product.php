@@ -56,11 +56,13 @@
                             <label for="exampleFormControlSelect1" class="form-label">ประเภทสินค้า</label>
                             <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" name="type">
                                 <option selected>เลือกประเภทสินค้า</option>
-                                <option value="1">หน้าต่างบานเลื่อน</option>
-                                <option value="2">หน้าต่างบานพับ</option>
-                                <option value="3">หน้าต่างห้องน้ำ</option>
-                                <option value="4">ประตูบานเลื่อน</option>
-                                <option value="5">ประตูบานพับ</option>
+                                <?php
+                                include('connect.php');
+                                $query = mysqli_query($conn, "SELECT * FROM `category`");
+                                while ($fetch = mysqli_fetch_array($query)) {
+                                ?>
+                                    <option value="<?php echo $fetch['id_cat'] ?>"><?php echo $fetch['cat_name'] ?></option>
+                                <?php } ?>
                             </select>
                         </div>
                     </div>
@@ -71,6 +73,3 @@
             </div>
         </div>
     </div>
-
-
-    

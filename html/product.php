@@ -653,6 +653,17 @@
                     } else
                     ?>
                       </h5>
+                      <h5 class="card-title">ประเภทสินค้า :
+                        <?php
+                      include('connect.php');
+                      $join = "SELECT product.category_id, category.cat_name FROM product INNER JOIN category ON product.category_id = category.id_cat";
+                      $inner = mysqli_query($conn, $join);
+                      while ($type = mysqli_fetch_array($inner)) {
+                        if ($fetch['category_id'] == $type['category_id'])
+                          echo $type['cat_name'];
+                      }
+                        ?>
+                      </class=>
                       <div class="col mt-3 mb-auto">
                       <?php echo "<a class='btn btn-outline-primary' href='edit_product.php?id=" . $fetch['product_id'] . "'>แก้ไขข้อมูล</a>"; ?>
                       <?php echo "<a class='btn btn-primary' href='edit_product_img.php?idimg=" . $fetch['product_id'] . "'>แก้ไขรูปภาพ</a>"; ?>
