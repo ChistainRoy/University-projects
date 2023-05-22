@@ -146,11 +146,17 @@ session_start();
         font-weight: 100%;
         color: #696cff;
     }
+
+    .but {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 </style>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-        <div class="container">
+        <div class="container-fluid">
             <img src="upload/b.png" width="50">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -195,46 +201,13 @@ session_start();
             </div>
         </div>
     </nav>
-    <?php
-    include('connect.php');
-    ?>
     <section>
         <div class="container p-5">
             <div class="row  px-5">
                 <h3>ตระกร้าสินค้า <span class="numbercart">(<?php echo $count ?>)</span></h3>
-                <?php
-                $product_id = array_column($_SESSION['cart'], 'product_id');
-                foreach ($product_id as $id) {
-                }
-                ?>
                 <hr>
                 <from action="orderconfirm.php" method="get" class="cart-items">
-                    <div class="row">
-                        <div class="col-xl-2 mt-3 mx-5">
-                            <img class="productimg mt-3" src="upload/image-removebg-preview.png">
-                        </div>
-                        <div class="product col-xl-2 mt-3">
-                            <h4>สินค้า</h4>
-                            <h5 class="detail">หน้าต่างห้องน้ำ</h5>
-                            <h5 class="detail">ขนาด: 110 X 150 ซม.</h5>
-                            <h5 class="detail">สีกรอบ:เขียว</h5>
-                            <h5 class="detail">สีกระจก:ดำ</h5>
-
-                        </div>
-                        <div class="col-xl-2 mt-3">
-                            <h4>ราคา</h4>
-                            <h5 class="detail">1145 ฿</h5>
-                        </div>
-                        <div class="col-xl-2 mt-3">
-                            <h4>จำนวน</h4>
-                            <input type="text" value="1" class="from-control w-25 d-inline text-center mx-2">
-                        </div>
-                        <div class="col-xl-3 mt-3">
-                            <h4>ลบ</h4>
-                        </div>
-                    </div>
                     <br>
-                    <hr class="mt-4">
                     <div class="row">
                         <div class="col-xl-2 mt-3 mx-5">
                             <img class="productimg mt-3" src="upload/image-removebg-preview.png">
@@ -251,26 +224,37 @@ session_start();
                             <h4>ราคา</h4>
                             <h5 class="detail">1145 ฿</h5>
                         </div>
-                        <div class="col-xl-2 mt-3">
+                        <div class="col-xl-2 mt-3 text-center">
                             <h4 class="text-center">จำนวน</h4>
+
                             <button type="button" class="btn rounded-pill btn-icon btn-primary">
-                                <span class="bx bxs-plus-circle fs-1"></span>
+                                <span class="bx bxs-plus-circle fs-3"></span>
                             </button>
-                            <input type="text" value="1" class="from-control w-25 d-inline text-center mx-2">
+                            <input type="text" value="1" class="from-control w-25 d-inline text-center mx-2 input-group-text">
                             <button type="button" class="btn rounded-pill btn-icon btn-primary">
-                                <span class="bx bx-minus-circle fs-1"></span>
+                                <span class="bx bx-minus-circle fs-3"></span>
                             </button>
 
                         </div>
                         <div class="col-xl-3 mt-3">
-                            <h4 class="mx-1 text-center">ลบ</h4>
-                            <br>
+                            <h4 class="text-center">ลบ</h4>
+                            <div class="but">
+                                <button type="button" class="btn rounded-pill btn-icon btn-danger d-felx justify-content-center align-item-center">
+                                    <span class="tf-icons bx bx-x"></span>
+                                </button>
+                            </div>
                         </div>
+                        <br>
                     </div>
                     <br>
                     <hr class="mt-3">
                 </from>
+                <?php
+                include('connect.php');
+                $product_id = array_column($_SESSION['cart'], 'product_id');
+                print_r($_SESSION['cart']);
 
+                ?>
             </div>
         </div>
     </section>

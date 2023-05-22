@@ -27,7 +27,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Product - Management | Dashboard</title>
 
     <meta name="description" content="" />
 
@@ -73,12 +73,21 @@
     margin-top: 1%;
   }
   .card {
-  margin: 10px;
-  padding: 10px;
+    margin: 10px;
+    padding: 10px;
 }
-.addcart{
-  border: none;
+  .addcart{
+    border: none;
 }
+  .card-img-top {
+    width: 100%;
+    height: 400px;
+    padding: 10px;
+    }
+  .add-product:hover{
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+    }
 </style>
   <body>
     <!-- Layout wrapper -->
@@ -90,43 +99,9 @@
           <div class="app-brand demo">
             <a href="index.html" class="app-brand-link">
               <span class="app-brand-logo demo">
-                <svg
-                  width="25"
-                  viewBox="0 0 25 42"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                >
-                  <g id="g-app-brand" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <g id="Brand-Logo" transform="translate(-27.000000, -15.000000)">
-                      <g id="Icon" transform="translate(27.000000, 15.000000)">
-                        <g id="Mask" transform="translate(0.000000, 8.000000)">
-                          <mask id="mask-2" fill="white">
-                            <use xlink:href="#path-1"></use>
-                          </mask>
-                          <use fill="#696cff" xlink:href="#path-1"></use>
-                          <g id="Path-3" mask="url(#mask-2)">
-                            <use fill="#696cff" xlink:href="#path-3"></use>
-                            <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-3"></use>
-                          </g>
-                          <g id="Path-4" mask="url(#mask-2)">
-                            <use fill="#696cff" xlink:href="#path-4"></use>
-                            <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-4"></use>
-                          </g>
-                        </g>
-                        <g
-                          id="Triangle"
-                          transform="translate(19.000000, 11.000000) rotate(-300.000000) translate(-19.000000, -11.000000) "
-                        >
-                          <use fill="#696cff" xlink:href="#path-5"></use>
-                          <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-5"></use>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                </svg>
+              <img src="upload/b.png" width="50">
               </span>
-              <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span>
+              <span class="app-brand-text demo menu-text fw-bolder ms-2">Buddy</span>
             </a>
 
             <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -601,7 +576,8 @@
               include('connect.php');
               $query = mysqli_query($conn, "SELECT * FROM `product`");
               while ($fetch = mysqli_fetch_array($query)) {
-              ?><div class="col-md-6 col-lg-4 mb-3">
+              ?>
+              <div class="card-group mb-5 col-md-4">
               <div class="card h-100">
                 <img class="card-img-top" src="<?php echo $fetch['product_img'] ?>" alt="Card image cap"/>
                 <div class="card-body">
@@ -637,7 +613,7 @@
                       </h5>
                       <h5 class="card-title">ประเภทสินค้า :
                         <?php
-                      include('connect.php');
+
                       $join = "SELECT product.category_id, category.cat_name FROM product INNER JOIN category ON product.category_id = category.id_cat";
                       $inner = mysqli_query($conn, $join);
                       while ($type = mysqli_fetch_array($inner)) {
@@ -649,12 +625,12 @@
                       <div class="col mt-3 mb-auto">
                       <?php echo "<a class='btn btn-outline-primary' href='edit_product.php?id=" . $fetch['product_id'] . "'>แก้ไขข้อมูล</a>"; ?>
                       <?php echo "<a class='btn btn-primary' href='edit_product_img.php?idimg=" . $fetch['product_id'] . "'>แก้ไขรูปภาพ</a>"; ?>
-                  <button class="btn btn-danger" type="submit" data-bs-toggle="modal"data-bs-target="#addcart">ลบ</button>
+                  <button class="btn btn-danger" type="submit" data-bs-toggle="modal"data-bs-target="#product<?php echo $fetch['product_id'] ?>">ลบ</button>
                   </div>
                 </div>
               </div>
-              
-            </div>
+              </div>
+         
               <?php } ?>
                
 
@@ -663,7 +639,7 @@
 
                 <div class="col-md-6 col-lg-4 mb-3">
                 <button class="btn bg-white" type="submit" data-bs-toggle="modal"data-bs-target="#addcart">
-                <div class="card h-100 ">
+                <div class="add-product card h-100 ">
                 
                 
                   
@@ -685,39 +661,10 @@
             <!-- / Content -->
 
             <!-- Footer -->
-            <footer class="content-footer footer bg-footer-theme">
-              <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-                <div class="mb-2 mb-md-0">
-                  ©
-                  <script>
-                    document.write(new Date().getFullYear());
-                  </script>
-                  , made with ❤️ by
-                  <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
-                </div>
-                <div>
-                  <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
-                  <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
-
-                  <a
-                    href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-                    target="_blank"
-                    class="footer-link me-4"
-                    >Documentation</a
-                  >
-
-                  <a
-                    href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
-                    target="_blank"
-                    class="footer-link me-4"
-                    >Support</a
-                  >
-                </div>
-              </div>
-            </footer>
+            <?php include 'footer_admin.html'; ?>
             <!-- / Footer -->
-
             <div class="content-backdrop fade"></div>
+
           </div>
           <!-- Content wrapper -->
         </div>
