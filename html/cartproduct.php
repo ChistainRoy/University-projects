@@ -67,6 +67,7 @@ session_start();
 
     h4 {
         font-family: 'Sarabun', sans-serif;
+        color: black;
     }
 
     .navbar {
@@ -251,9 +252,69 @@ session_start();
                 </from>
                 <?php
                 include('connect.php');
-                $product_id = array_column($_SESSION['cart'], 'product_id');
-                print_r($_SESSION['cart']);
+                $query = "SELECT * FROM `product`";
+                $result = mysqli_query($conn, $query);
+                // print_r($_SESSION['cart']);
+                foreach ($_SESSION['cart'] as $item) {
+                    // echo $item['productid'] . '<br>';
 
+                    if ($result) {
+                        // Compare the ID with the database values
+                        $yourComparisonID = $item['productid']; // ID to compare with
+
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $id = $row['product_id'];
+                            $name = $row['product_name'];
+                            if ($id == $yourComparisonID) {
+                ?><from action="orderconfirm.php" method="get" class="cart-items">
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-2 mt-3 mx-5">
+                                            <img class="productimg mt-3" src="<?php echo $row['product_img']; ?>">
+                                        </div>
+                                        <div class="product col-xl-2 mt-3">
+                                            <h4 class="detail" <?php echo $name ?></h4>
+                                                <h5 class="detail">ขนาด: 110 X 150 ซม.</h5>
+                                                <h5 class="detail">สีกรอบ:เขียว</h5>
+                                                <h5 class="detail">สีกระจก:ดำ</h5>
+
+                                        </div>
+                                        <div class="col-xl-2 mt-3">
+                                            <h4>ราคา</h4>
+                                            <h5 class="detail">1145 ฿</h5>
+                                        </div>
+                                        <div class="col-xl-2 mt-3 text-center">
+                                            <h4 class="text-center">จำนวน</h4>
+
+                                            <button type="button" class="btn rounded-pill btn-icon btn-primary">
+                                                <span class="bx bxs-plus-circle fs-3"></span>
+                                            </button>
+                                            <input type="text" value="1" class="from-control w-25 d-inline text-center mx-2 input-group-text">
+                                            <button type="button" class="btn rounded-pill btn-icon btn-primary">
+                                                <span class="bx bx-minus-circle fs-3"></span>
+                                            </button>
+
+                                        </div>
+                                        <div class="col-xl-3 mt-3">
+                                            <h4 class="text-center">ลบ</h4>
+                                            <div class="but">
+                                                <button type="button" class="btn rounded-pill btn-icon btn-danger d-felx justify-content-center align-item-center">
+                                                    <span class="tf-icons bx bx-x"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                    <br>
+                                    <hr class="mt-3">
+                                </from>
+                <?php break; // Break the loop if a match is found
+                            }
+                        }
+                    } else {
+                        echo "Query failed: " . mysqli_error($conn);
+                    }
+                }
                 ?>
             </div>
         </div>
