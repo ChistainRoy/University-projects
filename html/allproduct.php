@@ -197,7 +197,6 @@ session_start();
         if (isset($_SESSION['cart'])) {
             $item_array_id = array_column($_SESSION['cart'],  "productid");
 
-
             if (in_array($_POST['productid'], $item_array_id)) {
                 echo "<script>alert('Product is already add in the cart')</script>";
                 echo "<script>window.location = 'allproduct.php'</script>";

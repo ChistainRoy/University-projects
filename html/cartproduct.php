@@ -180,7 +180,7 @@ session_start();
                             สินค้า
                         </a>
                         <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="allproduct.php">สินค้าทั้งหมด</a></li>
+                            <li><a class="dropdown-item" href="del_session.php">สินค้าทั้งหมด</a></li>
                             <li><a class="dropdown-item" href="javascript:void(0)">Another action</a></li>
                             <li>
                                 <hr class="dropdown-divider" />
@@ -213,37 +213,64 @@ session_start();
                 <h3>ตระกร้าสินค้า <span class="numbercart">(<?php echo $count ?>)</span></h3>
                 <hr>
                 <?php
+                // print_r($_SESSION['cart']);
                 include('connect.php');
                 $query = "SELECT * FROM `product`";
                 $result = mysqli_query($conn, $query);
                 // print_r($_SESSION['cart']);
-                foreach ($_SESSION['cart'] as $item) {
-                    // echo $item['productid'] . '<br>';
-
+                foreach ($_SESSION['cart'] as $item_array) {
+                    echo $item_array['productid'] . '<br>';
+                    // $valueToCompare++;
+                    // print_r($item_array);
                     if ($result) {
                         // Compare the ID with the database values
-                        $yourComparisonID = $item['productid']; // ID to compare with
-
+                        $yourComparisonID = $item_array['productid']; // ID to compare
+                        $sql = "SELECT * FROM product WHERE product_id = '$yourComparisonID'";
+                        $result = mysqli_query($conn, $sql);
                         while ($row = mysqli_fetch_assoc($result)) {
-                            $id = $row['product_id'];
+
+
+                            $yourComparisonID = $row['product_id'];
                             $name = $row['product_name'];
-                            if ($id == $yourComparisonID) {
-                ?><from action="orderconfirm.php" method="get" class="cart-items">
+                            $price = $row['product_price'];
+                            $width = $row['product_width'];
+                            $length = $row['product_length']; {
+                ?><from action="cart_delet.php" method="get" class="cart-items">
                                     <br>
                                     <div class="row">
                                         <div class="col-xl-2 mt-3 mx-5">
                                             <img class="productimg mt-3" src="<?php echo $row['product_img']; ?>">
                                         </div>
                                         <div class="product col-xl-2 mt-3">
+                                            <input type="hidden" value="<?php echo $yourComparisonID ?>" class="from-control w-25 d-inline text-center mx-2 input-group-text" name="productid">
+
                                             <h4 class="nameproduct"><?php echo $name ?></h4>
-                                            <h5 class="detail">ขนาด: 110 X 150 ซม.</h5>
-                                            <h5 class="detail">สีกรอบ:เขียว</h5>
-                                            <h5 class="detail">สีกระจก:ดำ</h5>
+                                            <h5 class="detail">ขนาด: <?php echo $width ?> X <?php echo $length ?> ซม.</h5>
+                                            <h5 class="detail">สีกรอบ:<?php if ($row['colorglass'] === "1") {
+                                                                            $color = "เขียว";
+                                                                            echo $color;
+                                                                        } else if ($row['colorglass'] === "2") {
+                                                                            echo $color = "ดำ";
+                                                                        } else if ($row['colorglass'] === "3")
+                                                                            echo $color = "กันยูวี";
+                                                                        ?></h5>
+                                            <h5 class="detail">สีกระจก:<?php if ($row['colorframe'] === "1") {
+                                                                            $frame = "ชา";
+                                                                            echo $color;
+                                                                        } else if ($row['colorframe'] === "2") {
+                                                                            echo $frame = "นม";
+                                                                        } else if ($row['colorframe'] === "3") {
+                                                                            echo $frame = "ดำ";
+                                                                        } else if ($row['colorframe'] === "4") {
+                                                                            echo $frame = "ไม้";
+                                                                        }
+
+                                                                        ?></h5>
 
                                         </div>
                                         <div class="col-xl-2 mt-3">
                                             <h4>ราคา</h4>
-                                            <h5 class="detail">1145 ฿</h5>
+                                            <h5 class="detail"><?php echo $price ?> ฿</h5>
                                         </div>
                                         <div class="col-xl-2 mt-3 text-center">
                                             <h4 class="text-center">จำนวน</h4>
@@ -260,15 +287,15 @@ session_start();
                                         <div class="col-xl-3 mt-3">
                                             <h4 class="text-center">ลบ</h4>
                                             <div class="but">
-                                                <button type="button" class="btn rounded-pill btn-icon btn-danger d-felx justify-content-center align-item-center">
-                                                    <span class="tf-icons bx bx-x"></span>
-                                                </button>
+                                                <?php echo "<a href='cart_delet.php?did=" . $yourComparisonID . "' onclick=\"return confirm('ต้องการลบผู้ใช้แน่หรือไม่? ข้อมูลนี้ไม่สามารถกู้คืนได้.');\">Delete</a>"; ?>
+                                                <span class="tf-icons bx bx-x"></span>
+                                                </a>
                                             </div>
                                         </div>
                                         <br>
                                     </div>
                                     <br>
-                                    <hr class="mt-3">
+                                    <hr>
                                 </from>
                 <?php break; // Break the loop if a match is found
                             }
@@ -281,7 +308,11 @@ session_start();
             </div>
         </div>
     </section>
-
+    <?php
+    if (isset($_POST['remove'])) {
+        print_r($_GET['id']);
+    }
+    ?>
 
 
 
