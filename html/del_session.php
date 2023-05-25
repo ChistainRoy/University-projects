@@ -1,4 +1,4 @@
 <?php
 session_start();
-session_destroy();
+unset($_SESSION['cart']);
 header('location: allproduct.php');
