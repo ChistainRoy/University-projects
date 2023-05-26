@@ -181,7 +181,7 @@ session_start();
                         </a>
                         <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="del_session.php">สินค้าทั้งหมด</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0)">Another action</a></li>
+                            <li><a class="dropdown-item" href="cart2.php">หน้าต่าง</a></li>
                             <li>
                                 <hr class="dropdown-divider" />
                             </li>
@@ -220,6 +220,7 @@ session_start();
                 // print_r($_SESSION['cart']);
                 foreach ($_SESSION['cart'] as $item_array) {
                     echo $item_array['productid'] . '<br>';
+
                     // $valueToCompare++;
                     // print_r($item_array);
                     if ($result) {
@@ -287,9 +288,9 @@ session_start();
                                         <div class="col-xl-3 mt-3">
                                             <h4 class="text-center">ลบ</h4>
                                             <div class="but">
-                                                <?php echo "<a href='cart_delet.php?did=" . $yourComparisonID . "' onclick=\"return confirm('ต้องการลบผู้ใช้แน่หรือไม่? ข้อมูลนี้ไม่สามารถกู้คืนได้.');\">Delete</a>"; ?>
-                                                <span class="tf-icons bx bx-x"></span>
-                                                </a>
+                                                <?php echo "<a href='cart_delet.php?did=" . $yourComparisonID . "' onclick=\"return confirm('ต้องการลบสินค้าชิ้นนี้หรือไม่?.');\"class='btn rounded-pill btn-icon btn-danger'>
+                                                <span class='tf-icons bx bx-x'></span>
+                                                </a>"; ?>
                                             </div>
                                         </div>
                                         <br>
@@ -304,6 +305,7 @@ session_start();
                         echo "Query failed: " . mysqli_error($conn);
                     }
                 }
+
                 ?>
             </div>
         </div>

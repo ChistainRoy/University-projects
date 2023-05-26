@@ -199,7 +199,7 @@ session_start();
 
             if (in_array($_POST['productid'], $item_array_id)) {
                 echo "<script>alert('Product is already add in the cart')</script>";
-                echo "<script>window.location = 'allproduct.php'</script>";
+                echo "<script>window.location = 'cart2.php'</script>";
             } else {
 
                 $count = count($_SESSION['cart']);
@@ -262,10 +262,12 @@ session_start();
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-3">
                 <?php
                 include('connect.php');
-                $query = mysqli_query($conn, "SELECT * FROM `product`");
-                while ($fetch = mysqli_fetch_array($query)) {
+                $sql = "SELECT * FROM product WHERE category_id = '6'";
+                $result = mysqli_query($conn, $sql);
+                while ($fetch = mysqli_fetch_array($result)) {
+
                 ?>
-                    <form action="allproduct.php" method="post">
+                    <form action="cart2.php" method="post">
                         <div class="card-group mb-5">
                             <div class="card h-100">
                                 <img class="card-img-top" src="<?php echo $fetch['product_img'] ?>" alt="Card image cap" />
