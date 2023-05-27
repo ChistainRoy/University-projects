@@ -33,7 +33,7 @@
                     </div>
                     <div class="row g-2">
                         <div class="col mb-3">
-                            <label for="address" class="form-label">เบอร์โทรศัพท์</label>
+                            <label for="address" class="form-label">ที่อยู่</label>
                             <textarea class="form-control" name="address" rows="3" required><?php echo $fetch['address'] ?></textarea><br>
                         </div>
                     </div>

@@ -88,6 +88,9 @@
     transform: scale(1.05);
     box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
     }
+    .none{
+      display: none;
+    }
 </style>
   <body>
     <!-- Layout wrapper -->
@@ -581,7 +584,7 @@
               <div class="card h-100">
                 <img class="card-img-top" src="<?php echo $fetch['product_img'] ?>" alt="Card image cap"/>
                 <div class="card-body">
-                <h3 class="card-title hidden">ID : <?php echo $fetch['product_id'] ?></h3>
+                <h3 class="card-title none">ID : <?php echo $fetch['product_id'] ?></h3>
                   <h5 class="card-title">ชื่อสินค้า : <?php echo $fetch['product_name'] ?></h5>
                   <h5 class="card-title">ราคา : <?php echo $fetch['product_price'] ?></h5>
                   <h5 class="card-title">ขนาด : <?php echo $fetch['product_width'] ?> X   <?php echo $fetch['product_length'] ?> ซม.</h5>
