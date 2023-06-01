@@ -203,8 +203,6 @@
         </div>
     </section>
 
-
-
     <script>
         const input = document.getElementById('formFile');
         const preview = document.getElementById('preview');

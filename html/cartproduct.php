@@ -1,5 +1,8 @@
 <?php
 session_start();
+if (!isset($_SESSION['cart'])) {
+    header("location: nocart.php");
+} else
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -231,13 +234,13 @@ session_start();
                 <a href="cartproduct.php" class="max">
                     <i class="bi bi-cart-plus fs-3">
                         <?php
-                        if (isset($_SESSION['cart'])) {
-                            $count = count($_SESSION['cart']);
-                            echo "<span id='cart_count' class='num'>$count</span>";
-                        } else {
-                            $count = 0;
-                            echo "<span id='cart_count' class='num'>0</span>";
-                        } ?>
+                    if (isset($_SESSION['cart'])) {
+                        $count = count($_SESSION['cart']);
+                        echo "<span id='cart_count' class='num'>$count</span>";
+                    } else {
+                        $count = 0;
+                        echo "<span id='cart_count' class='num'>0</span>";
+                    } ?>
                     </i>
                 </a>
             </div>
@@ -245,7 +248,6 @@ session_start();
     </nav>
     <section>
         <div class="container p-5">
-
             <div class="card">
                 <br>
                 <div class="row px-5">
@@ -269,8 +271,6 @@ session_start();
                             $sql = "SELECT * FROM product WHERE product_id = '$yourComparisonID'";
                             $result = mysqli_query($conn, $sql);
                             while ($row = mysqli_fetch_assoc($result)) {
-
-
                                 $yourComparisonID = $row['product_id'];
                                 $name = $row['product_name'];
                                 $price = $row['product_price'];
@@ -307,7 +307,6 @@ session_start();
                                                                                 }
 
                                                                                 ?></h5>
-
                                             </div>
                                             <div class="col-xl-1 col-lg-2 mt-3 md">
                                                 <h4>ราคา</h4>
@@ -367,17 +366,20 @@ session_start();
                 </div>
             </div>
         </div>
-
     </section>
+
+    <section>
+        <div class="container p-5">
+            <h4 class="text-center">ไม่มีสินค้าในตระกร้า</h4>
+        </div>
+    </section>
+
+
     <?php
     if (isset($_POST['remove'])) {
         print_r($_GET['id']);
     }
     ?>
-
-
-
-
     <section id="basic-footer">
         <div class="container-fluid p-0">
             <footer class="footer bg-primary">

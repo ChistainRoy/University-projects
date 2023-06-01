@@ -265,7 +265,6 @@ session_start();
                 $sql = "SELECT * FROM product WHERE category_id = '6'";
                 $result = mysqli_query($conn, $sql);
                 while ($fetch = mysqli_fetch_array($result)) {
-
                 ?>
                     <form action="cart2.php" method="post">
                         <div class="card-group mb-5">
