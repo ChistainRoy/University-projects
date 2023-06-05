@@ -251,7 +251,7 @@ if (!isset($_SESSION['cart'])) {
             <div class="card">
                 <br>
                 <div class="row px-5">
-                    <h3>ตระกร้าสินค้า <span class="numbercart">(<?php echo $count ?>)</span></h3>
+                    <h3>จัดการตระกร้าสินค้า <span class="numbercart">(<?php echo $count ?>)</span></h3>
                     <hr>
                     <?php
                     // print_r($_SESSION['cart']);
@@ -259,6 +259,7 @@ if (!isset($_SESSION['cart'])) {
                     $query = "SELECT * FROM `product`";
                     $result = mysqli_query($conn, $query);
                     $inputId = 1;
+                    $values = array();
                     // print_r($_SESSION['cart']);
                     foreach ($_SESSION['cart'] as $item_array) {
                         // echo $item_array['productid'] . '<br>';
@@ -275,7 +276,8 @@ if (!isset($_SESSION['cart'])) {
                                 $name = $row['product_name'];
                                 $price = $row['product_price'];
                                 $width = $row['product_width'];
-                                $length = $row['product_length']; { ?>
+                                $length = $row['product_length'];
+                                $value = $yourComparisonID; { ?>
                                     <br>
                                     <div class="row ">
                                         <div class="col-xl-2 col-lg-2 mt-3 mx-5">
@@ -321,7 +323,7 @@ if (!isset($_SESSION['cart'])) {
                                                 <button type="button" class="btn rounded-pill btn-icon btn-primary" onclick="decrement('<?php echo $inputId; ?>')">
                                                     <span class="bx bx-minus-circle fs-3"></span>
                                                 </button>
-                                                <input type="hidden" value="<?php echo $yourComparisonID ?>" class="from-control w-25 d-inline text-center mx-2 input-group-text" name="productid">
+                                                <input type="hidden" value="<?php echo $yourComparisonID ?>" class="from-control w-25 d-inline text-center mx-2 input-group-text" name="productid[]">
                                         </div>
                                         <div class="col-xl-2 col-lg-4 mt-3">
                                             <h4 class="text-center">ลบ</h4>

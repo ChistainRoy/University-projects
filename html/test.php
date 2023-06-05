@@ -1,25 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+   <?
+    $flag = true;
 
-<body>
-    <form method="POST" action="submit-form.php">
-        <?php
-        $loopValues = array("Value 1", "Value 2", "Value 3");
-
-        foreach ($loopValues as $index => $value) {
-            echo '<input type="text" name="values[]" value="' . $value . '">';
+    while ($flag) {
+        // First loop
+        for ($i = 1; $i <= 3; $i++) {
+            echo "First Loop: " . $i . "<br>";
         }
-        ?>
 
-        <input type="submit" value="Submit">
-    </form>
-</body>
+        $flag = false; // Set flag to false to exit the first loop
 
-</html>
+        // Second loop
+        for ($j = 1; $j <= 2; $j++) {
+            echo "Second Loop: " . $j . "<br>";
+        }
+
+        $flag = true; // Set flag to true to re-enter the first loop
+    }
+    ?>
