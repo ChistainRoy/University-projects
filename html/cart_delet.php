@@ -10,5 +10,5 @@ if (isset($_GET['did'])) {
             unset($_SESSION['cart'][$key]);
         }
     }
+    header('location: cartproduct.php');
 }
-header('location: cartproduct.php');

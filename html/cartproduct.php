@@ -275,71 +275,66 @@ if (!isset($_SESSION['cart'])) {
                                 $name = $row['product_name'];
                                 $price = $row['product_price'];
                                 $width = $row['product_width'];
-                                $length = $row['product_length']; {
-                    ?><from action="cart_delet.php" method="get" class="cart-items">
-                                        <br>
-                                        <div class="row ">
-                                            <div class="col-xl-2 col-lg-2 mt-3 mx-5">
-                                                <img class="productimg mb-5 md" src="<?php echo $row['product_img']; ?>">
-                                            </div>
-                                            <div class="product col-xl-2 col-lg-8 mt-3">
-                                                <input type="text" value="<?php echo $yourComparisonID ?>" class="from-control w-25 d-inline text-center mx-2 input-group-text" name="productid">
+                                $length = $row['product_length']; { ?>
+                                    <br>
+                                    <div class="row ">
+                                        <div class="col-xl-2 col-lg-2 mt-3 mx-5">
+                                            <img class="productimg mb-5 md" src="<?php echo $row['product_img']; ?>">
+                                        </div>
+                                        <div class="product col-xl-2 col-lg-8 mt-3">
 
-                                                <h4 class="nameproduct md"><?php echo $name ?></h4>
-                                                <h5 class="detail md">ขนาด: <?php echo $width ?> X <?php echo $length ?> ซม.</h5>
-                                                <h5 class="detail md">สีกรอบ:<?php if ($row['colorglass'] === "1") {
-                                                                                    $color = "เขียว";
-                                                                                    echo $color;
-                                                                                } else if ($row['colorglass'] === "2") {
-                                                                                    echo $color = "ดำ";
-                                                                                } else if ($row['colorglass'] === "3")
-                                                                                    echo $color = "กันยูวี";
-                                                                                ?></h5>
-                                                <h5 class="detail md">สีกระจก:<?php if ($row['colorframe'] === "1") {
-                                                                                    $frame = "ชา";
-                                                                                    echo $color;
-                                                                                } else if ($row['colorframe'] === "2") {
-                                                                                    echo $frame = "นม";
-                                                                                } else if ($row['colorframe'] === "3") {
-                                                                                    echo $frame = "ดำ";
-                                                                                } else if ($row['colorframe'] === "4") {
-                                                                                    echo $frame = "ไม้";
-                                                                                }
+                                            <h4 class="nameproduct md"><?php echo $name ?></h4>
+                                            <h5 class="detail md">ขนาด: <?php echo $width ?> X <?php echo $length ?> ซม.</h5>
+                                            <h5 class="detail md">สีกรอบ:<?php if ($row['colorglass'] === "1") {
+                                                                                $color = "เขียว";
+                                                                                echo $color;
+                                                                            } else if ($row['colorglass'] === "2") {
+                                                                                echo $color = "ดำ";
+                                                                            } else if ($row['colorglass'] === "3")
+                                                                                echo $color = "กันยูวี";
+                                                                            ?></h5>
+                                            <h5 class="detail md">สีกระจก:<?php if ($row['colorframe'] === "1") {
+                                                                                $frame = "ชา";
+                                                                                echo $color;
+                                                                            } else if ($row['colorframe'] === "2") {
+                                                                                echo $frame = "นม";
+                                                                            } else if ($row['colorframe'] === "3") {
+                                                                                echo $frame = "ดำ";
+                                                                            } else if ($row['colorframe'] === "4") {
+                                                                                echo $frame = "ไม้";
+                                                                            }
 
-                                                                                ?></h5>
-                                            </div>
-                                            <div class="col-xl-1 col-lg-2 mt-3 md">
-                                                <h4>ราคา</h4>
-                                                <h5 class="detail" id="result"><?php echo $price ?> ฿</h5>
-                                            </div>
-                                            <div class="col-xl-2 col-lg-6 mt-3 ">
-                                                <h4 class="">จำนวน</h4>
-
+                                                                            ?></h5>
+                                        </div>
+                                        <div class="col-xl-1 col-lg-2 mt-3 md">
+                                            <h4>ราคา</h4>
+                                            <h5 class="detail" id="result" name="price"><?php echo $price ?> ฿</h5>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 mt-3 text-center">
+                                            <h4 class="text-center">จำนวน</h4>
+                                            <form method="POST" action="submit-form.php">
                                                 <button type="button" class="btn rounded-pill btn-icon btn-primary" onclick="increment('<?php echo $inputId; ?>')">
                                                     <span class="bx bxs-plus-circle fs-3"></span>
                                                 </button>
-                                                <input type="number" value="1" class="inputnumber w-25 text-center mx-2" id="<?php echo $inputId; ?>" oninput="calculateResult()">
+
+                                                <input type="number" value="1" class="inputnumber w-25 text-center mx-2" id="<?php echo $inputId; ?>" oninput="calculateResult()" name="values[]">
                                                 <button type="button" class="btn rounded-pill btn-icon btn-primary" onclick="decrement('<?php echo $inputId; ?>')">
                                                     <span class="bx bx-minus-circle fs-3"></span>
                                                 </button>
-
-                                            </div>
-                                            <div class="col-xl-2 col-lg-4 mt-3">
-                                                <h4 class="text-center">ลบ</h4>
-                                                <div class="but">
-                                                    <?php echo "<a href='cart_delet.php?did=" . $yourComparisonID . "' onclick=\"return confirm('ต้องการลบสินค้าชิ้นนี้หรือไม่?.');\"class='btn rounded-pill btn-icon btn-danger'>
+                                                <input type="hidden" value="<?php echo $yourComparisonID ?>" class="from-control w-25 d-inline text-center mx-2 input-group-text" name="productid">
+                                        </div>
+                                        <div class="col-xl-2 col-lg-4 mt-3">
+                                            <h4 class="text-center">ลบ</h4>
+                                            <div class="but">
+                                                <?php echo "<a href='cart_delet.php?did=" . $yourComparisonID . "' onclick=\"return confirm('ต้องการลบสินค้าชิ้นนี้หรือไม่?.');\"class='btn rounded-pill btn-icon btn-danger'>
                                                 <span class='tf-icons bx bx-x'></span>
                                                 </a>"; ?>
-                                                </div>
                                             </div>
-                                            <br>
                                         </div>
                                         <br>
-                                    </from>
+                                    </div>
+                                    <br>
                                     <hr>
-                                    <input type="number" id="numberInput" oninput="calculateResult()" />
-                                    <span id="result"></span>
-                                    <span id="multiplier" data-value="<?php echo $price ?>"></span>
                     <?php
                                 }
                                 $inputId++;
@@ -348,38 +343,13 @@ if (!isset($_SESSION['cart'])) {
                             echo "Query failed: " . mysqli_error($conn);
                         }
                     }
-
                     ?>
-                    <div class="col-6 row">
-                        <h3 class="numbercart">รายละเอียดคำสั่งซื้อ</h3>
-                        <br>
-                        <div class="col-6">
-                            <h4>ราคารวม</h4>
-                        </div>
-                        <div class="col-6">
-                            <h5 class="detail text-center"><?php echo $price ?> ฿</h5>
-                        </div>
-                        <div class="col-6">
-                            <h4>จำนวนสินค้า</h4>
-                        </div>
-                    </div>
+                    <input type="submit" value="ยืนยันสั่งซื้อสินค้า" class="btn btn-primary mb-3">
+                    </form>
                 </div>
             </div>
         </div>
     </section>
-
-    <section>
-        <div class="container p-5">
-            <h4 class="text-center">ไม่มีสินค้าในตระกร้า</h4>
-        </div>
-    </section>
-
-
-    <?php
-    if (isset($_POST['remove'])) {
-        print_r($_GET['id']);
-    }
-    ?>
     <section id="basic-footer">
         <div class="container-fluid p-0">
             <footer class="footer bg-primary">
@@ -405,14 +375,6 @@ if (!isset($_SESSION['cart'])) {
         function decrement(inputId) {
             var input = document.getElementById(inputId);
             input.value = parseInt(input.value) - 1;
-        }
-    </script>
-    <script>
-        function calculateResult() {
-            var number = parseInt(document.getElementById("numberInput").value);
-            var multiplier = parseInt(document.getElementById("multiplier").getAttribute("data-value"));
-            var result = number * multiplier;
-            document.getElementById("result").textContent = result;
         }
     </script>
     <!-- Core JS -->
