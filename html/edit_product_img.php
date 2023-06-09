@@ -604,7 +604,6 @@
 
           <!-- / Navbar -->
           <?php
-
           include "connect.php";
           if (isset($_GET['idimg'])) {
             $product_id = $_GET['idimg'];

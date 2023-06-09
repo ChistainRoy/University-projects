@@ -23,7 +23,7 @@ if (isset($_POST['submitlogin'])) {
     } else {
         $_SESSION['errors'] = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!!!";
         echo "<script>alert('Username exists');</script>";
-        header('location: login.php');
+        header('location: auth-login-basic.php');
     }
 }
 mysqli_close($conn);
