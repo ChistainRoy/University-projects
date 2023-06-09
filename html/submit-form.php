@@ -1,16 +1,29 @@
 <?php
 session_start(); // Start the session
+include('connect.php');
+// if (isset($_SESSION['counter'])) {
+//     $_SESSION['counter']++; // Increment the counter value
+// } else {
+//     $_SESSION['counter'] = 1; // Set the counter to 1 if it doesn't exist
+// }
 
-if (isset($_SESSION['counter'])) {
-    $_SESSION['counter']++; // Increment the counter value
+// $counter = $_SESSION['counter']; // Get the counter value
+
+$sql = "SELECT oder_id FROM oderdetail ORDER BY oder_id DESC LIMIT 1";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // Fetch the row
+    $row = $result->fetch_assoc();
+
+    // Retrieve the last value in the 'id' column
+    $lastId = $row["oder_id"] + 1;
+
+    echo "Last ID: " . $lastId;
 } else {
-    $_SESSION['counter'] = 1; // Set the counter to 1 if it doesn't exist
+    echo "No rows found";
 }
 
-$counter = $_SESSION['counter']; // Get the counter value
-
-
-include('connect.php');
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $values = $_POST["values"]; // Access the array values
     $idproduct = $_POST["productid"];
@@ -24,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $price = $row['product_price'];
         $total = $price  *  $value;
         echo $total . "<br>";
-        $sqlinsert = "INSERT INTO `oderdetail` (`oder_id`, `product_id`, `oder_price`, `oder_qty`) VALUES ('$counter', '$productID', '$total', '$value')";
+        $sqlinsert = "INSERT INTO `oderdetail` (`oder_id`, `product_id`, `oder_price`, `oder_qty`) VALUES ('$lastId', '$productID', '$total', '$value')";
         $resultinsert = mysqli_query($conn, $sqlinsert);
     }
 }
