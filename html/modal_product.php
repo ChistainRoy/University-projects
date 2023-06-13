@@ -16,7 +16,6 @@
                         <label for="price" class="form-label">ราคาสินค้า</label>
                         <input type="number" id="price" class="form-control" name="price" required />
                     </div>
-
                     <div class="row g-2">
                         <div class="col mb-0">
                             <label for="width" class="form-label">ความกว้าง</label>
@@ -73,4 +72,4 @@
             </div>
         </div>
     </div>
-   
+</div>
