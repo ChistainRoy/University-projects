@@ -41,3 +41,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $resultinsert = mysqli_query($conn, $sqlinsert);
     }
 }
+header('location:order_confirm.php');

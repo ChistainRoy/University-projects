@@ -1,5 +1,13 @@
 <?php
 session_start();
+if (!isset($_SESSION['username_user'])) {
+    header("location: login.html");
+}
+if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION['login.html']);
+    header("location: auth-login-basic.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -184,14 +192,6 @@ session_start();
 
 <body>
     <?php
-    if (!isset($_SESSION['username_user'])) {
-        header("location: auth-login-basic.php");
-    }
-    if (isset($_GET['logout'])) {
-        session_destroy();
-        unset($_SESSION['username_user']);
-        header("location: auth-login-basic.php");
-    }
     if (isset($_POST['add'])) {
         print_r($_POST['productid']);
         if (isset($_SESSION['cart'])) {

@@ -83,12 +83,12 @@
     <?php
     session_start();
     if (!isset($_SESSION['username_user'])) {
-        header("location: auth-login-basic.php");
+        header("location: login.php");
     }
     if (isset($_GET['logout'])) {
         session_destroy();
         unset($_SESSION['username_user']);
-        header("location: auth-login-basic.php");
+        header("location: login.php");
     }
     ?>
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">

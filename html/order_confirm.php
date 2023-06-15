@@ -1,22 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['cart'])) {
-    header("location: nocart.php");
-} else
-if (isset($_SESSION['visited'])) {
-    // Delete session data or perform any necessary cleanup
-    unset($_SESSION['cart']);
-    unset($_SESSION['visited']);
-
-    // Delete data from SQL database
-    // Perform your SQL delete operation here
-
-    // Redirect to home page
-    header('Location: allproduct.php');
-    exit;
-} else {
-}
-
+$_SESSION['visited'] = true;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,6 +40,8 @@ if (isset($_SESSION['visited'])) {
     <script src="../assets/js/config.js"></script>
 </head>
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pathway+Extreme:ital,opsz,wght@1,8..144,200&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@200&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Pathway+Extreme:ital,opsz,wght@1,8..144,200&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@200&display=swap');
 
@@ -213,60 +199,30 @@ if (isset($_SESSION['visited'])) {
 </style>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-        <div class="container-fluid">
-            <img src="upload/b.png" width="50">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="javascript:void(0)">หน้าหลัก</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0)">เกี่ยวกับร้าน</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link active" href="javascript:void(0)" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            สินค้า
-                        </a>
-                        <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="del_session.php">สินค้าทั้งหมด</a></li>
-                            <li><a class="dropdown-item" href="cart2.php">หน้าต่าง</a></li>
-                            <li>
-                                <hr class="dropdown-divider" />
-                            </li>
-                            <li><a class="dropdown-item" href="javascript:void(0)">Something else here</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <form class="d-flex justify-content-between" onsubmit="return false">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                    <button class="btn btn-outline-primary me-2" type="submit">Search</button>
-                </form>
-                <a href="cartproduct.php" class="max">
-                    <i class="bi bi-cart-plus fs-3">
-                        <?php
-                        if (isset($_SESSION['cart'])) {
-                            $count = count($_SESSION['cart']);
-                            echo "<span id='cart_count' class='num'>$count</span>";
-                        } else {
-                            $count = 0;
-                            echo "<span id='cart_count' class='num'>0</span>";
-                        } ?>
-                    </i>
-                </a>
-            </div>
-        </div>
-    </nav>
+    <?php
+    if (isset($_SESSION['username_user'])) {
+        include('connect.php');
+        $user =  $_SESSION['username_user'];
+        $sql = "SELECT * FROM cumtomer WHERE username = '$user'";
+        $result = mysqli_query($conn, $sql);
+        if ($result->num_rows > 0) {
+            // Fetch the row
+            $row = $result->fetch_assoc();
+            $name = $row["name"];
+            $address = $row["address"];
+            $phone = $row["tel"];
+            $newaddress = $address;
+        }
+        if (isset($_POST['address'])) {
+            $newaddress = $_POST['address'];
+        }
+    }
+    ?>
     <section>
         <div class="container p-5">
             <div class="card">
                 <br>
                 <div class="row px-5">
-                    <h3>จัดการตระกร้าสินค้า <span class="numbercart">(<?php echo $count ?>)</span></h3>
-                    <hr>
                     <?php
                     // print_r($_SESSION['cart']);
                     include('connect.php');
@@ -366,33 +322,54 @@ if (isset($_SESSION['visited'])) {
             </div>
         </div>
     </section>
-    <section id="basic-footer">
-        <div class="container-fluid p-0">
-            <footer class="footer bg-primary">
-                <div class="container d-flex flex-md-row flex-column justify-content-between align-items-md-center gap-1 container-p-x py-3">
-                    <div>
-                        <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
-                        <a href="javascript:void(0)" class="footer-link me-4">Help</a>
-                        <a href="javascript:void(0)" class="footer-link me-4">Contact</a>
-                        <a href="javascript:void(0)" class="footer-link">Terms &amp; Conditions</a>
+    <section>
+        <div class="container p-5">
+            <div class="card">
+                <br>
+                <div class="row px-5">
+                    <h3 class="text-center">ยืนยันคำสั่งซื้อ</h3>
+                    <hr>
+                    <div class="col-xl-6">
+                        <h3>ชื่อผู้ซื้อสินค้า : <?php echo $name ?></h3>
+                        <h3>เบอร์โทรศัพท์ : <?php echo $phone ?></h3>
+                    </div>
+                    <div class="col-xl-6">
+                        <h3>ที่อยู่จัดส่ง<button class="btn btn-primary float-end" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editaddressModal">แก้ไข</button>
+                            <div class="modal fade" id="editaddressModal" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="exampleModalLabel1">แก้ไขที่อยู่จัดส่ง</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <form action="order_confirm.php" method="post">
+                                                    <label class="form-label" for="basic-icon-default-message">ที่อยู่</label>
+                                                    <div class="input-group input-group-merge">
+                                                        <span id="basic-icon-default-message2" class="input-group-text"><i class="bx bx-buildings"></i></span>
+                                                        <textarea id="basic-icon-default-message" class="form-control" placeholder="<?php echo $address ?>" aria-label="address" aria-describedby="basic-icon-default-message2" name="address"></textarea>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                ยกเลิก
+                                            </button>
+                                            <button type="submit" class="btn btn-primary" name="editaddress">ตกลง</button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </h3>
+                        <hr>
+                        <h3><?php echo $newaddress ?></h3>
                     </div>
                 </div>
-            </footer>
+            </div>
         </div>
     </section>
-
-    <script>
-        // JavaScript
-        function increment(inputId) {
-            var input = document.getElementById(inputId);
-            input.value = parseInt(input.value) + 1;
-        }
-
-        function decrement(inputId) {
-            var input = document.getElementById(inputId);
-            input.value = parseInt(input.value) - 1;
-        }
-    </script>
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="../assets/vendor/libs/jquery/jquery.js"></script>
@@ -414,7 +391,6 @@ if (isset($_SESSION['visited'])) {
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-
 </body>
 
 </html>
