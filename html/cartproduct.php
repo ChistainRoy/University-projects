@@ -3,20 +3,6 @@ session_start();
 if (!isset($_SESSION['cart'])) {
     header("location: nocart.php");
 } else
-if (isset($_SESSION['visited'])) {
-    // Delete session data or perform any necessary cleanup
-    unset($_SESSION['cart']);
-    unset($_SESSION['visited']);
-
-    // Delete data from SQL database
-    // Perform your SQL delete operation here
-
-    // Redirect to home page
-    header('Location: allproduct.php');
-    exit;
-} else {
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -248,13 +234,13 @@ if (isset($_SESSION['visited'])) {
                 <a href="cartproduct.php" class="max">
                     <i class="bi bi-cart-plus fs-3">
                         <?php
-                        if (isset($_SESSION['cart'])) {
-                            $count = count($_SESSION['cart']);
-                            echo "<span id='cart_count' class='num'>$count</span>";
-                        } else {
-                            $count = 0;
-                            echo "<span id='cart_count' class='num'>0</span>";
-                        } ?>
+                    if (isset($_SESSION['cart'])) {
+                        $count = count($_SESSION['cart']);
+                        echo "<span id='cart_count' class='num'>$count</span>";
+                    } else {
+                        $count = 0;
+                        echo "<span id='cart_count' class='num'>0</span>";
+                    } ?>
                     </i>
                 </a>
             </div>

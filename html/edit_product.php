@@ -618,6 +618,7 @@
             $colorglass = $row['colorglass'];
             $frame = $row['colorframe'];
             $img = $row['product_img'];
+            $cat = $row['category_id'];
           }
           ?>
           <!-- Content wrapper -->
@@ -690,22 +691,15 @@
                         <div class="col mb-3">
                             <label for="exampleFormControlSelect1" class="form-label">ประเภทสินค้า</label>
                             <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" name="type">
-                                <option selected>เลือกประเภทสินค้า</option>
-                                <option value="1"<?php if ($frame == "1") {
-                                                    echo "selected";
-                                                  } ?>>หน้าต่างบานเลื่อน</option>
-                                <option value="2"<?php if ($frame == "2") {
-                                                    echo "selected";
-                                                  } ?>>หน้าต่างบานพับ</option>
-                                <option value="3"<?php if ($frame == "3") {
-                                                    echo "selected";
-                                                  } ?>>หน้าต่างห้องน้ำ</option>
-                                <option value="4"<?php if ($frame == "4") {
-                                                    echo "selected";
-                                                  } ?>>ประตูบานเลื่อน</option>
-                                <option value="5"<?php if ($frame == "5") {
-                                                    echo "selected";
-                                                  } ?>>ประตูบานพับ</option>
+                                <?php
+                                include('connect.php');
+                                $query = mysqli_query($conn, "SELECT * FROM `category`");
+                                while ($fetch = mysqli_fetch_array($query)) {
+                                ?>
+                                    <option value="<?php $fetch['id_cat'] ?>"<?php if ($cat == $fetch['id_cat']) {
+                                                                                echo "selected";
+                                                                              } ?>><?php echo $fetch['cat_name'] ?></option>
+                                <?php } ?>
                             </select>
                         </div>
                     </div>

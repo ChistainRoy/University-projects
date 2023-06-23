@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Disable Dates Example</title>
     <style>
@@ -8,13 +9,14 @@
         }
     </style>
 </head>
+
 <body>
     <h1>Disable Dates Example</h1>
     <input type="date" id="date-input" class="datepicker" name="date">
     <?php
     $presentDate = date("Y-m-d");
     $futureDate = date("Y-m-d", strtotime($presentDate . " +20 days"));
-    $blockedDates = array("2023-06-13", "2023-06-15", "2023-06-20"); // Dates retrieved from the database
+    $blockedDates = array("2023-06-28", "2023-06-15", "2023-06-20"); // Dates retrieved from the database
 
     echo "Present Date: " . $presentDate;
     ?>
@@ -53,4 +55,5 @@
         }
     </script>
 </body>
+
 </html>

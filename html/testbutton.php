@@ -1,61 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link rel="stylesheet" href="fullcalendar/fullcalendar.min.css" />
+  <script src="fullcalendar/lib/jquery.min.js"></script>
+  <script src="fullcalendar/lib/moment.min.js"></script>
+  <script src="fullcalendar/fullcalendar.min.js"></script>
+
   <style>
-    .swal2-styled.swal2-confirm {
-      background-color: #f1c40f; /* Yellow background color */
-      color: #fff; /* Text color */
+    body {
+      margin-top: 50px;
+      text-align: center;
+      font-size: 12px;
+      font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
     }
-    .swal2-styled.swal2-deny {
-      background-color: #e74c3c; /* Red background color */
-      color: #fff; /* Text color */
+
+    #calendar {
+      width: 700px;
+      margin: 0 auto;
     }
-    .swal2-styled.swal2-cancel {
-      background-color: #3498db; /* Blue background color */
-      color: #fff; /* Text color */
+
+    .response {
+      height: 60px;
+    }
+
+    .success {
+      background: #cdf3cd;
+      padding: 10px 60px;
+      border: #c3e6c3 1px solid;
+      display: inline-block;
     }
   </style>
 </head>
+
 <body>
-<?php
-    echo "<input type='button' onclick='callAlert()' value='PHP alert สวยๆ'>";
-?>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    function callAlert() {
-        Swal.fire({
-            title: 'ยินดีต้อนรับ',
-            text: 'เข้าสู่เว็บไซต์ Devdit',
-            icon: 'success',
-            confirmButtonText: 'ยอดเยี่ยมเลย',
-            denyButtonText: 'ไม่ใช่',
-            cancelButtonText: 'ยกเลิก',
-            showDenyButton: true,
-            showCancelButton: true,
-            showCloseButton: true,
-            buttonsStyling: false,
-            customClass: {
-              confirmButton: 'swal2-styled swal2-confirm',
-              denyButton: 'swal2-styled swal2-deny',
-              cancelButton: 'swal2-styled swal2-cancel'
-            },
-            input: 'text',
-            inputLabel: 'Your input',
-            inputPlaceholder: 'Enter something'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const inputValue = result.value;
-                Swal.fire(`You entered: ${inputValue}`);
-            } else if (result.isDenied) {
-                Swal.fire('You clicked "ไม่ใช่"');
-            } else if (result.isDismissed) {
-                Swal.fire('You clicked "ยกเลิก"');
-            }
-        });
-    }
-</script>
+  <h2>PHP Calendar Event Management FullCalendar JavaScript
+    Library</h2>
+
+  <div class="response"></div>
+  <div id='calendar'></div>
 </body>
+
 </html>

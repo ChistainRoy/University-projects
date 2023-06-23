@@ -68,12 +68,12 @@
   <?php
   session_start();
   if (!isset($_SESSION['username_admin'])) {
-    header("location: auth-login-basic.php");
+    header("location: login.php");
   }
   if (isset($_GET['logout'])) {
     session_destroy();
     unset($_SESSION['username_admin']);
-    header("location: auth-login-basic.php");
+    header("location: login.php");
   }
   ?>
     <!-- Layout wrapper -->
