@@ -40,6 +40,20 @@ if (!isset($_SESSION['cart'])) {
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assets/js/config.js"></script>
+    <script>
+        // Check if the page is loaded from the cache or if it is a fresh load
+        if (performance.navigation.type === 2) {
+            // Page is loaded from the cache (Back button was clicked)
+            // Redirect to the desired page
+            window.location.href = "http://localhost/homepage.php";
+        }
+
+        // Disable the browser back button
+        history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', function() {
+            history.pushState(null, null, document.URL);
+        });
+    </script>
 </head>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Pathway+Extreme:ital,opsz,wght@1,8..144,200&display=swap');
@@ -63,7 +77,7 @@ if (!isset($_SESSION['cart'])) {
     }
 
     h2 {
-        font-family: 'Sigmar', cursive;
+        font-family: 'Sarabun', sans-serif;
         font-size: 32px;
         color: #696cff;
     }
@@ -246,6 +260,45 @@ if (!isset($_SESSION['cart'])) {
             </div>
         </div>
     </nav>
+    <?php
+    if (isset($_SESSION['username_user'])) {
+        include('connect.php');
+        $user =  $_SESSION['username_user'];
+        $sql = "SELECT * FROM cumtomer WHERE username = '$user'";
+        $result = mysqli_query($conn, $sql);
+        if ($result->num_rows > 0) {
+            // Fetch the row
+            $row = $result->fetch_assoc();
+            $fullname = $row["name"];
+            $address = $row["address"];
+            $phone = $row["tel"];
+        }
+        if (isset($_POST['address'])) {
+            $newaddress = $_POST['address'];
+            $_SESSION['newaddress'] = $newaddress;
+        } else {
+            $newaddress = $address;
+        }
+    } ?> <div class="container p-5">
+        <div class="card">
+            <div class="row px-5">
+                <h2 class="text-center mt-3">ข้อมูลจัดส่งสินค้า</h2>
+                <hr>
+                <div class="col-xl-6">
+                    <h2>ข้อมูลส่วนตัว</h2>
+                    <hr>
+                    <h2><?php echo $fullname ?></h2>
+                    <h3>เบอร์โทรศัพท์ : <?php echo $phone ?></h3>
+                </div>
+                <div class="col-xl-6">
+                    <h2>ที่อยู่จัดส่ง<button class="btn btn-primary float-end" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editaddressModal">แก้ไข</button>
+                    </h2>
+                    <hr>
+                    <h3><?php echo $newaddress ?></h3>
+                </div>
+            </div>
+        </div>
+    </div>
     <section>
         <div class="container p-5">
             <div class="card">
@@ -346,7 +399,36 @@ if (!isset($_SESSION['cart'])) {
                         }
                     }
                     ?>
-                    <input type="submit" value="ยืนยันสั่งซื้อสินค้า" class="btn btn-primary mb-3">
+
+                    <input type="submit" value="ดำเนินการต่อ" class="button-submit btn btn-primary btn-lg mb-5">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="editaddressModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel1">แก้ไขที่อยู่จัดส่ง</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <form action="cartproduct.php" method="post">
+                                <label class="form-label" for="basic-icon-default-message">ที่อยู่</label>
+                                <div class="input-group input-group-merge">
+                                    <span id="basic-icon-default-message2" class="input-group-text"><i class="bx bx-buildings"></i></span>
+                                    <textarea id="basic-icon-default-message" class="form-control" placeholder="<?php echo $address ?>" aria-label="address" aria-describedby="basic-icon-default-message2" name="address"></textarea>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            ยกเลิก
+                        </button>
+                        <button type="submit" class="btn btn-primary" name="editaddress">ตกลง</button>
+                    </div>
                     </form>
                 </div>
             </div>
@@ -366,7 +448,6 @@ if (!isset($_SESSION['cart'])) {
             </footer>
         </div>
     </section>
-
     <script>
         // JavaScript
         function increment(inputId) {
