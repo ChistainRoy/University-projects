@@ -232,12 +232,16 @@ if (!isset($_SESSION['cart'])) {
                             สินค้า
                         </a>
                         <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="del_session.php">สินค้าทั้งหมด</a></li>
-                            <li><a class="dropdown-item" href="cart2.php">หน้าต่าง</a></li>
+                            <li><a class="dropdown-item" href="cart2.php">หน้าต่างบานเลื่อน</a></li>
+                            <li><a class="dropdown-item" href="cart3.php">หน้าต่างบานพับ</a></li>
+                            <li><a class="dropdown-item" href="cart4.php">หน้าต่างห้องน้ำ</a></li>
+                            <li><a class="dropdown-item" href="cart5.php">ประตูบานเลื่อน</a></li>
+                            <li><a class="dropdown-item" href="cart6.php">ประตูบานพับ</a></li>
                             <li>
                                 <hr class="dropdown-divider" />
+
                             </li>
-                            <li><a class="dropdown-item" href="javascript:void(0)">Something else here</a></li>
+                            <li><a class="dropdown-item" href="del_session.php">สินค้าทั้งหมด</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -272,6 +276,8 @@ if (!isset($_SESSION['cart'])) {
             $fullname = $row["name"];
             $address = $row["address"];
             $phone = $row["tel"];
+            $_SESSION['fullname'] = $row["name"];
+            $_SESSION['tel'] = $row["tel"];
         }
         if (isset($_POST['address'])) {
             $newaddress = $_POST['address'];

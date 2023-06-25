@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "booking";
+$dbname = "buddy";
 
 // ติดต่อฐานข้อมูล
 $conn = mysqli_connect($servername, $username, $password, $dbname);

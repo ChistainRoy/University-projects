@@ -26,7 +26,7 @@ if (isset($_POST['addcat'])) {
     }
 } ?>
 
-<!-- edit cat -->
+<!-- edit cat db-->
 <?php
 include("connect.php");
 session_start();
@@ -46,6 +46,24 @@ if (isset($_POST['editcat'])) {
         $_SESSION['success'] = "แก้ไขผู้ใช้สำเร็จ";
     } else {
         $_SESSION['errors'] = "แก้ไขผู้ใช้ไม่สำเร็จ";
+    }
+}
+header('location: category.php');
+mysqli_close($conn);
+?>
+
+<!-- del cat db-->
+<?php
+include("connect.php");
+session_start();
+
+if (isset($_GET['deldata'])) {
+    $id = $_GET['id'];
+    $sql = "DELETE FROM `category` WHERE `category`.`id_cat` = $id";
+    if (mysqli_query($conn, $sql)) {
+        $_SESSION['success'] = "ลบผู้ใช้สำเร็จ";
+    } else {
+        $_SESSION['errors'] = "ลบผู้ใช้ไม่สำเร็จ";
     }
 }
 header('location: category.php');

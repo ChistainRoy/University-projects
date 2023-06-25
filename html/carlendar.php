@@ -5,7 +5,16 @@
    <meta charset="UTF-8" />
    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   <title>ระบบจอง</title>
+   <title>Buddy - Aluminum | จองวันตรวจสอบการติดตั้ง</title>
+   <!-- Core CSS -->
+   <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
+   <link rel="stylesheet" href="../assets/vendor/css/theme_user.css" class="template-customizer-theme-css" />
+   <link rel="stylesheet" href="../assets/css/demo.css" />
+   <!-- Option 1: Include in HTML -->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+   <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+   <!-- Favicon -->
+   <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
    <link href="css/style.css" rel="stylesheet" />
    <link href="css/fullcalendar.css" rel="stylesheet" />
    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Thai:300,400,500,600,700" rel="stylesheet" />
@@ -32,7 +41,7 @@
                `<div class="p-2">
                       <div class="d-flex">
                               <i class="fa-solid fa-user pe-2"></i>
-                              <div style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">ไม่ว่าง ` +
+                              <div style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">ถูกจองแล้ว ` +
                `</div>
                   </div>`;
             return {
@@ -44,55 +53,108 @@
       calendar.render();
    });
 </script>
+<style>
+   input[type="date"] {
+      border-color: #696cff;
+   }
+
+
+   .flex {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+   }
+
+   .arrow {
+      transform: translate(-50%, -50%);
+      transform: rotate(90deg);
+      cursor: pointer;
+      margin-top: 55px;
+   }
+
+   .text {
+      margin-top: 50px;
+      margin-left: 20px;
+   }
+
+   .arrow span {
+      display: block;
+      width: 0.5vw;
+      height: 0.5vw;
+      border-bottom: 5px solid #696cff;
+      border-right: 5px solid #696cff;
+      transform: rotate(45deg);
+      animation: animate 2s infinite;
+   }
+
+   .arrow span:nth-child(2) {
+      animation-delay: -0.2s;
+   }
+
+   .arrow span:nth-child(3) {
+      animation-delay: -0.4s;
+   }
+
+   @keyframes animate {
+      0% {
+         opacity: 0;
+         transform: rotate(45deg) translate(-20px, -20px);
+      }
+
+      50% {
+         opacity: 1;
+      }
+
+      100% {
+         opacity: 0;
+         transform: rotate(45deg) translate(20px, 20px);
+      }
+   }
+</style>
 
 <body>
-   <nav class="navbar bg-dark position-fixed w-100" style="z-index: 999">
+   <nav class="navbar bg-primary position-fixed w-100" style="z-index: 999">
       <div class="container">
-         <div class="navbar-brand text-white">ตารางทำงานของร้าน</div>
+         <div class="navbar-brand text-white">การจองและตรวจสอบตารางทำงานของร้าน</div>
       </div>
    </nav>
-   <div class="container pt-80">
-      <div id="calendar"></div>
-      <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-         กดปุ่มนี้เพื่อจอง
-      </button>
 
-      <!-- Modal -->
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-         <div class="modal-dialog">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">จองวันตรวจสอบการติดตั้ง</h1>
+   <div class="container">
+      <div class="flex">
+         <form action="insertbooking.php" method="post">
+            <div class="row mt-5">
+               <input type="date" id="date-input" class="col-3 datepicker mb-5 mt-5 text-center" name="date">
+               <div class="arrow col-2">
+                  <span></span>
+                  <span></span>
+                  <span></span>
                </div>
-               <div class="modal-body">
-                  <form action="insertbooking.php" method="post">
-                     <input type="date" id="date-input" class="datepicker" name="date">
-                     <?php
-                     include('conn.php');
-                     $data = array();
-                     $sql = "SELECT start FROM events";
-                     $result = mysqli_query($conn, $sql);
-
-                     if ($result) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                           $blockedDates[] = $row['start'];
-                        }
-                     }
-                     $presentDate = date("Y-m-d");
-                     $futureDate = date("Y-m-d", strtotime($presentDate . " +20 days"));
-
-                     echo "วันปัจุบัน: " . $presentDate;
-                     ?>
+               <div class="text col-6">
+                  <h5>กดรูปปฎิทินเพื่อเลือกจอง</h3>
                </div>
-               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
-                  <button type="submit" class="btn btn-primary">บันทึก</button>
-                  </form>
-               </div>
+               <button type="submit" class="btn btn-primary mb-2">ดำเนินการต่อ</button>
             </div>
-         </div>
+         </form>
+         <?php
+         include('conn.php');
+         $data = array();
+         $sql = "SELECT start FROM events";
+         $result = mysqli_query($conn, $sql);
+
+         if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+               $blockedDates[] = $row['start'];
+            }
+         }
+         $presentDate = date("Y-m-d");
+         $futureDate = date("Y-m-d", strtotime($presentDate . " +20 days"));
+
+         // echo "วันปัจุบัน: " . $presentDate;
+         ?>
       </div>
+      <hr class="mt-3">
+      <h3 class="text-center">ตารางแสดงข้อมูลวันทำงานของร้าน</h3>
+      <div id="calendar"></div>
    </div>
    <script>
       window.onload = function() {

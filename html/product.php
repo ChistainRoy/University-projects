@@ -27,7 +27,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Product - Management | Dashboard</title>
+    <title>Dashboard - Product</title>
 
     <meta name="description" content="" />
 
@@ -93,6 +93,17 @@
     }
 </style>
   <body>
+  <?php
+  session_start();
+  if (!isset($_SESSION['username_admin'])) {
+    header("location: login.php");
+  }
+  if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION['username_admin']);
+    header("location: login.php");
+  }
+  ?>
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
@@ -199,12 +210,12 @@
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="pages-account-settings-account.html" class="menu-link">
+                  <a href="#" class="menu-link">
                     <div data-i18n="Account">รายเดือน</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="pages-account-settings-notifications.html" class="menu-link">
+                  <a href="#" class="menu-link">
                     <div data-i18n="Notifications">ประเภทสินค้า</div>
                   </a>
                 </li>
@@ -216,7 +227,7 @@
 
             <!-- ลูกค้าใหม่ -->
             <li class="menu-item">
-              <a href="cards-basic.html" class="menu-link">
+              <a href="#" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-user-plus"></i>
                 <div data-i18n="Basic">ลูกค้าใหม่รายเดือน</div>
               </a>
@@ -224,7 +235,7 @@
 
             <!-- รายงานสถานะการติดตั้งสินค้าตามวันและเวลา -->
             <li class="menu-item">
-              <a href="cards-basic.html" class="menu-link">
+              <a href="#" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
                 <div data-i18n="Basic">สถานะการติดตั้ง</div>
               </a>
@@ -233,7 +244,7 @@
 
             <!-- ความคิดเห็นลูกค้า -->
             <li class="menu-item">
-              <a href="cards-basic.html" class="menu-link">
+              <a href="#" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-message-rounded"></i>
                 <div data-i18n="Basic">ความคิดเห็นลูกค้า</div>
               </a>
@@ -244,16 +255,16 @@
 
 
             <!-- Components -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Components</span></li>
+            <!-- <li class="menu-header small text-uppercase"><span class="menu-header-text">Components</span></li> -->
             <!-- Cards -->
-            <li class="menu-item">
+            <!-- <li class="menu-item">
               <a href="cards-basic.html" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-collection"></i>
                 <div data-i18n="Basic">Cards</div>
               </a>
-            </li>
+            </li> -->
             <!-- User interface -->
-            <li class="menu-item">
+            <!-- <li class="menu-item">
               <a href="javascript:void(0)" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-box"></i>
                 <div data-i18n="User interface">User interface</div>
@@ -355,10 +366,10 @@
                   </a>
                 </li>
               </ul>
-            </li>
+            </li> -->
 
             <!-- Extended components -->
-            <li class="menu-item">
+            <!-- <li class="menu-item">
               <a href="javascript:void(0)" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-copy"></i>
                 <div data-i18n="Extended UI">Extended UI</div>
@@ -375,19 +386,19 @@
                   </a>
                 </li>
               </ul>
-            </li>
+            </li> -->
 
-            <li class="menu-item">
+            <!-- <li class="menu-item">
               <a href="icons-boxicons.html" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-crown"></i>
                 <div data-i18n="Boxicons">Boxicons</div>
               </a>
-            </li>
+            </li> -->
 
             <!-- Forms & Tables -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Forms &amp; Tables</span></li>
+            <!-- <li class="menu-header small text-uppercase"><span class="menu-header-text">Forms &amp; Tables</span></li> -->
             <!-- Forms -->
-            <li class="menu-item">
+            <!-- <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-detail"></i>
                 <div data-i18n="Form Elements">Form Elements</div>
@@ -404,8 +415,8 @@
                   </a>
                 </li>
               </ul>
-            </li>
-            <li class="menu-item">
+            </li> -->
+            <!-- <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-detail"></i>
                 <div data-i18n="Form Layouts">Form Layouts</div>
@@ -422,17 +433,17 @@
                   </a>
                 </li>
               </ul>
-            </li>
+            </li> -->
             <!-- Tables -->
-            <li class="menu-item">
+            <!-- <li class="menu-item">
               <a href="tables-basic.html" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
                 <div data-i18n="Tables">Tables</div>
               </a>
-            </li>
+            </li> -->
             <!-- Misc -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
-            <li class="menu-item">
+            <!-- <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li> -->
+            <!-- <li class="menu-item">
               <a
                 href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
                 target="_blank"
@@ -441,8 +452,8 @@
                 <i class="menu-icon tf-icons bx bx-support"></i>
                 <div data-i18n="Support">Support</div>
               </a>
-            </li>
-            <li class="menu-item">
+            </li> -->
+            <!-- <li class="menu-item">
               <a
                 href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
                 target="_blank"
@@ -451,7 +462,7 @@
                 <i class="menu-icon tf-icons bx bx-file"></i>
                 <div data-i18n="Documentation">Documentation</div>
               </a>
-            </li>
+            </li> -->
           </ul>
         </aside>
         <!-- / Menu -->
@@ -459,7 +470,6 @@
         <!-- Layout container -->
         <div class="layout-page">
           <!-- Navbar -->
-
           <nav
             class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
             id="layout-navbar"
@@ -487,7 +497,7 @@
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <!-- Place this tag where you want the button to render. -->
-                <li class="nav-item lh-1 me-3">
+                <!-- <li class="nav-item lh-1 me-3">
                   <a
                     class="github-button"
                     href="https://github.com/themeselection/sneat-html-admin-template-free"
@@ -497,13 +507,13 @@
                     aria-label="Star themeselection/sneat-html-admin-template-free on GitHub"
                     >Star</a
                   >
-                </li>
+                </li> -->
 
                 <!-- User -->
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                      <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                      <img src="../assets/img/avatars/admin.jpg" alt class="w-px-30 h-auto rounded-circle" />
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
@@ -512,11 +522,11 @@
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
                             <div class="avatar avatar-online">
-                              <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                              <img src="../assets/img/avatars/admin.jpg" alt class="w-px-30 h-auto rounded-circle" />
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
+                            <span class="fw-semibold d-block"> <?php echo $_SESSION['username_admin'] ?></span>
                             <small class="text-muted">Admin</small>
                           </div>
                         </div>
@@ -526,7 +536,7 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" href="pages-account-settings-account.html">
                         <i class="bx bx-user me-2"></i>
                         <span class="align-middle">My Profile</span>
                       </a>
@@ -537,7 +547,7 @@
                         <span class="align-middle">Settings</span>
                       </a>
                     </li>
-                    <li>
+                    <!-- <li>
                       <a class="dropdown-item" href="#">
                         <span class="d-flex align-items-center align-middle">
                           <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
@@ -545,12 +555,12 @@
                           <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
                         </span>
                       </a>
-                    </li>
+                    </li> -->
                     <li>
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="auth-login-basic.html">
+                      <a class="dropdown-item" href="logout.php">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>
                       </a>

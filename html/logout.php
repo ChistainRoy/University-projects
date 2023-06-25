@@ -5,5 +5,5 @@ session_start(); // Start the session
 session_unset();
 session_destroy();
 // Redirect to the login page or any other desired page
-header("Location: auth-login-basic.php");
+header("Location: login.php");
 exit;
