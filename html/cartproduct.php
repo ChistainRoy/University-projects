@@ -400,7 +400,7 @@ if (!isset($_SESSION['cart'])) {
                     }
                     ?>
 
-                    <input type="submit" value="ดำเนินการต่อ" class="button-submit btn btn-primary btn-lg mb-5">
+                    <input type="submit" value="ดำเนินการต่อ" class="button-submit btn btn-primary mb-5">
                     </form>
 
                 </div>

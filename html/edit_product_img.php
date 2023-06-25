@@ -601,7 +601,6 @@
               </ul>
             </div>
           </nav>
-
           <!-- / Navbar -->
           <?php
           include "connect.php";
@@ -646,7 +645,7 @@
             <!-- / Content -->
 
             <!-- Footer -->
-            <?php include ('footer_admin.html'); ?>
+            <?php include('footer_admin.html'); ?>
             <!-- / Footer -->
             <div class="content-backdrop fade"></div>
           </div>

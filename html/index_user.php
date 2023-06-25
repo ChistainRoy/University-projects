@@ -111,11 +111,10 @@
                         </a>
                         <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="allproduct.php">สินค้าทั้งหมด</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0)">Another action</a></li>
+                            <li><a class="dropdown-item" href="cart2.php">หน้าต่าง</a></li>
                             <li>
                                 <hr class="dropdown-divider" />
                             </li>
-                            <li><a class="dropdown-item" href="javascript:void(0)">Something else here</a></li>
                         </ul>
                     </li>
                 </ul>

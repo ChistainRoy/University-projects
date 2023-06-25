@@ -1,4 +1,5 @@
 <?php include('conn.php');
+session_start();
 if (isset($_POST['date'])); {
     $date = $_POST['date'];
     $_SESSION['date'] =  $date;
@@ -8,6 +9,6 @@ if (isset($_POST['date'])); {
     // } else {
     //     $_SESSION['errors'] = "ลงทะเบียนไม่สำเร็จ";
     // }
-    header("Location: ordercconfirm.php?target=_blank", true, 302);
+    header('location: ordercconfirm.php');;
     exit;
 }

@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
-
-</body>
-
-</html>
+ <?php
+    session_start();
+    $storedArray = $_SESSION['values'];
+    $storedArray2 = $_SESSION['productid'];
+    print_r($storedArray2);
+    print_r($storedArray);
+    echo $_SESSION['date'];
+    ?>

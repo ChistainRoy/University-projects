@@ -273,12 +273,12 @@ if (isset($_GET['logout'])) {
                                     <h3 class="card-title"><?php echo $fetch['product_name'] ?> <?php echo $fetch['product_width'] ?> X <?php echo $fetch['product_length'] ?> ซม.</h3>
                                     <h2 class="card-text text-center p-0">
                                         <?php echo $fetch['product_price'] ?> ฿
-                                        <h2 />
-                                        <hr class="dropdown-divider mb-4" />
-                                        <input type="hidden" id="number" class="form-control" name="productid" value="<?php echo $fetch['product_id'] ?>" hidden />
-                                        <div class="row d-grid gap-2 col-6 mx-auto mx-2">
-                                            <button class="bt btn rounded-pill btn-outline-primary" type="submit" name="add">เพิ่มลงรถเข็น</button>
-                                        </div>
+                                    </h2>
+                                    <hr class="dropdown-divider mb-4" />
+                                    <input type="hidden" id="number" class="form-control" name="productid" value="<?php echo $fetch['product_id'] ?>" hidden />
+                                    <div class="row d-grid gap-2 col-6 mx-auto mx-2">
+                                        <button class="bt btn rounded-pill btn-outline-primary" type="submit" name="add">เพิ่มลงรถเข็น</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

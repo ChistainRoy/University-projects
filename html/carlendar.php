@@ -22,7 +22,7 @@
          locale: 'th',
          timeZone: 'Asia/Bangkok',
          initialView: 'dayGridMonth',
-         height: 650,
+         height: 600,
          events: 'fetchEvents.php',
 
          schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
