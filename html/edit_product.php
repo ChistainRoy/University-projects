@@ -696,9 +696,9 @@
                                 $query = mysqli_query($conn, "SELECT * FROM `category`");
                                 while ($fetch = mysqli_fetch_array($query)) {
                                 ?>
-                                    <option value="<?php $fetch['id_cat'] ?>"<?php if ($cat == $fetch['id_cat']) {
-                                                                                echo "selected";
-                                                                              } ?>><?php echo $fetch['cat_name'] ?></option>
+                                    <option value="<?php echo $fetch['id_cat'] ?>"<?php if ($cat == $fetch['id_cat']) {
+                                                                                    echo "selected";
+                                                                                  } ?>><?php echo $fetch['cat_name'] ?></option>
                                 <?php } ?>
                             </select>
                         </div>

@@ -164,7 +164,7 @@
                     <div data-i18n="Account">ประเภทสินค้า</div>
                   </a>
                 </li>
-                <li class="menu-item active">
+                <li class="menu-item">
                   <a href="product.php" class="menu-link">
                     <div data-i18n="Notifications">สินค้า</div>
                   </a>
