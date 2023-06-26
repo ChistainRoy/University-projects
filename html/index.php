@@ -145,7 +145,7 @@
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="pages-account-settings-account.html" class="menu-link">
+                  <a href="man_order.php" class="menu-link">
                     <div data-i18n="Account">คำสั่งซื้อ</div>
                   </a>
                 </li>

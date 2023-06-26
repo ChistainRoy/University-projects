@@ -94,16 +94,16 @@
 </style>
   <body>
   <?php
-  session_start();
-  if (!isset($_SESSION['username_admin'])) {
-    header("location: login.php");
-  }
-  if (isset($_GET['logout'])) {
-    session_destroy();
-    unset($_SESSION['username_admin']);
-    header("location: login.php");
-  }
-  ?>
+    session_start();
+    if (!isset($_SESSION['username_admin'])) {
+        header("location: login.php");
+    }
+    if (isset($_GET['logout'])) {
+        session_destroy();
+        unset($_SESSION['username_admin']);
+        header("location: login.php");
+    }
+    ?>
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
@@ -153,7 +153,7 @@
             </li>
 
             <!-- DropDown -->
-            <li class="menu-item active open">
+            <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
               <i class='menu-icon tf-icons bx bx-package'></i>
                 <div data-i18n="Account Settings">สินค้า</div>
@@ -172,13 +172,13 @@
               </ul>
             </li>
             <!-- DropDown -->
-            <li class="menu-item">
+            <li class="menu-item active open">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
               <i class='menu-icon tf-icons bx bx-book'></i>
                 <div data-i18n="Account Settings">ออเดอร์</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item active">
                   <a href="man_order.php" class="menu-link">
                     <div data-i18n="Account">คำสั่งซื้อ</div>
                   </a>
@@ -578,97 +578,82 @@
           <div class="content-wrapper">
             <!-- Content -->
 
-           <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Product /</span> รายการสินค้าทั้งหมด</h4>
-              <!-- Examples -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <!-- Basic Bootstrap Table -->
               <div class="card">
               <div class="add demo-inline-spacing">
-              <div class="row mb-5">  
-
-              <?php
-              include('connect.php');
-              $query = mysqli_query($conn, "SELECT * FROM `product`");
-              while ($fetch = mysqli_fetch_array($query)) {
-              ?>
-              <div class="card-group mb-5 col-md-4">
-              <div class="card h-100">
-                <img class="card-img-top" src="<?php echo $fetch['product_img'] ?>" alt="Card image cap"/>
-                <div class="card-body">
-                <h3 class="card-title none">ID : <?php echo $fetch['product_id'] ?></h3>
-                  <h5 class="card-title">ชื่อสินค้า : <?php echo $fetch['product_name'] ?></h5>
-                  <h5 class="card-title">ราคา : <?php echo $fetch['product_price'] ?></h5>
-                  <h5 class="card-title">ขนาด : <?php echo $fetch['product_width'] ?> X   <?php echo $fetch['product_length'] ?> ซม.</h5>
-                  <h5 class="card-title">สีกระจก :
-                    <?php if ($fetch['colorglass'] === "1") {
-                      $color = "เขียว";
-                      echo $color;
-                    } else if ($fetch['colorglass'] === "2") {
-                      echo $color = "ดำ";
-                    } else if ($fetch['colorglass'] === "3")
-                      echo $color = "กันยูวี";
-                    ?>
-                  </h5>
-                    <h5 class="card-title">สีกรอบ :
-                    <?php if ($fetch['colorframe'] === "1") {
-                      $frame = "ชา";
-                      echo $frame;
-                    } elseif ($fetch['colorframe'] === "2") {
-                      $frame = "นม";
-                      echo $frame;
-                    } elseif ($fetch['colorframe'] === "3") {
-                      $frame = "ดำ";
-                      echo $frame;
-                    } else if ($fetch['colorframe'] === "4") {
-                      $frame = "ไม้";
-                      echo $frame;
-                    } else
-                    ?>
-                      </h5>
-                      <h5 class="card-title">ประเภทสินค้า :
-                        <?php
-
-                      $join = "SELECT product.category_id, category.cat_name FROM product INNER JOIN category ON product.category_id = category.id_cat";
-                      $inner = mysqli_query($conn, $join);
-                      while ($type = mysqli_fetch_array($inner)) {
-                        if ($fetch['category_id'] == $type['category_id'])
-                          echo $type['cat_name'];
-                      }
-                        ?>
-                      </class=>
-                      <div class="col mt-3 mb-auto">
-                      <?php echo "<a class='btn btn-outline-primary' href='edit_product.php?id=" . $fetch['product_id'] . "'>แก้ไขข้อมูล</a>"; ?>
-                      <?php echo "<a class='btn btn-primary' href='edit_product_img.php?idimg=" . $fetch['product_id'] . "'>แก้ไขรูปภาพ</a>"; ?>
-                  <button class="btn btn-danger" type="submit" data-bs-toggle="modal"data-bs-target="#product<?php echo $fetch['product_id'] ?>">ลบ</button>
-                  </div>
-                </div>
-              </div>
-              </div>
-         
-              <?php } ?>
-               
-
-
-
-
+              <div class="row mb-5">
                 <div class="col-md-6 col-lg-4 mb-3">
-                <button class="btn bg-white" type="submit" data-bs-toggle="modal"data-bs-target="#addcart">
-                <div class="add-product card h-100 ">
-                
-                
-                  
-                  <img class="card-img-top" src="upload/add.png" alt="Card image cap" />
-                  <h3 style="color: #696cff;">เพิ่มข้อมูลสินค้า</h3>
-                  </button>
-                    
-                    
-                                       
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">เพิ่มข้อมูลคำสั่งซื้อ</h5>
+                      <p class="card-text">
+                        ห้ามเพิ่มประเภทสินค้าก่อนได้รับอนุญาติจากผู้จัดการ
+                      </p>
+                      <button
+                          type="button"
+                          class="btn btn-primary"
+                          data-bs-toggle="modal"
+                          data-bs-target="#addorder"
+                        >
+                        <i class='bx bx-basket' ></i>+
                     </div>
-       
-                </div>
+                  </div>
+                </div>   
+              </div>  
+              </div>
+              <?php
+                ?>
+                <h5 class="card-header">ตารางข้อมูลคำสั่งซื้อ</h5>
               
+                <div class="table-responsive text-nowrap">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th><h6>&nbsp;&nbsp;&nbsp;รหัสคำสั่งซื้อ</h6></th>
+                        <th><h6>&nbsp;&nbsp;วันที่สั่งซื้อ</h6></th>
+                        <th><h6>วันจองตรวจสอบสถานที่ติดตั้ง</h6></th>
+                        <th><h6>ราคาทั้งหมด</h6></th>
+                        <th><h6>&nbsp;&nbsp;&nbsp;ชื่อผู้สั่ง</h6></th>
+                        <th><h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ที่อยู่</h6></th>
+                        <th><h6>สถานะ</h6></th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                    <?php
+                    include('connect.php');
+                    $query = mysqli_query($conn, "SELECT * FROM `order`");
+
+                    while ($fetch = mysqli_fetch_array($query)) {
+                        $user = $fetch['cm_id'];
+                        $sql = mysqli_query($conn, "SELECT * FROM cumtomer WHERE cm_id=$user");
+                        $row = mysqli_fetch_array($sql);
+                    ?>
+                                            <tr>
+                                                <td><i class="fab fa-angular fa-lg text-danger me-3"></i><?php echo $fetch['order_id'] ?></td>
+                                                <td><?php echo $fetch['order_date'] ?></td>
+                                                <td><?php echo $fetch['order_reserve'] ?></td>
+                                                <td><?php echo $fetch['oder_total'] ?></td>
+                                                <td><?php echo $row['name'] ?></td>
+                                                <td><?php echo $fetch['order_address'] ?></td>
+                                                <td>
+                                                <div class="form-check form-switch mb-2">
+                                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" />
+                                                    <label class="form-check-label" for="flexSwitchCheckDefault"
+                                                    ></label>
+                                                </div>
+                                                </td>
+                                            </tr>
+                                        <?php
+
+                                        include 'modal.php';
+                                    }
+                                        ?>
+                    </tbody>
+                  </table>
+                </div>
               </div>
-              </div>
-              </div>
+            <!-- / Content -->
               
                
             <!-- / Content -->

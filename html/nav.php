@@ -35,6 +35,19 @@
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                 <button class="btn btn-outline-primary me-2" type="submit">Search</button>
             </form>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <?php echo $_SESSION['username_user'] ?>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">ออเดอร์ของฉัน</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li><a class="dropdown-item" href="logout.php">ออกจากระบบ</a></li>
+                </ul>
+            </div>
             <a href="cartproduct.php" class="max">
                 <i class="bi bi-cart-plus fs-3">
                     <?php
@@ -48,6 +61,7 @@
             </a>
 
         </div>
+    </div>
 
     </div>
 </nav>

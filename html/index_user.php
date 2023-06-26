@@ -127,6 +127,19 @@
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                     <button class="btn btn-outline-primary" type="submit">Search</button>
                 </form>
+                <div class="btn-group mx-2">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <?php echo $_SESSION['username_user'] ?>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">ออเดอร์ของฉัน</a></li>
+                        <li>
+                            <hr class="dropdown-divider" />
+                        </li>
+                        <li><a class="dropdown-item" href="logout.php">ออกจากระบบ</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
