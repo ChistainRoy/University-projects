@@ -18,11 +18,11 @@ if (isset($_POST['registerlogin'])) {
     $rowem = mysqli_fetch_assoc($resultem);
 
     if ($row['username'] === $username) {
-        header('location: auth-login-basic.php');
+        header('location: auth-register-basic.html');
         $_SESSION['errors'] = "ชื่อผู้ใช้ซ้ำ!!!";
     } elseif ($rowem['em_username'] === $username) {
-        header('location: auth-login-basic.php');
         $_SESSION['errors'] = "ชื่อผู้ใช้ซ้ำ!!!";
+        header('location: auth-register-basic.html');
     } else {
         $passwordect = md5($password);
         $sql = "INSERT INTO `cumtomer` (`username`, `password`, `name`, `tel`, `address`) VALUES ('$username', '$passwordect', '$name', '$tel', '$add')";
@@ -31,7 +31,7 @@ if (isset($_POST['registerlogin'])) {
         } else {
             $_SESSION['errors'] = "ลงทะเบียนไม่สำเร็จ";
         }
-        header('location: auth-login-basic.php');
+        header('location: login.php');
     }
 }
 mysqli_close($conn);

@@ -705,7 +705,7 @@
                   </div>
                 </div> -->
                 <!--/ Total Revenue -->
-                <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
+                <!-- <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
                   <div class="row">
                     <div class="col-6 mb-4">
                       <div class="card">
@@ -766,7 +766,7 @@
                           <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.14%</small>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                     <!-- </div>
     <div class="row"> -->
                     <!-- <div class="col-12 mb-4">
@@ -1081,16 +1081,16 @@
             <!-- / Content -->
 
             <!-- Footer -->
-            <footer class="content-footer footer bg-footer-theme">
+            <!-- <footer class="content-footer footer bg-footer-theme">
               <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-                <div class="mb-2 mb-md-0">
+                <div class="mb-2 mb-md-0"> -->
                   ©
-                  <script>
+                  <!-- <script>
                     document.write(new Date().getFullYear());
-                  </script>
-                  , made with ❤️ by
+                  </script> -->
+                  <!-- , made with ❤️ by
                   <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
-                </div>
+                </div> -->
                 <!-- <div>
                   <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
                   <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
@@ -1109,8 +1109,8 @@
                     >Support</a
                   >
                 </div> -->
-              </div>
-            </footer>
+              <!-- </div>
+            </footer> -->
             <!-- / Footer -->
 
             <div class="content-backdrop fade"></div>
