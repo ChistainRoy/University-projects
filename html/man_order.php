@@ -586,17 +586,12 @@
                 <div class="col-md-6 col-lg-4 mb-3">
                   <div class="card">
                     <div class="card-body">
-                      <h5 class="card-title">เพิ่มข้อมูลคำสั่งซื้อ</h5>
+                      <h5 class="card-title">ค้นหาสถานะชำระเงิน</h5>
                       <p class="card-text">
-                        ห้ามเพิ่มประเภทสินค้าก่อนได้รับอนุญาติจากผู้จัดการ
+                        กดปุ่มเพื่อค้นหาสถานะที่ต้องการ
                       </p>
-                      <button
-                          type="button"
-                          class="btn btn-primary"
-                          data-bs-toggle="modal"
-                          data-bs-target="#addorder"
-                        >
-                        <i class='bx bx-basket' ></i>+
+                      <button type="button"class="btn btn-primary">รอการชำระเงิน</button>
+                      <button type="button"class="btn btn-primary">ชำระเงินแล้ว</button>
                     </div>
                   </div>
                 </div>   
@@ -617,7 +612,7 @@
                         <th><h6>&nbsp;&nbsp;&nbsp;ชื่อผู้สั่ง</h6></th>
                         <th><h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ที่อยู่</h6></th>
                         <th><h6>สถานะ</h6></th>
-                        <th><h6>ลบข้อมูล</h6></th>
+                        <th><h6>ตรวจสอบการชำระเงิน</h6></th>
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -637,13 +632,7 @@
                                                 <td><?php echo $fetch['oder_total'] ?></td>
                                                 <td><?php echo $row['name'] ?></td>
                                                 <td><?php echo $fetch['order_address'] ?></td>
-                                                <td>
-                                                <div class="form-check form-switch mb-2">
-                                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" />
-                                                    <label class="form-check-label" for="flexSwitchCheckDefault"
-                                                    ></label>
-                                                </div>
-                                                </td>
+                                                <td><?php echo $fetch['oder_status'] ?></td>
                                             </tr>
                                         <?php
 
