@@ -94,16 +94,16 @@
 </style>
   <body>
   <?php
-    session_start();
-    if (!isset($_SESSION['username_admin'])) {
-        header("location: login.php");
-    }
-    if (isset($_GET['logout'])) {
-        session_destroy();
-        unset($_SESSION['username_admin']);
-        header("location: login.php");
-    }
-    ?>
+  session_start();
+  if (!isset($_SESSION['username_admin'])) {
+    header("location: login.php");
+  }
+  if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION['username_admin']);
+    header("location: login.php");
+  }
+  ?>
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
@@ -603,7 +603,7 @@
               </div>  
               </div>
               <?php
-                ?>
+              ?>
                 <h5 class="card-header">ตารางข้อมูลคำสั่งซื้อ</h5>
               
                 <div class="table-responsive text-nowrap">
@@ -617,6 +617,7 @@
                         <th><h6>&nbsp;&nbsp;&nbsp;ชื่อผู้สั่ง</h6></th>
                         <th><h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ที่อยู่</h6></th>
                         <th><h6>สถานะ</h6></th>
+                        <th><h6>ลบข้อมูล</h6></th>
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -625,9 +626,9 @@
                     $query = mysqli_query($conn, "SELECT * FROM `order`");
 
                     while ($fetch = mysqli_fetch_array($query)) {
-                        $user = $fetch['cm_id'];
-                        $sql = mysqli_query($conn, "SELECT * FROM cumtomer WHERE cm_id=$user");
-                        $row = mysqli_fetch_array($sql);
+                      $user = $fetch['cm_id'];
+                      $sql = mysqli_query($conn, "SELECT * FROM cumtomer WHERE cm_id=$user");
+                      $row = mysqli_fetch_array($sql);
                     ?>
                                             <tr>
                                                 <td><i class="fab fa-angular fa-lg text-danger me-3"></i><?php echo $fetch['order_id'] ?></td>
@@ -647,7 +648,7 @@
                                         <?php
 
                                         include 'modal.php';
-                                    }
+                                      }
                                         ?>
                     </tbody>
                   </table>

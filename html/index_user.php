@@ -49,6 +49,21 @@
         color: white;
     }
 
+    .num {
+        font-family: 'Sigmar', cursive;
+        background-color: red;
+        position: absolute;
+        color: white;
+        font-size: 14px;
+        margin-left: 150px;
+        margin-bottom: 50px;
+        margin-top: -37px;
+        width: 30px;
+        text-align: center;
+        padding: 4px;
+        border-radius: 20px;
+    }
+
     .carousel-item {
         width: 100%;
         height: 700px;
@@ -89,6 +104,15 @@
         session_destroy();
         unset($_SESSION['username_user']);
         header("location: login.php");
+    }
+    include('connect.php');
+    $sql = mysqli_query($conn, "SELECT `cumtomer`.`cm_id`,`cumtomer`.`username`,`order`.`cm_id` FROM `cumtomer` LEFT JOIN `order` ON `cumtomer`.`cm_id` = `order`.`cm_id`");
+    $number_order = 0;
+    while ($fetch = mysqli_fetch_array($sql)) {
+        if ($fetch['username'] == $_SESSION['username_user']) {
+            $number_order++;
+        } else {
+        }
     }
     ?>
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
@@ -133,7 +157,11 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0);">ออเดอร์ของฉัน</a></li>
+                        <li><a class="dropdown-item" href="myorder.php;">ออเดอร์ของฉัน</a>
+                            <?php
+                            echo "<span id='cart_count' class='num'>$number_order</span>";
+                            ?>
+                        </li>
                         <li>
                             <hr class="dropdown-divider" />
                         </li>

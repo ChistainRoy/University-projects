@@ -630,8 +630,9 @@
                       $join = "SELECT product.category_id, category.cat_name FROM product INNER JOIN category ON product.category_id = category.id_cat";
                       $inner = mysqli_query($conn, $join);
                       while ($type = mysqli_fetch_array($inner)) {
-                        if ($fetch['category_id'] == $type['category_id'])
+                        if ($fetch['category_id'] == $type['category_id']) {
                           echo $type['cat_name'];
+                        }
                       }
                         ?>
                       </class=>

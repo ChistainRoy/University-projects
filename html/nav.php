@@ -41,7 +41,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);">ออเดอร์ของฉัน</a></li>
+                    <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน</a></li>
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
