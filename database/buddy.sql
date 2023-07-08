@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2023 at 10:01 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 7.4.33
+-- Generation Time: Jul 08, 2023 at 07:08 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.1.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -63,8 +63,9 @@ CREATE TABLE `cumtomer` (
 --
 
 INSERT INTO `cumtomer` (`cm_id`, `username`, `password`, `name`, `tel`, `address`) VALUES
-(20, 'darknight7577', 'e10adc3949ba59abbe56e057f20f883e', 'ทรงพล ชุมทอง', '0658389715', 'ซอย 35'),
-(26, 'redmeowx321', '7cf5316f901f6f7798e23a906a96dd8a', 'Songpon Chumtrong', '0658389715', 'ซอย 35');
+(20, 'darknight7577', 'e10adc3949ba59abbe56e057f20f883e', 'ทรงพล ชุมทอง', '0658389715', '44/19 ต.บ้านควน อ. เมือง จ.ตรัง'),
+(26, 'redmeowx321', '7cf5316f901f6f7798e23a906a96dd8a', 'Songpon Chumtrong', '0658389715', 'ซอย 35'),
+(27, 'son', '7cf5316f901f6f7798e23a906a96dd8a', 'ทรงพล ชุมทอง', '0658049714', '44/19 ต.บ้านควน อ.เมือง จ.ตรัง');
 
 -- --------------------------------------------------------
 
@@ -84,6 +85,87 @@ CREATE TABLE `employee` (
 
 INSERT INTO `employee` (`em_id`, `em_username`, `em_password`) VALUES
 (1, 'paranee', '123456');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `events`
+--
+
+CREATE TABLE `events` (
+  `id` int(11) NOT NULL,
+  `start` date NOT NULL,
+  `end` date NOT NULL,
+  `color` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `events`
+--
+
+INSERT INTO `events` (`id`, `start`, `end`, `color`) VALUES
+(1, '2023-07-27', '2023-07-27', '#696cff'),
+(2, '2023-07-28', '2023-07-28', '#696cff');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oderdetail`
+--
+
+CREATE TABLE `oderdetail` (
+  `oder_id` varchar(10) NOT NULL,
+  `product_id` varchar(10) NOT NULL,
+  `oder_price` int(10) NOT NULL,
+  `oder_qty` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `oderdetail`
+--
+
+INSERT INTO `oderdetail` (`oder_id`, `product_id`, `oder_price`, `oder_qty`) VALUES
+('1', '11', 300, 1),
+('1', '9', 1500, 1),
+('2', '11', 300, 1),
+('2', '9', 1500, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order`
+--
+
+CREATE TABLE `order` (
+  `order_id` int(6) NOT NULL,
+  `order_date` date NOT NULL,
+  `order_reserve` date NOT NULL,
+  `oder_total` int(5) NOT NULL,
+  `cm_id` int(3) NOT NULL,
+  `oder_status` varchar(20) NOT NULL,
+  `em_id` varchar(4) NOT NULL,
+  `order_address` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order`
+--
+
+INSERT INTO `order` (`order_id`, `order_date`, `order_reserve`, `oder_total`, `cm_id`, `oder_status`, `em_id`, `order_address`) VALUES
+(1, '2023-07-08', '2023-07-27', 300, 20, 'รอชำระเงิน', '', '44/19 ต.บ้านควน อ. เมือง จ.ตรัง'),
+(2, '2023-07-08', '2023-07-28', 1500, 20, 'รอชำระเงิน', '', '44/19 ต.บ้านควน อ. เมือง จ.ตรัง');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment`
+--
+
+CREATE TABLE `payment` (
+  `oder_id` varchar(6) NOT NULL,
+  `cm_id` int(6) NOT NULL,
+  `pay_img` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -109,9 +191,9 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`product_id`, `product_name`, `product_price`, `product_detail`, `product_width`, `product_length`, `colorglass`, `colorframe`, `product_img`, `category_id`) VALUES
-(8, 'หน้าต่างห้องน้ำ', 2390, '', '60', '50', 1, 3, 'upload/image-removebg-preview.png', 3),
-(9, 'หน้าต่างบานเลื่อน', 4000, '', '120', '70', 3, 2, 'upload/10279749_s_1200_1-removebg-preview.png', 1),
-(10, 'ประตูบานพับอลูมิเนียม', 2000, '', '50', '120', 1, 1, 'upload/Screenshot 2022-12-20 002457.png', 5);
+(8, 'หน้าต่างบานเลื่อน', 3000, '', '130', '120', 1, 3, 'upload/IMG_4580-removebg-preview.png', 1),
+(9, 'หน้าต่างห้องน้ำ', 1500, '', '50', '80', 1, 1, 'upload/021-removebg-preview.png', 4),
+(11, 'หน้าต่างบานพับ', 300, '', '60', '120', 1, 3, 'upload/IMG_4580-removebg-preview.png', 2);
 
 --
 -- Indexes for dumped tables
@@ -136,6 +218,30 @@ ALTER TABLE `employee`
   ADD PRIMARY KEY (`em_id`);
 
 --
+-- Indexes for table `events`
+--
+ALTER TABLE `events`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `oderdetail`
+--
+ALTER TABLE `oderdetail`
+  ADD PRIMARY KEY (`oder_id`,`product_id`);
+
+--
+-- Indexes for table `order`
+--
+ALTER TABLE `order`
+  ADD PRIMARY KEY (`order_id`,`cm_id`,`em_id`);
+
+--
+-- Indexes for table `payment`
+--
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`oder_id`,`cm_id`);
+
+--
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
@@ -149,13 +255,13 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id_cat` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_cat` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `cumtomer`
 --
 ALTER TABLE `cumtomer`
-  MODIFY `cm_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `cm_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `employee`
@@ -164,10 +270,22 @@ ALTER TABLE `employee`
   MODIFY `em_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `events`
+--
+ALTER TABLE `events`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `order`
+--
+ALTER TABLE `order`
+  MODIFY `order_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `product_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
