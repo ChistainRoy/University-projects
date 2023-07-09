@@ -626,17 +626,23 @@
                       $row = mysqli_fetch_array($sql);
                     ?>
                                             <tr>
-                                                <td><i class="fab fa-angular fa-lg text-danger me-3"></i><?php echo $fetch['order_id'] ?></td>
+                                                <td class="text-center"><i class="fab fa-angular fa-lg text-danger me-3"></i><?php echo $fetch['order_id'] ?></td>
                                                 <td><?php echo $fetch['order_date'] ?></td>
-                                                <td><?php echo $fetch['order_reserve'] ?></td>
-                                                <td><?php echo $fetch['oder_total'] ?></td>
+                                                <td class="text-center"><?php echo $fetch['order_reserve'] ?></td>
+                                                <td class="text-center"><?php echo $fetch['oder_total'] ?></td>
                                                 <td><?php echo $row['name'] ?></td>
                                                 <td><?php echo $fetch['order_address'] ?></td>
                                                 <td><?php echo $fetch['oder_status'] ?></td>
+                                                <td class="text-center"><button type="button" 
+                                                        class="btn rounded-pill btn-icon btn-primary"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#normalModal<?php echo $fetch['order_id'] ?>">
+                                                        <span class="bx bx-search-alt-2"></span>
+                                                </button></td>
                                             </tr>
                                         <?php
 
-                                        include 'modal.php';
+                                        include 'modal_order.php';
                                       }
                                         ?>
                     </tbody>

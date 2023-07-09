@@ -104,6 +104,7 @@ font-size: 13px;
               <br>
               <p class="mb-4">รายละเอียดคำสั่งซื้อ</p>
               <hr>
+              <?php $totals = array(); ?>
               <?php $combinedArray = array_combine($storedArray2,  $storedArray);
                foreach ($combinedArray as $productID => $value) {
                   include('connect.php');
@@ -114,6 +115,7 @@ font-size: 13px;
                   $price = $row['product_price'];
                   $name = $row['product_name'];
                   $total = $price  *  $value;
+                  $totals[] = $total;
                   // echo $total . "<br>";
                   // $sqlinsert = "INSERT INTO `oderdetail` (`oder_id`, `product_id`, `oder_price`, `oder_qty`) VALUES ('$lastId', '$productID', '$total', '$value')";
                   // $resultinsert = mysqli_query($conn, $sqlinsert);
@@ -121,11 +123,11 @@ font-size: 13px;
                <h5 class="fw-bold">-<?php echo $name ?></h5><p class="detail"> ราคา <?php echo  $price ?> ฿ x  <?php echo  $value ?></p>
                <?php
                }
-               $_SESSION['total'] = $total;
+               $sum = array_sum($totals);
                ?>
                <hr>
                <h5 class="fw-bold">ราคาทั้งหมด</h5>
-               <p class="detail"><?php echo  $total ?> ฿</p>
+               <p class="detail"><?php echo  $sum ?> ฿</p>
                <h5 class="fw-bold">วันจองตรวจสอบสถานที่ติดตั้ง</h5>
                <p class="detail"><?php echo $_SESSION['date']; ?></p>
                <hr>

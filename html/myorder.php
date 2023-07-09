@@ -109,9 +109,10 @@
     $sql = mysqli_query($conn, "SELECT `cumtomer`.`cm_id`,`cumtomer`.`username`,`order`.`cm_id` FROM `cumtomer` LEFT JOIN `order` ON `cumtomer`.`cm_id` = `order`.`cm_id`");
     $number_order = 0;
     while ($fetch = mysqli_fetch_array($sql)) {
-        if ($fetch['username'] == $_SESSION['username_user']) {
-            $number_order++;
+        if ($fetch['username'] == $_SESSION['username_user']){
+        $number_order++;
         } else {
+            
         }
     }
     ?>
@@ -124,7 +125,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="javascript:void(0)">หน้าหลัก</a>
+                        <a class="nav-link" aria-current="page" href="javascript:void(0)">หน้าหลัก</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="javascript:void(0)">เกี่ยวกับร้าน</a>
@@ -172,44 +173,147 @@
         </div>
     </nav>
 
-    <section>
-        <div class="container-fluid p-0">
-            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-                <ol class="img carousel-indicators">
-                    <li data-bs-target="#carouselExample" data-bs-slide-to="0" class="active"></li>
-                    <li data-bs-target="#carouselExample" data-bs-slide-to="1"></li>
-                    <li data-bs-target="#carouselExample" data-bs-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img class="slide" src="upload/ex.jpg" alt="First slide" />
-                        <div class="carousel-caption d-none d-md-block">
+<section>
+    <?php   $sql = "SELECT * FROM `order`";
+            $query = mysqli_query($conn,$sql);
+    ?>
+            <div class="container">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-xl-12">
+                  <h2 class="text-muted p-3">ออเดอร์ของฉัน</h2>
+                  <div class="nav-align-top mb-4">
+                    <ul class="nav nav-tabs nav-fill" role="tablist">
+                      <li class="nav-item">
+                        <button
+                          type="button"
+                          class="nav-link active"
+                          role="tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#navs-justified-home"
+                          aria-controls="navs-justified-home"
+                          aria-selected="true"
+                        >
+                          <i class="bx bx-coin-stack mb-1"></i> รอชำระเงิน
+                          <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $number_order ?></span>
+                        </button>
+                      </li>
+                      <li class="nav-item">
+                        <button
+                          type="button"
+                          class="nav-link"
+                          role="tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#navs-justified-profile"
+                          aria-controls="navs-justified-profile"
+                          aria-selected="false"
+                        >
+                          <i class="tf-icons bx bx-user"></i> Profile
+                        </button>
+                      </li>
+                      <li class="nav-item">
+                        <button
+                          type="button"
+                          class="nav-link mb-3"
+                          role="tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#navs-justified-messages"
+                          aria-controls="navs-justified-messages"
+                          aria-selected="false"
+                        >
+                          <i class="tf-icons bx bx-message-square"></i> Messages
+                        </button>
+                      </li>
+                    </ul>
+                    <div class="tab-content mb-5">
+                      <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
+                      <div class="row">
+                            <div class="col-xl-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                      </div>
+                      <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                        <p>
+                          Donut dragée jelly pie halvah. Danish gingerbread bonbon cookie wafer candy oat cake ice
+                          cream. Gummies halvah tootsie roll muffin biscuit icing dessert gingerbread. Pastry ice cream
+                          cheesecake fruitcake.
+                        </p>
+                        <p class="mb-0">
+                          Jelly-o jelly beans icing pastry cake cake lemon drops. Muffin muffin pie tiramisu halvah
+                          cotton candy liquorice caramels.
+                        </p>
+                      </div>
+                      <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
+                        <p>
+                          Oat cake chupa chups dragée donut toffee. Sweet cotton candy jelly beans macaroon gummies
+                          cupcake gummi bears cake chocolate.
+                        </p>
+                        <p class="mb-0">
+                          Cake chocolate bar cotton candy apple pie tootsie roll ice cream apple pie brownie cake. Sweet
+                          roll icing sesame snaps caramels danish toffee. Brownie biscuit dessert dessert. Pudding jelly
+                          jelly-o tart brownie jelly.
+                        </p>
+                      </div>
                     </div>
-                    <div class="carousel-item">
-                        <img class="slide" src="upload/ex.jpg" alt="Second slide" />
-                        <div class="carousel-caption d-none d-md-block">
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img class="slide" src="upload/ex.jpg" alt="Third slide" />
-                        <div class="carousel-caption d-none d-md-block">
-                        </div>
-                    </div>
+                  </div>
                 </div>
-                <a class="carousel-control-prev" href="#carouselExample" role="button" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExample" role="button" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </a>
-            </div>
-        </div>
-    </section>
+    </div>
+    </div>
+    </div>
+</section>
+       
 
+ <!-- Footer -->
+ <footer class="content-footer footer bg-footer-theme">
+              <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                <div class="mb-2 mb-md-0">
+                  ©
+                  <script>
+                    document.write(new Date().getFullYear());
+                  </script>
+                  , made with ❤️ by
+                  <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
+                </div>
+                <div>
+                  <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+                  <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
 
+                  <a
+                    href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
+                    target="_blank"
+                    class="footer-link me-4"
+                    >Documentation</a
+                  >
+
+                  <a
+                    href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
+                    target="_blank"
+                    class="footer-link me-4"
+                    >Support</a
+                  >
+                </div>
+              </div>
+            </footer>
+            <!-- / Footer -->
 
 
     <!-- Core JS -->
