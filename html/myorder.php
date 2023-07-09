@@ -111,8 +111,6 @@
     while ($fetch = mysqli_fetch_array($sql)) {
         if ($fetch['username'] == $_SESSION['username_user']){
         $number_order++;
-        } else {
-            
         }
     }
     ?>
