@@ -110,7 +110,11 @@
     $number_order = 0;
     while ($fetch = mysqli_fetch_array($sql)) {
         if ($fetch['username'] == $_SESSION['username_user']){
-        $number_order++;
+          if($fetch['cm_id'] == ""){
+            $number_order = 0;
+          }else{
+            $number_order++;
+          }
         }
     }
     ?>
