@@ -10,7 +10,7 @@
                     <div class="row g-2">
                         <div class="col mt-3">
                             <label for="nameBasic" class="form-label">
-                                <h4></h4>
+                                <img>
                             </label>
                             <input type="text" id="nameBasic" class="form-control d-none" name="id" value="<?php echo $fetch['cm_id'] ?>" required readonly />
                         </div>
