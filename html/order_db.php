@@ -20,7 +20,7 @@ if (isset($_POST['order'])) {
     $storedArray2 = $_SESSION['values'];
     $date = date("Y/m/d");
     $datereserve = $_SESSION['date'];
-    $total = $_SESSION['total'];
+    $total = $_SESSION['sum'];
     $user = $_SESSION['username_user'];
     $sql = "SELECT * FROM cumtomer WHERE username = '$user'";
     $result = mysqli_query($conn, $sql);
@@ -52,4 +52,5 @@ unset($_SESSION['productid']);
 unset($_SESSION['values']);
 unset($_SESSION['total']);
 unset($_SESSION['newaddress']);
+unset($_SESSION['sum']);
 header('location: allproduct.php');

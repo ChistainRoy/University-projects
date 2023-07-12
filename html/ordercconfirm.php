@@ -128,6 +128,7 @@ font-size: 13px;
                <hr>
                <h5 class="fw-bold">ราคาทั้งหมด</h5>
                <p class="detail"><?php echo  $sum ?> ฿</p>
+               <?php $_SESSION['sum'] = $sum;?>
                <h5 class="fw-bold">วันจองตรวจสอบสถานที่ติดตั้ง</h5>
                <p class="detail"><?php echo $_SESSION['date']; ?></p>
                <hr>

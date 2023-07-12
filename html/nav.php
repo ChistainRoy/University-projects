@@ -1,3 +1,13 @@
+<?php
+    if (!isset($_SESSION['username_user'])) {
+        header("location: login.php");
+    }
+    if (isset($_GET['logout'])) {
+        session_destroy();
+        unset($_SESSION['username_user']);
+        header("location: login.php");
+    }
+    ?>
 <nav class="navbar navbar-expand-lg navbar-light sticky-top">
     <div class="container-fluid">
 
@@ -41,7 +51,10 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
-                    <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน</a></li>
+                    <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน</a>
+                    <?php
+                            echo "<span id='cart_count'></span>";
+                            ?></li>
                     <li>
                         <hr class="dropdown-divider" />
                     </li>

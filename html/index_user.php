@@ -96,7 +96,7 @@
 
 <body>
     <?php
-    session_start();
+        session_start();
     if (!isset($_SESSION['username_user'])) {
         header("location: login.php");
     }
@@ -104,15 +104,6 @@
         session_destroy();
         unset($_SESSION['username_user']);
         header("location: login.php");
-    }
-    include('connect.php');
-    $sql = mysqli_query($conn, "SELECT `cumtomer`.`cm_id`,`cumtomer`.`username`,`order`.`cm_id` FROM `cumtomer` LEFT JOIN `order` ON `cumtomer`.`cm_id` = `order`.`cm_id`");
-    $number_order = 0;
-    while ($fetch = mysqli_fetch_array($sql)) {
-        if ($fetch['username'] == $_SESSION['username_user']) {
-            $number_order++;
-        } else {
-        }
     }
     ?>
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
@@ -157,10 +148,7 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
-                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน</a>
-                            <?php
-                            echo "<span id='cart_count' class='num'>$number_order</span>";
-                            ?>
+                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน&nbsp;&nbsp;<span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger">1</span></a>
                         </li>
                         <li>
                             <hr class="dropdown-divider" />

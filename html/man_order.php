@@ -641,7 +641,6 @@
                                                 </button></td>
                                             </tr>
                                         <?php
-
                                         include 'modal_order.php';
                                       }
                                         ?>

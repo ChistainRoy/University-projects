@@ -48,55 +48,15 @@
     a.navbar-brand {
         color: white;
     }
-
-    .num {
-        font-family: 'Sigmar', cursive;
-        background-color: red;
-        position: absolute;
-        color: white;
-        font-size: 14px;
-        margin-left: 150px;
-        margin-bottom: 50px;
-        margin-top: -37px;
-        width: 30px;
-        text-align: center;
-        padding: 4px;
-        border-radius: 20px;
-    }
-
-    .carousel-item {
-        width: 100%;
-        height: 700px;
-    }
-
-    .slide {
-        width: 100%;
-        height: 700px;
-    }
-
-    .card-img-top {
-        width: 100%;
-        height: 400px;
-    }
-
-    @media (max-width:767px) {
-        .slide {
-            max-width: 100%;
-            height: 200px;
-        }
-    }
-
-    @media (max-width:767px) {
-        .carousel-item {
-            max-width: 100%;
-            height: 200px;
-        }
-    }
+    
 </style>
 
 <body>
-    <?php
-    session_start();
+   <?php
+   include('connect.php');
+   ?>
+   <?php
+        session_start();
     if (!isset($_SESSION['username_user'])) {
         header("location: login.php");
     }
@@ -105,79 +65,83 @@
         unset($_SESSION['username_user']);
         header("location: login.php");
     }
-    include('connect.php');
-    $sql = mysqli_query($conn, "SELECT `cumtomer`.`cm_id`,`cumtomer`.`username`,`order`.`cm_id` FROM `cumtomer` LEFT JOIN `order` ON `cumtomer`.`cm_id` = `order`.`cm_id`");
-    $number_order = 0;
-    while ($fetch = mysqli_fetch_array($sql)) {
-        if ($fetch['username'] == $_SESSION['username_user']){
-          if($fetch['cm_id'] == ""){
-            $number_order = 0;
-          }else{
-            $number_order++;
-          }
-        }
-    }
     ?>
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-        <div class="container-fluid">
-            <img src="upload/b.png" width="50">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="javascript:void(0)">หน้าหลัก</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0)">เกี่ยวกับร้าน</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="javascript:void(0)" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            สินค้า
-                        </a>
-                        <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="cart2.php">หน้าต่างบานเลื่อน</a></li>
-                            <li><a class="dropdown-item" href="cart3.php">หน้าต่างบานพับ</a></li>
-                            <li><a class="dropdown-item" href="cart4.php">หน้าต่างห้องน้ำ</a></li>
-                            <li><a class="dropdown-item" href="cart5.php">ประตูบานเลื่อน</a></li>
-                            <li><a class="dropdown-item" href="cart6.php">ประตูบานพับ</a></li>
-                            <li>
-                                <hr class="dropdown-divider" />
+<nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <div class="container-fluid">
 
-                            </li>
-                            <li><a class="dropdown-item" href="allproduct.php">สินค้าทั้งหมด</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <form class="d-flex" onsubmit="return false">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                    <button class="btn btn-outline-primary" type="submit">Search</button>
-                </form>
-                <div class="btn-group mx-2">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <?php echo $_SESSION['username_user'] ?>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
-                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน</a>
-                            <?php
-                            echo "<span id='cart_count' class='num'>$number_order</span>";
-                            ?>
-                        </li>
+        <img src="upload/b.png" width="50">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="#">หน้าหลัก</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">เกี่ยวกับร้าน</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        สินค้า
+                    </a>
+                    <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="cart2.php">หน้าต่างบานเลื่อน</a></li>
+                        <li><a class="dropdown-item" href="cart3.php">หน้าต่างบานพับ</a></li>
+                        <li><a class="dropdown-item" href="cart4.php">หน้าต่างห้องน้ำ</a></li>
+                        <li><a class="dropdown-item" href="cart5.php">ประตูบานเลื่อน</a></li>
+                        <li><a class="dropdown-item" href="cart6.php">ประตูบานพับ</a></li>
                         <li>
                             <hr class="dropdown-divider" />
+
                         </li>
-                        <li><a class="dropdown-item" href="logout.php">ออกจากระบบ</a></li>
+                        <li><a class="dropdown-item" href="allproduct.php">สินค้าทั้งหมด</a></li>
                     </ul>
-                </div>
+                </li>
+            </ul>
+            <form class="d-flex justify-content-between" onsubmit="return false">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                <button class="btn btn-outline-primary me-2" type="submit">Search</button>
+            </form>
+            <div class="btn-group dropstart">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <?php echo $_SESSION['username_user'] ?>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
+                    <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน&nbsp;&nbsp;<span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger">1</span></a>
+                
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li><a class="dropdown-item" href="logout.php">ออกจากระบบ</a></li>
+                </ul>
             </div>
         </div>
-    </nav>
-
+    </div>
+    </div>
+</nav>
 <section>
-    <?php   $sql = "SELECT * FROM `order`";
+    <?php
+    $user = $_SESSION['username_user'];
+    $sql = "SELECT cm_id FROM cumtomer WHERE username = '$user'";
             $query = mysqli_query($conn,$sql);
+            if (mysqli_num_rows($query) > 0) {
+              // output data of each row
+              while($row = mysqli_fetch_assoc($query)) {
+                $numberuser = $row['cm_id'];
+              }
+            } else {
+              echo "0 results";
+            }
+            $sql = "SELECT COUNT(cm_id) AS test FROM `order` WHERE cm_id = $numberuser;";
+            $result = mysqli_query($conn,$sql);
+            while($row = mysqli_fetch_assoc( $result)) {
+              echo $row['test'];
+              $numorder = $row['test'];
+            }
+          
+           
     ?>
             <div class="container">
                 <div class="col-12">
@@ -197,7 +161,7 @@
                           aria-selected="true"
                         >
                           <i class="bx bx-coin-stack mb-1"></i> รอชำระเงิน
-                          <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $number_order ?></span>
+                          <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $numorder ?></span>
                         </button>
                       </li>
                       <li class="nav-item">
