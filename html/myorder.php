@@ -140,15 +140,9 @@
               echo $row['test'];
               $numorder = $row['test'];
             }
-          
-           
     ?>
-            <div class="container">
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-xl-12">
-                  <h2 class="text-muted p-3">ออเดอร์ของฉัน</h2>
-                  <div class="nav-align-top mb-4">
+                  <div class="container">
+                    <div class="nav-align-top mb-4">
                     <ul class="nav nav-tabs nav-fill" role="tablist">
                       <li class="nav-item">
                         <button
@@ -160,7 +154,7 @@
                           aria-controls="navs-justified-home"
                           aria-selected="true"
                         >
-                          <i class="bx bx-coin-stack mb-1"></i> รอชำระเงิน
+                          <i class="tf-icons bx bx-home"></i> รอชำระเงิน
                           <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $numorder ?></span>
                         </button>
                       </li>
@@ -180,7 +174,7 @@
                       <li class="nav-item">
                         <button
                           type="button"
-                          class="nav-link mb-3"
+                          class="nav-link"
                           role="tab"
                           data-bs-toggle="tab"
                           data-bs-target="#navs-justified-messages"
@@ -191,31 +185,40 @@
                         </button>
                       </li>
                     </ul>
-                    <div class="tab-content mb-5">
+                    <div class="tab-content">
                       <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
                       <div class="row">
-                            <div class="col-xl-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        
+                      <?php
+                    $wait = "SELECT * FROM `order` WHERE cm_id = $numberuser AND oder_status = 'รอชำระเงิน'";
+                            $querywait = mysqli_query($conn,$wait);
+                            if (mysqli_num_rows($querywait) > 0) {
+                              // output data of each row
+                              while($row = mysqli_fetch_assoc($querywait)) {
+                              ?>
+                                <div class="col-xl-4">
+                                  <div class="card">
+                                    <div class="card-title p-4">
+                                    <p>รหัสคำสั่งซื้อ</p>
+                                      <h2>#<?php echo $row['order_id']?></h2>
+                                    <p>วันสั่งซื้อ</p>
+                                    <h4><?php echo $row['order_date']?></h4>  
+                                    <p>วันตรวจสอบสถานที่ติดตั้ง</p>
+                                    <h4><?php echo $row['order_reserve']?></h4>
+                                    <p>ราคา</p>
+                                    <h4><?php echo $row['oder_total']?></h4>  
+                                    <hr>
+                                    <?php echo "<a class='btn btn-primary' href='detail.php?ids=" . $row['order_id'] . "'>ดูรายละเอียด</a>"; ?>
+                                    <?php echo "<a class='btn btn-primary' href='detail.php?idp=" . $row['order_id'] . "'>ชำระเงิน</a>"; ?>
+                                    <?php echo "<a class='btn btn-danger' href='detail.php?idd=" . $row['order_id'] . "'>ยกเลิกคำสั่งซื้อ</a>"; ?>
                                     </div>
+                                  </div>
                                 </div>
+                              <?php 
+                            }
+                            } else {
+                              echo "0 results";
+                            } ?>
                             </div>
-                            <div class="col-xl-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                       </div>
                       <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
                         <p>
@@ -240,14 +243,9 @@
                         </p>
                       </div>
                     </div>
-                  </div>
-                </div>
-    </div>
-    </div>
-    </div>
+                    </div>
+               
 </section>
-       
-
  <!-- Footer -->
  <footer class="content-footer footer bg-footer-theme">
               <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
