@@ -63,7 +63,34 @@ span.uppercase {
     text-transform: uppercase;
 }
 
-<<<<<<< HEAD
+<<<<<<< HEAD h5 {
+    font-family: 'Sarabun', sans-serif;
+}
+
+h3 {
+    color: #ffff;
+}
+
+h2 {
+    color: #696cff;
+}
+
+body {
+    background: -webkit-linear-gradient(left, #e0e0e0, #696cff);
+}
+
+.card-header {
+    background: #696cff;
+}
+
+.img {
+    margin: auto auto;
+}
+
+.preview {
+    margin: auto auto;
+}
+
 h5 {
     font-family: 'Sarabun', sans-serif;
 }
@@ -91,35 +118,6 @@ body {
 .preview {
     margin: auto auto;
 }
-=======
-    h5 {
-        font-family: 'Sarabun', sans-serif;
-    }
-
-    h3 {
-        color: #ffff;
-    }
-
-    h2 {
-        color: #696cff;
-    }
-
-    body {
-        background: -webkit-linear-gradient(left, #e0e0e0, #696cff);
-    }
-
-    .card-header {
-        background: #696cff;
-    }
-
-    .img {
-        margin: auto auto;
-    }
-
-    .preview {
-        margin: auto auto;
-    }
->>>>>>> 9d497bf39e5d054e4d6295c6c39600bbee5801b9
 </style>
 
 <body>
@@ -131,7 +129,7 @@ body {
                         <h3 class="card-header text-center mb-3">รายละเอียดคำสั่งซื้อ</h3>
 
                         <?php
-<<<<<<< HEAD
+
                  include('connect.php');
                 if(isset($_GET['ids'])){
                         $id = $_GET['ids'];
@@ -162,7 +160,7 @@ body {
                         <?php
             }
             ?>
-=======
+                        <?php
                         include('connect.php');
                         if (isset($_GET['ids'])) {
                             $id = $_GET['ids'];
@@ -170,28 +168,30 @@ body {
                         INNER JOIN product ON oderdetail.product_id = product.product_id WHERE `order_id` = $id";
                             $result = mysqli_query($conn, $sql);
                             while ($row = mysqli_fetch_assoc($result)) { ?>
-                                <div class="card-body">
-                                    <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                        <img src="<?php echo $row['product_img'] ?>" alt="user-avatar" class="d-block rounded" height="150" width="120" />
-                                        <p><?php echo $row['product_name'] ?><br>ขนาด <?php echo $row['product_width'] ?> X <?php echo $row['product_length'] ?></p>
-                                        <h5 class="mx-5">ราคา</h5>
-                                        <h5><?php echo $row['product_price'] ?></h5>
-                                        <h5>X</h5>
-                                        <h5><?php echo $row['oder_qty'] ?></h5>
-                                        <?php $address = $row['order_address'] ?>
-                                        <?php $total = $row['oder_total'] ?>
-                                        <?php $price = $total * 20 / 100 ?>
-                                    </div>
-                                    <hr>
-                                </div>
+                        <div class="card-body">
+                            <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                <img src="<?php echo $row['product_img'] ?>" alt="user-avatar" class="d-block rounded"
+                                    height="150" width="120" />
+                                <p><?php echo $row['product_name'] ?><br>ขนาด <?php echo $row['product_width'] ?> X
+                                    <?php echo $row['product_length'] ?></p>
+                                <h5 class="mx-5">ราคา</h5>
+                                <h5><?php echo $row['product_price'] ?></h5>
+                                <h5>X</h5>
+                                <h5><?php echo $row['oder_qty'] ?></h5>
+                                <?php $address = $row['order_address'] ?>
+                                <?php $total = $row['oder_total'] ?>
+                                <?php $price = $total * 20 / 100 ?>
+                            </div>
+                            <hr>
+                        </div>
 
-                            <?php   }
+                        <?php   }
                             ?>
 
                         <?php
                         }
                         ?>
->>>>>>> 9d497bf39e5d054e4d6295c6c39600bbee5801b9
+
                     </div>
                 </div>
                 <div class="col-xl-4">
@@ -222,7 +222,6 @@ body {
             </div>
     </section>
     <script>
-<<<<<<< HEAD
     const input = document.getElementById('formFile');
     const preview = document.getElementById('preview');
 
@@ -236,21 +235,20 @@ body {
 
         reader.readAsDataURL(file);
     });
-=======
-        const input = document.getElementById('formFile');
-        const preview = document.getElementById('preview');
 
-        input.addEventListener('change', () => {
-            const file = input.files[0];
-            const reader = new FileReader();
+    const input = document.getElementById('formFile');
+    const preview = document.getElementById('preview');
 
-            reader.addEventListener('load', () => {
-                preview.src = reader.result;
-            });
+    input.addEventListener('change', () => {
+        const file = input.files[0];
+        const reader = new FileReader();
 
-            reader.readAsDataURL(file);
+        reader.addEventListener('load', () => {
+            preview.src = reader.result;
         });
->>>>>>> 9d497bf39e5d054e4d6295c6c39600bbee5801b9
+
+        reader.readAsDataURL(file);
+    });
     </script>
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
