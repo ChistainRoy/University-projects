@@ -59,10 +59,17 @@
 
     <!-- Helpers -->
     <script src="../assets/vendor/js/helpers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assets/js/config.js"></script>
+    <script>
+      function test(){
+        document.querySelector("#customerTable_filter").remove()
+      }
+    </script>
   </head>
 <style>
   .add{
@@ -70,7 +77,7 @@
     margin-top: 1%;
   }
 </style>
-  <body>
+  <body onload="test()">
   <?php
   session_start();
   if (!isset($_SESSION['username_admin'])) {
@@ -468,6 +475,7 @@
                     class="form-control border-0 shadow-none"
                     placeholder="Search..."
                     aria-label="Search..."
+                    id="searchInput"
                   />
                 </div>
               </div>
@@ -585,8 +593,8 @@
               ?>
                 <h5 class="card-header">ตารางข้อมูลลูกค้า</h5>
               
-                <div class="table-responsive text-nowrap">
-                  <table class="table">
+                <div class="table-responsive text-nowrap p-3">
+                  <table class="table custom-datatable" id="customerTable" style="width: 100%;">
                     <thead>
                       <tr>
                         <th>&nbsp;&nbsp;&nbsp;&nbsp;ID</th>
@@ -691,7 +699,41 @@
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#customerTable').DataTable({
+              language: {
+                    "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/Thai.json",
+                    "oPaginate": {
+                        "sFirst": "หน้าแรก",
+                        "sLast": "หน้าสุดท้าย",
+                        "sNext": "ถัดไป",
+                        "sPrevious": "ก่อนหน้า"
+                    },
+                    "sEmptyTable": "ไม่มีข้อมูลในตาราง",
+                    "sInfo": "แสดง _START_ ถึง _END_ จากทั้งหมด _TOTAL_ รายการ",
+                    "sInfoEmpty": "แสดง 0 ถึง 0 จากทั้งหมด 0 รายการ",
+                    "sInfoFiltered": "(กรองจากทั้งหมด _MAX_ รายการ)",
+                    "sLengthMenu": "แสดง _MENU_ รายการ",
+                    "sSearch": "ค้นหา:",
+                    "sZeroRecords": "ไม่พบข้อมูลที่ค้นหา"
+                },
+                searching: false, paging: true, info: true
+
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            var table = $('#customerTable').DataTable();
+            $('#searchInput').on('keyup', function() {
+                table.search(this.value).draw();
+            });
+        });
+    </script>
     <script src="../assets/vendor/libs/popper/popper.js"></script>
     <script src="../assets/vendor/js/bootstrap.js"></script>
     <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>

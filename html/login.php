@@ -33,7 +33,6 @@ session_start();
     <title>Login - Pages | Buddy Aluminium</title>
 
     <meta name="description" content="" />
-
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
 
@@ -138,7 +137,8 @@ session_start();
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../assets/vendor/libs/popper/popper.js"></script>
     <script src="../assets/vendor/js/bootstrap.js"></script>
     <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
@@ -155,5 +155,41 @@ session_start();
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script>
+      $(document).ready(function () 
+      {$("#formAuthentication").submit(function 
+        (e){
+                    e.preventDefault();
+          let fromurl = $(this).attr("action");
+          let reqMethod = $(this).attr("method")
+          let formdata = $(this).serialize();
+          $.ajax({
+            url: fromurl,
+            type: reqMethod,
+            data: formdata,
+            success: function(data) {
+              let result = JSON.parse(data);
+              if(result.status == "success"){
+                console.log("Success", result)
+                Swal.fire("สำเร็จ", result.msg, result.status);
+                  window.location.href = "index_user.php"
+              } else if (result.status == "info"){
+              console.log("Success", result)
+                Swal.fire("สำเร็จ", result.msg, result.status);
+                  window.location.href = "index.php"
+              }else{
+                console.log("Error", result)
+                Swal.fire({   title: "ล้มเหลว",
+                text: result.msg,
+                icon: result.status,
+                customClass: {
+                confirmButton: "btn btn-primary"
+                }});
+              }
+            }
+          })
+        })
+      })
+    </script>
   </body>
 </html>
