@@ -65,6 +65,11 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assets/js/config.js"></script>
+    <script>
+      function test(){
+        document.querySelector("#customerTable_filter").remove()
+      }
+    </script>
   </head>
 <style>
   .add{
@@ -72,7 +77,7 @@
     margin-top: 1%;
   }
 </style>
-  <body>
+  <body onload="test()">
   <?php
   session_start();
   if (!isset($_SESSION['username_admin'])) {
@@ -715,7 +720,9 @@
                     "sLengthMenu": "แสดง _MENU_ รายการ",
                     "sSearch": "ค้นหา:",
                     "sZeroRecords": "ไม่พบข้อมูลที่ค้นหา"
-                }
+                },
+                searching: false, paging: true, info: true
+
             });
         });
     </script>
@@ -725,7 +732,6 @@
             $('#searchInput').on('keyup', function() {
                 table.search(this.value).draw();
             });
-
         });
     </script>
     <script src="../assets/vendor/libs/popper/popper.js"></script>
