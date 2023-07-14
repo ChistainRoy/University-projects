@@ -75,6 +75,12 @@
     .card-header{
         background: #696cff;
     }
+    .img{
+        margin: auto auto;
+    }
+    .preview{
+        margin: auto auto;
+    }
 </style>
 
 <body>
@@ -95,19 +101,68 @@
                         while($row = mysqli_fetch_assoc($result)) { ?>   
                         <div class="card-body">
                             <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                <img src="<?php echo $row['product_img'] ?>" alt="user-avatar" class="d-block rounded" height="150" width="120" id="preview" />
+                                <img src="<?php echo $row['product_img'] ?>" alt="user-avatar" class="d-block rounded" height="150" width="120"/>
                                 <p><?php echo $row['product_name'] ?><br>ขนาด <?php echo $row['product_width'] ?> X <?php echo $row['product_length'] ?></p>
+                                <h5 class="mx-5">ราคา</h5>
+                                <h5><?php echo $row['product_price'] ?></h5>
+                                <h5>X</h5>
+                                <h5><?php echo $row['oder_qty'] ?></h5>
+                                <?php $address = $row['order_address'] ?>
+                                <?php $total = $row['oder_total'] ?>
+                                <?php $price = $total * 20 / 100 ?>
                             </div>
                             <hr>
                         </div>
-            <?php   }
+                       
+            <?php   } 
+            ?>          
+                      
+            <?php
             }
             ?>
             </div>
-            </div>
+            </div>  <div class="col-xl-4">
+            <div class="card">
+                <h3 class="card-header text-center mb-3">สรุปยอดคำสั่งซื้อ</h3>
+                <div class="card-body p-3">
+                    <p>ที่อยู่จัดส่ง</p>
+                    <h5 class="mx-2"><?php echo $address ?></h5>    
+                    <p>ราคาทั้งหมด</p>
+                    <h5 class="mx-2"><?php echo $total ?></h5>
+                    <p>ราคามัดจำที่ต้องจ่าย (20%)</p>
+                    <h5 class="mx-2"><?php echo $price ?></h5>       
+                    <from>
+                    </from> 
+                    </div>
+                </div>
+                <div class="card mt-5">
+                <h3 class="card-header text-center mb-3">ชำระเงิน</h3>
+                <img src="upload/scan.png" alt class="img d-block rounded p-2" height="200" width="200" />
+                <div class="card-body p-3">
+                        <label for="formFile" class="form-label">กดปุ่มอัปโหลดสลิป</label>
+                        <input class="form-control" type="file" id="formFile" name="pic"  />
+                        <br>
+                        <img src="" id="preview" width="200" class="preview">
+                </div>
+                </div>
             </div>
         </div>
     </section>
+    <script>
+                            const input = document.getElementById('formFile');
+                            const preview = document.getElementById('preview');
+
+                            input.addEventListener('change', () => {
+                              const file = input.files[0];
+                              const reader = new FileReader();
+
+                              reader.addEventListener('load', () => {
+                                preview.src = reader.result;
+                              });
+
+                              reader.readAsDataURL(file);
+                            });
+                          </script>
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="../assets/vendor/libs/jquery/jquery.js"></script>
