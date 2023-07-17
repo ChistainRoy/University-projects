@@ -721,7 +721,7 @@
                     "sSearch": "ค้นหา:",
                     "sZeroRecords": "ไม่พบข้อมูลที่ค้นหา"
                 },
-                searching: false, paging: true, info: true
+                searching: true, paging: true, info: true
 
             });
         });
