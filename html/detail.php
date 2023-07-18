@@ -6,7 +6,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Order - Detail | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Order - Detail | Buddy Aluminum</title>
 
     <meta name="description" content="" />
 
@@ -190,14 +190,18 @@ body {
                             <p class="text-center">Buddy Aluminum-glass</p>
                             <label for="formFile" class="form-label">กดปุ่มอัปโหลดสลิป</label>
                             <div class="input-group">
-                                <input class="form-control" type="file" id="formFile" name="pic" />
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#modalCenter">
-                                    <i class="bi bi-eye-fill"></i>
-                                </button>
+                                <form action="payment.php" method="post" enctype="multipart/form-data" id="frompayment">
+                                    <input class="form-control" type="file" id="formFile" name="pic" />
+                                    <input type="hidden" id="hiddenInput" value="<?php echo $id ?>"
+                                        name="hiddenInput" />
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#modalCenter" id="submit">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </button>
                             </div>
                             <br>
-                            <button class="btn btn-primary">ยืนยันชำระเงิน</button>
+                            <button class="btn btn-primary" id="submitfrom">ยืนยันชำระเงิน</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -269,8 +273,37 @@ body {
     });
     </script>
     <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+    $(document).ready(function() {
+        $("#submitfrom").click(function() {
+            var form = $("#frompayment")[0];
+            var formData = new FormData(form);
+
+            formData.append('hiddenInput', $("#hiddenInput").val());
+
+            $.ajax({
+                url: "payment.php",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    let result = JSON.parse(data);
+                    if (result.status == "success") {
+                        console.log("Success", result);
+                    } else {
+                        console.log("Error", result);
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.error("AJAX Error:", textStatus, errorThrown);
+                }
+            });
+        });
+    });
+    </script>
     <script src="../assets/vendor/libs/popper/popper.js"></script>
     <script src="../assets/vendor/js/bootstrap.js"></script>
     <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>

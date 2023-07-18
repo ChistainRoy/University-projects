@@ -52,12 +52,10 @@ a.navbar-brand {
     color: white;
 }
 </style>
-
-<body>
-    <?php
+<?php
    include('connect.php');
    ?>
-    <?php
+<?php
         session_start();
     if (!isset($_SESSION['username_user'])) {
         header("location: login.php");
@@ -67,7 +65,27 @@ a.navbar-brand {
         unset($_SESSION['username_user']);
         header("location: login.php");
     }
+    $user = $_SESSION['username_user'];
+    $sql = "SELECT cm_id,name FROM cumtomer WHERE username = '$user'";
+            $query = mysqli_query($conn,$sql);
+            if (mysqli_num_rows($query) > 0) {
+              // output data of each row
+              while($row = mysqli_fetch_assoc($query)) {
+                $numberuser = $row['cm_id'];
+                $_SESSION['fullname'] = $row['name'];
+              }
+            } else {
+            //   echo "0 results";
+            }
+            $sql = "SELECT COUNT(cm_id) AS test FROM `order` WHERE cm_id = $numberuser;";
+            $result = mysqli_query($conn,$sql);
+            while($row = mysqli_fetch_assoc( $result)) {
+            //   echo $row['test'];
+              $numorder = $row['test'];
+            }
     ?>
+
+<body>
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container-fluid">
 
@@ -116,7 +134,7 @@ a.navbar-brand {
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
                         <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน&nbsp;&nbsp;<span
-                                    class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger">1</span></a>
+                                    class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $numorder ?></span></a>
 
                         <li>
                             <hr class="dropdown-divider" />
@@ -129,27 +147,7 @@ a.navbar-brand {
         </div>
     </nav>
     <section>
-        <?php
-    $user = $_SESSION['username_user'];
-    $sql = "SELECT cm_id,name FROM cumtomer WHERE username = '$user'";
-            $query = mysqli_query($conn,$sql);
-            if (mysqli_num_rows($query) > 0) {
-              // output data of each row
-              while($row = mysqli_fetch_assoc($query)) {
-                $numberuser = $row['cm_id'];
-                $_SESSION['fullname'] = $row['name'];
-              }
-            } else {
-              echo "0 results";
-            }
-            $sql = "SELECT COUNT(cm_id) AS test FROM `order` WHERE cm_id = $numberuser;";
-            $result = mysqli_query($conn,$sql);
-            while($row = mysqli_fetch_assoc( $result)) {
-              echo $row['test'];
-              $numorder = $row['test'];
-            }
-    ?>
-        <div class="container">
+        <div class="container mt-5">
             <div class="nav-align-top mb-4">
                 <ul class="nav nav-tabs nav-fill" role="tablist">
                     <li class="nav-item">
@@ -192,14 +190,45 @@ a.navbar-brand {
                                         <p>รหัสคำสั่งซื้อ</p>
                                         <h2>#<?php echo $row['order_id']?></h2>
                                         <p>วันสั่งซื้อ</p>
-                                        <h4><?php echo $row['order_date']?></h4>
+                                        <h4><?php 
+                                         $thaiMonths = array(
+                                            1 => 'มกราคม',
+                                            2 => 'กุมภาพันธ์',
+                                            3 => 'มีนาคม',
+                                            4 => 'เมษายน',
+                                            5 => 'พฤษภาคม',
+                                            6 => 'มิถุนายน',
+                                            7 => 'กรกฎาคม',
+                                            8 => 'สิงหาคม',
+                                            9 => 'กันยายน',
+                                            10 => 'ตุลาคม',
+                                            11 => 'พฤศจิกายน',
+                                            12 => 'ธันวาคม'
+                                        );
+                                        $date = $row['order_date'];
+                                        $timestamp = strtotime($date);
+                                        $buddhistYear = date("Y", $timestamp) + 543;
+                                        $monthNumber = date("n", $timestamp); // Get the month number (1-12)
+                                        $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
+                                        $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
+                                        echo $thaiFormattedDate;
+                                        ?></h4>
                                         <p>วันตรวจสอบสถานที่ติดตั้ง</p>
-                                        <h4><?php echo $row['order_reserve']?></h4>
+                                        <h4><?php 
+                                        $date = $row['order_reserve'];
+                                        $timestamp = strtotime($date);
+                                        $buddhistYear = date("Y", $timestamp) + 543;
+                                        $monthNumber = date("n", $timestamp); // Get the month number (1-12)
+                                        $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
+                                        $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
+                                        echo $thaiFormattedDate;
+                                        ?>
+                                        </h4>
                                         <p>ราคา</p>
-                                        <h4><?php echo $row['oder_total']?></h4>
+                                        <h4><?php 
+                                        echo $row['oder_total']?>&nbsp;฿</h4>
                                         <hr>
-                                        <?php echo "<a class='btn btn-primary' href='detail.php?ids=" . $row['order_id'] . "'>ดูรายละเอียด</a>"; ?>
-                                        <?php echo "<a class='btn btn-primary' href='detail.php?idp=" . $row['order_id'] . "'>ชำระเงิน</a>"; ?>
+                                        <?php echo "<a class='btn btn-primary' href='detail.php?ids=" . $row['order_id'] . "'>ดูรายละเอียด / ชำระเงิน</a>"; ?>
                                         <?php echo "<a class='btn btn-danger' href='detail.php?idd=" . $row['order_id'] . "'>ยกเลิกคำสั่งซื้อ</a>"; ?>
                                     </div>
                                 </div>
@@ -268,8 +297,43 @@ a.navbar-brand {
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="../assets/vendor/libs/popper/popper.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+    // Get the URL query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    const msg = urlParams.get('msg');
+
+    // Check the status and display the SweetAlert message
+    if (status === 'success') {
+        Swal.fire({
+            title: 'Success',
+            text: msg,
+            icon: 'success',
+            confirmButtonClass: 'btn btn-primary'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect to order.php with success status and message
+                const redirectURL = 'myorder.php';
+                window.location.href = redirectURL;
+            }
+        });
+    } else if (status === 'error') {
+        Swal.fire({
+            title: 'Error',
+            text: msg,
+            icon: 'error',
+            confirmButtonClass: 'btn btn-primary'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect to order.php with success status and message
+                const redirectURL = 'myorder.php';
+                window.location.href = redirectURL;
+            }
+        });
+    }
+    </script>
     <script src="../assets/vendor/js/bootstrap.js"></script>
     <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
