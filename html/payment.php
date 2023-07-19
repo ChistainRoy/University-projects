@@ -28,19 +28,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Return a response indicating success
             $response = array(
                 "status" => "success",
-                "msg" => "Payment processed successfully"
+                "msg" => "ชำระเงินสำเร็จกรุณารอทางร้านตรวจสอบสลิป"
             );
-            $successMessage = "Payment processed successfully";
+            $successMessage = "ชำระเงินสำเร็จกรุณารอทางร้านตรวจสอบสลิป";
                 header("Location: myorder.php?status=success&msg=" . urlencode($successMessage));
                 exit();
         } else {
             // Return a response indicating an error if there's an issue with moving the uploaded file
             $response = array(
                 "status" => "error",
-                "msg" => "Error moving uploaded file"
+                "msg" => "ไฟล์อัปโหลดไม่ถูกต้อง"
             );
               // Display error message and redirect to order.php
-              $errorMessage = "Error moving uploaded file";
+              $errorMessage = "ไฟล์อัปโหลดไม่ถูกต้อง";
               header("Location: myorder.php?status=error&msg=" . urlencode($errorMessage));
               exit();
         }
@@ -48,10 +48,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Return a response indicating an error if the file upload is not successful
         $response = array(
             "status" => "error",
-            "msg" => "Error uploading file"
+            "msg" => "กรุณาอัพโหลดรูปสลิปก่อนยืนยันชำระเงิน"
         );
           // Display error message and redirect to order.php
-          $errorMessage = "Error moving uploaded file";
+          $errorMessage = "เกิดข้อผิดพลาดกรุณาอัพโหลดใหม่อีกครั้ง";
           header("Location: myorder.php?status=error&msg=" . urlencode($errorMessage));
           exit();
     }
@@ -59,10 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Return a response indicating an error if the form is not submitted via POST method
     $response = array(
         "status" => "error",
-        "msg" => "Invalid request method"
+        "msg" => "เกิดข้อผิดพลาดกรุณาอัพโหลดใหม่อีกครั้ง"
     );
       // Display error message and redirect to order.php
-      $errorMessage = "Error moving uploaded file";
+      $errorMessage = "เกิดข้อผิดพลาดกรุณาอัพโหลดใหม่อีกครั้ง";
       header("Location: myorder.php?status=error&msg=" . urlencode($errorMessage));
       exit();
 }

@@ -191,13 +191,15 @@ body {
                             <label for="formFile" class="form-label">กดปุ่มอัปโหลดสลิป</label>
                             <div class="input-group">
                                 <form action="payment.php" method="post" enctype="multipart/form-data" id="frompayment">
-                                    <input class="form-control" type="file" id="formFile" name="pic" />
-                                    <input type="hidden" id="hiddenInput" value="<?php echo $id ?>"
-                                        name="hiddenInput" />
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#modalCenter" id="submit">
-                                        <i class="bi bi-eye-fill"></i>
-                                    </button>
+                                    <div class="input-group">
+                                        <input class="form-control" type="file" id="formFile" name="pic" />
+                                        <input type="hidden" id="hiddenInput" value="<?php echo $id ?>"
+                                            name="hiddenInput" />
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#modalCenter" id="submit">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </button>
+                                    </div>
                             </div>
                             <br>
                             <button class="btn btn-primary" id="submitfrom">ยืนยันชำระเงิน</button>
