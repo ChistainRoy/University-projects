@@ -65,6 +65,20 @@ session_start();
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assets/js/config.js"></script>
   </head>
+  <style>
+        /* Custom styles for the title (message) and the entire toast */
+        .swal-title {
+            font-size: 24px;
+        }
+
+        .swal-popup {
+            max-width: 700px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
   <body>
     <!-- Content -->
     <div class="container-xxl">
@@ -171,12 +185,38 @@ session_start();
               let result = JSON.parse(data);
               if(result.status == "success"){
                 console.log("Success", result)
-                Swal.fire("สำเร็จ", result.msg, result.status);
-                  window.location.href = "index_user.php"
+                Swal.fire({
+                title: result.msg,
+                icon: result.status,
+                toast: true,
+                position: "top",
+                showConfirmButton: false,
+                timer: 3000, // 3 seconds
+                customClass: {
+                    title: 'swal-title', // Custom class for title
+                    popup: 'swal-popup', // Custom class for the entire toast
+                }
+            }).then(() => {
+                // Redirect after the toast is closed
+                window.location.href = "index_user.php";
+            });
               } else if (result.status == "info"){
               console.log("Success", result)
-                Swal.fire("สำเร็จ", result.msg, result.status);
-                  window.location.href = "index.php"
+              Swal.fire({
+                title: result.msg,
+                icon: 'success',
+                toast: true,
+                position: "top",
+                showConfirmButton: false,
+                timer: 3000, // 3 seconds
+                customClass: {
+                    title: 'swal-title', // Custom class for title
+                    popup: 'swal-popup', // Custom class for the entire toast
+                }
+            }).then(() => {
+                // Redirect after the toast is closed
+                window.location.href = "index.php";
+            });
               }else{
                 console.log("Error", result)
                 Swal.fire({   title: "ล้มเหลว",
