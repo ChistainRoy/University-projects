@@ -626,14 +626,11 @@
                       </h5>
                       <h5 class="card-title">ประเภทสินค้า :
                         <?php
-
-                      $join = "SELECT product.category_id, category.cat_name FROM product INNER JOIN category ON product.category_id = category.id_cat";
+                      $catid = $fetch['category_id'];
+                      $join = "SELECT product.category_id, category.cat_name FROM product INNER JOIN category ON product.category_id = category.id_cat WHERE category_id = $catid";
                       $inner = mysqli_query($conn, $join);
-                      while ($type = mysqli_fetch_array($inner)) {
-                        if ($fetch['category_id'] == $type['category_id']) {
+                      $type = mysqli_fetch_array($inner);
                           echo $type['cat_name'];
-                        }
-                      }
                         ?>
                       </class=>
                       <div class="col-12 mt-3 mb-auto">

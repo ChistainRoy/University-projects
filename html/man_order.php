@@ -606,7 +606,7 @@
                     <thead>
                       <tr>
                         <th><h6>&nbsp;&nbsp;&nbsp;รหัสคำสั่งซื้อ</h6></th>
-                        <th><h6>&nbsp;&nbsp;วันที่สั่งซื้อ</h6></th>
+                        <th class ="text-center"><h6>&nbsp;&nbsp;วันที่สั่งซื้อ</h6></th>
                         <th><h6>วันจองตรวจสอบสถานที่ติดตั้ง</h6></th>
                         <th><h6>ราคาทั้งหมด</h6></th>
                         <th><h6>&nbsp;&nbsp;&nbsp;ชื่อผู้สั่ง</h6></th>
@@ -624,11 +624,39 @@
                       $user = $fetch['cm_id'];
                       $sql = mysqli_query($conn, "SELECT * FROM cumtomer WHERE cm_id=$user");
                       $row = mysqli_fetch_array($sql);
+                      $thaiMonths = array(
+                        1 => 'มกราคม',
+                        2 => 'กุมภาพันธ์',
+                        3 => 'มีนาคม',
+                        4 => 'เมษายน',
+                        5 => 'พฤษภาคม',
+                        6 => 'มิถุนายน',
+                        7 => 'กรกฎาคม',
+                        8 => 'สิงหาคม',
+                        9 => 'กันยายน',
+                        10 => 'ตุลาคม',
+                        11 => 'พฤศจิกายน',
+                        12 => 'ธันวาคม'
+                    );
                     ?>
                                             <tr>
                                                 <td class="text-center"><i class="fab fa-angular fa-lg text-danger me-3"></i><?php echo $fetch['order_id'] ?></td>
-                                                <td><?php echo $fetch['order_date'] ?></td>
-                                                <td class="text-center"><?php echo $fetch['order_reserve'] ?></td>
+                                                <td><?php 
+                                                    $date = $fetch['order_date'];
+                                                    $timestamp = strtotime($date);
+                                                    $buddhistYear = date("Y", $timestamp) + 543;
+                                                    $monthNumber = date("n", $timestamp); // Get the month number (1-12)
+                                                    $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
+                                                    $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
+                                                    echo $thaiFormattedDate;?></td>
+                                                <td class="text-center"><?php 
+                                                 $date = $fetch['order_reserve'];
+                                                 $timestamp = strtotime($date);
+                                                 $buddhistYear = date("Y", $timestamp) + 543;
+                                                 $monthNumber = date("n", $timestamp); // Get the month number (1-12)
+                                                 $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
+                                                 $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
+                                                 echo $thaiFormattedDate;?></td>
                                                 <td class="text-center"><?php echo $fetch['oder_total'] ?></td>
                                                 <td><?php echo $row['name'] ?></td>
                                                 <td><?php echo $fetch['order_address'] ?></td>
