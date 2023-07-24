@@ -158,10 +158,8 @@ body {
                                 <?php $price = $total * 20 / 100 
                                         ?>
                             </div>
-
                         </div>
                         <hr>
-
                         <?php   } 
             ?>
                         <?php

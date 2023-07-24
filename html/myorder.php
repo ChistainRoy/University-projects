@@ -51,6 +51,12 @@
 a.navbar-brand {
     color: white;
 }
+
+.status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 </style>
 <?php
    include('connect.php');
@@ -77,12 +83,26 @@ a.navbar-brand {
             } else {
             //   echo "0 results";
             }
-            $sql = "SELECT COUNT(cm_id) AS test FROM `order` WHERE cm_id = $numberuser;";
+            $sql = "SELECT COUNT(cm_id) AS test FROM `order` WHERE cm_id = $numberuser";
             $result = mysqli_query($conn,$sql);
             while($row = mysqli_fetch_assoc( $result)) {
             //   echo $row['test'];
               $numorder = $row['test'];
             }
+            $status_wait = 0;
+            $status_chackwait = 0;
+            $sqli = "SELECT * FROM `order` WHERE cm_id = $numberuser";
+            $resulti = mysqli_query($conn,$sqli);
+            while($fetch = mysqli_fetch_assoc($resulti)) {
+                if($fetch['oder_status'] == 'รอชำระเงิน'){
+                    $status_wait++;
+                }else if($fetch['oder_status'] == 'รอการตรวจสอบ'){
+                    $status_chackwait++;
+                }
+                   
+            }
+                
+            
     ?>
 
 <body>
@@ -104,7 +124,7 @@ a.navbar-brand {
                         <a class="nav-link" href="#">เกี่ยวกับร้าน</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                        <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             สินค้า
                         </a>
@@ -154,21 +174,30 @@ a.navbar-brand {
                         <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
                             data-bs-target="#navs-justified-home" aria-controls="navs-justified-home"
                             aria-selected="true">
-                            <i class="tf-icons bx bx-home"></i> รอชำระเงิน
+                            <i class='bx bx-coin-stack'></i> รอชำระเงิน
                             <span
-                                class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $numorder ?></span>
+                                class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $status_wait ?></span>
                         </button>
                     </li>
                     <li class="nav-item">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                             data-bs-target="#navs-justified-profile" aria-controls="navs-justified-profile"
                             aria-selected="false">
-                            <i class="tf-icons bx bx-user"></i> Profile
+                            <i class='bx bx-loader-circle'></i> รอตวจสอบการชำระเงิน
+                            <span
+                                class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $status_chackwait ?></span>
                         </button>
                     </li>
                     <li class="nav-item">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                             data-bs-target="#navs-justified-messages" aria-controls="navs-justified-messages"
+                            aria-selected="false">
+                            <i class="tf-icons bx bx-message-square"></i> Messages
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-status" aria-controls="navs-justified-status"
                             aria-selected="false">
                             <i class="tf-icons bx bx-message-square"></i> Messages
                         </button>
@@ -217,9 +246,6 @@ a.navbar-brand {
                                         <h4><?php 
                                         $date = $row['order_reserve'];
                                         $timestamp = strtotime($date);
-                                        $buddhistYear = date("Y", $timestamp) + 543;
-                                        $monthNumber = date("n", $timestamp); // Get the month number (1-12)
-                                        $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
                                         $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
                                         echo $thaiFormattedDate;
                                         ?>
@@ -241,18 +267,69 @@ a.navbar-brand {
                         </div>
                     </div>
                     <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
-                        <p>
-                            Donut dragée jelly pie halvah. Danish gingerbread bonbon cookie wafer candy oat cake ice
-                            cream. Gummies halvah tootsie roll muffin biscuit icing dessert gingerbread. Pastry ice
-                            cream
-                            cheesecake fruitcake.
-                        </p>
-                        <p class="mb-0">
-                            Jelly-o jelly beans icing pastry cake cake lemon drops. Muffin muffin pie tiramisu halvah
-                            cotton candy liquorice caramels.
-                        </p>
+                        <?php
+                    $wait = "SELECT * FROM `order` WHERE cm_id = $numberuser AND oder_status = 'รอการตรวจสอบ'";
+                            $querywait = mysqli_query($conn,$wait);
+                            if (mysqli_num_rows($querywait) > 0) {
+                              // output data of each row
+                              while($row = mysqli_fetch_assoc($querywait)) {
+                              ?>
+                        <div class="col-xl-4">
+                            <div class="card">
+                                <div class="card-title p-4">
+                                    <p>รหัสคำสั่งซื้อ</p>
+                                    <h2>#<?php echo $row['order_id']?></h2>
+                                    <p>วันสั่งซื้อ</p>
+                                    <h4><?php 
+                                        $date = $row['order_date'];
+                                        $timestamp = strtotime($date);
+                                        $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
+                                        echo $thaiFormattedDate;
+                                        ?></h4>
+                                    <p>วันตรวจสอบสถานที่ติดตั้ง</p>
+                                    <h4><?php 
+                                        $date = $row['order_reserve'];
+                                        $timestamp = strtotime($date);
+                                        $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
+                                        echo $thaiFormattedDate;
+                                        ?>
+                                    </h4>
+                                    <p>ราคา</p>
+                                    <h4><?php 
+                                        echo $row['oder_total']?>&nbsp;฿</h4>
+                                    <hr>
+                                    <br>
+                                    <div class="status">
+                                        <h4><?php 
+                                        echo $row['oder_status']?>&nbsp;
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php 
+                            }
+                            } else {
+                              echo "0 results";
+                            } ?>
                     </div>
                     <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
+                        <p>
+                            Oat cake chupa chups dragée donut toffee. Sweet cotton candy jelly beans macaroon gummies
+                            cupcake gummi bears cake chocolate.
+                        </p>
+                        <p class="mb-0">
+                            Cake chocolate bar cotton candy apple pie tootsie roll ice cream apple pie brownie cake.
+                            Sweet
+                            roll icing sesame snaps caramels danish toffee. Brownie biscuit dessert dessert. Pudding
+                            jelly
+                            jelly-o tart brownie jelly.
+                        </p>
+                    </div>
+                    <div class="tab-pane fade" id="navs-justified-status" role="tabpanel">
                         <p>
                             Oat cake chupa chups dragée donut toffee. Sweet cotton candy jelly beans macaroon gummies
                             cupcake gummi bears cake chocolate.

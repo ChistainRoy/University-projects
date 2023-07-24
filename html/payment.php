@@ -24,6 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             include('connect.php');
             $sql = "INSERT INTO payment (oder_id, pay_img) VALUES ('$id', '$imagePath')";
             $result = $conn->query($sql);
+            $sqli = "UPDATE `order` SET `oder_status` = 'รอการตรวจสอบ' WHERE `order_id` = $id";
+            $resulti = $conn->query($sqli);
 
             // Return a response indicating success
             $response = array(

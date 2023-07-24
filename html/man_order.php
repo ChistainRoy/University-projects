@@ -622,7 +622,7 @@
 
                     while ($fetch = mysqli_fetch_array($query)) {
                       $user = $fetch['cm_id'];
-                      $sql = mysqli_query($conn, "SELECT * FROM cumtomer WHERE cm_id=$user");
+                      $sql = mysqli_query($conn, "SELECT * FROM cumtomer WHERE cm_id = $user");
                       $row = mysqli_fetch_array($sql);
                       $thaiMonths = array(
                         1 => 'มกราคม',
@@ -696,13 +696,17 @@
       <!-- Overlay -->
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+
+      
+    </script>
     <!-- / Layout wrapper -->
     <?php include 'modal_product.php'; ?>
                     
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="../assets/vendor/libs/popper/popper.js"></script>
     <script src="../assets/vendor/js/bootstrap.js"></script>
     <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
