@@ -91,6 +91,7 @@ a.navbar-brand {
             }
             $status_wait = 0;
             $status_chackwait = 0;
+            $pass = 0;
             $sqli = "SELECT * FROM `order` WHERE cm_id = $numberuser";
             $resulti = mysqli_query($conn,$sqli);
             while($fetch = mysqli_fetch_assoc($resulti)) {
@@ -98,9 +99,12 @@ a.navbar-brand {
                     $status_wait++;
                 }else if($fetch['oder_status'] == 'รอการตรวจสอบ'){
                     $status_chackwait++;
-                }
+                }else if($fetch['oder_status'] == 'อนุมัติ'){
+                    $pass++;
                    
             }
+        }
+            
                 
             
     ?>
@@ -192,14 +196,16 @@ a.navbar-brand {
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                             data-bs-target="#navs-justified-messages" aria-controls="navs-justified-messages"
                             aria-selected="false">
-                            <i class="tf-icons bx bx-message-square"></i> Messages
+                            <i class="tf-icons bx bx-message-square"></i> รอตรวจสอบสถานที่ติดตั้ง
+                            <span
+                                class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $pass ?></span>
                         </button>
                     </li>
                     <li class="nav-item">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                             data-bs-target="#navs-justified-status" aria-controls="navs-justified-status"
                             aria-selected="false">
-                            <i class="tf-icons bx bx-message-square"></i> Messages
+                            <i class='bx bx-badge-check'></i> ดำเนินการเสร็จสิ้น
                         </button>
                     </li>
                 </ul>
@@ -267,71 +273,147 @@ a.navbar-brand {
                         </div>
                     </div>
                     <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
-                        <?php
+                        <div class="row">
+                            <?php
                     $wait = "SELECT * FROM `order` WHERE cm_id = $numberuser AND oder_status = 'รอการตรวจสอบ'";
                             $querywait = mysqli_query($conn,$wait);
                             if (mysqli_num_rows($querywait) > 0) {
                               // output data of each row
                               while($row = mysqli_fetch_assoc($querywait)) {
                               ?>
-                        <div class="col-xl-4">
-                            <div class="card">
-                                <div class="card-title p-4">
-                                    <p>รหัสคำสั่งซื้อ</p>
-                                    <h2>#<?php echo $row['order_id']?></h2>
-                                    <p>วันสั่งซื้อ</p>
-                                    <h4><?php 
+                            <div class="col-xl-4">
+                                <div class="card">
+                                    <div class="card-title p-4">
+                                        <p>รหัสคำสั่งซื้อ</p>
+                                        <h2>#<?php echo $row['order_id']?></h2>
+                                        <p>วันสั่งซื้อ</p>
+                                        <h4><?php
+                                      $thaiMonths = array(
+                                        1 => 'มกราคม',
+                                        2 => 'กุมภาพันธ์',
+                                        3 => 'มีนาคม',
+                                        4 => 'เมษายน',
+                                        5 => 'พฤษภาคม',
+                                        6 => 'มิถุนายน',
+                                        7 => 'กรกฎาคม',
+                                        8 => 'สิงหาคม',
+                                        9 => 'กันยายน',
+                                        10 => 'ตุลาคม',
+                                        11 => 'พฤศจิกายน',
+                                        12 => 'ธันวาคม'
+                                    ); 
                                         $date = $row['order_date'];
                                         $timestamp = strtotime($date);
+                                        $buddhistYear = date("Y", $timestamp) + 543;
+                                        $monthNumber = date("n", $timestamp); // Get the month number (1-12)
+                                        $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
                                         $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
                                         echo $thaiFormattedDate;
                                         ?></h4>
-                                    <p>วันตรวจสอบสถานที่ติดตั้ง</p>
-                                    <h4><?php 
+                                        <p>วันตรวจสอบสถานที่ติดตั้ง</p>
+                                        <h4><?php 
                                         $date = $row['order_reserve'];
                                         $timestamp = strtotime($date);
                                         $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
                                         echo $thaiFormattedDate;
                                         ?>
-                                    </h4>
-                                    <p>ราคา</p>
-                                    <h4><?php 
-                                        echo $row['oder_total']?>&nbsp;฿</h4>
-                                    <hr>
-                                    <br>
-                                    <div class="status">
-                                        <h4><?php 
-                                        echo $row['oder_status']?>&nbsp;
-                                            <div class="spinner-border text-primary" role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
                                         </h4>
+                                        <p>ราคา</p>
+                                        <h4><?php 
+                                        echo $row['oder_total']?>&nbsp;฿</h4>
+                                        <hr>
+                                        <br>
+                                        <div class="status">
+                                            <h4><?php 
+                                        echo $row['oder_status']?>&nbsp;
+                                                <div class="spinner-border text-primary" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </h4>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <?php 
+                            <?php 
                             }
                             } else {
                               echo "0 results";
                             } ?>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
-                        <p>
-                            Oat cake chupa chups dragée donut toffee. Sweet cotton candy jelly beans macaroon gummies
-                            cupcake gummi bears cake chocolate.
-                        </p>
-                        <p class="mb-0">
-                            Cake chocolate bar cotton candy apple pie tootsie roll ice cream apple pie brownie cake.
-                            Sweet
-                            roll icing sesame snaps caramels danish toffee. Brownie biscuit dessert dessert. Pudding
-                            jelly
-                            jelly-o tart brownie jelly.
-                        </p>
+                        <div class="row">
+                            <?php
+                    $wait = "SELECT * FROM `order` WHERE cm_id = $numberuser AND oder_status = 'อนุมัติ'";
+                            $querywait = mysqli_query($conn,$wait);
+                            if (mysqli_num_rows($querywait) > 0) {
+                              // output data of each row
+                              while($row = mysqli_fetch_assoc($querywait)) {
+                              ?>
+                            <div class="col-xl-4">
+                                <div class="card">
+                                    <div class="card-title p-4">
+                                        <p>รหัสคำสั่งซื้อ</p>
+                                        <h2>#<?php echo $row['order_id']?></h2>
+                                        <p>วันสั่งซื้อ</p>
+                                        <h4><?php
+                                      $thaiMonths = array(
+                                        1 => 'มกราคม',
+                                        2 => 'กุมภาพันธ์',
+                                        3 => 'มีนาคม',
+                                        4 => 'เมษายน',
+                                        5 => 'พฤษภาคม',
+                                        6 => 'มิถุนายน',
+                                        7 => 'กรกฎาคม',
+                                        8 => 'สิงหาคม',
+                                        9 => 'กันยายน',
+                                        10 => 'ตุลาคม',
+                                        11 => 'พฤศจิกายน',
+                                        12 => 'ธันวาคม'
+                                    ); 
+                                        $date = $row['order_date'];
+                                        $timestamp = strtotime($date);
+                                        $buddhistYear = date("Y", $timestamp) + 543;
+                                        $monthNumber = date("n", $timestamp); // Get the month number (1-12)
+                                        $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
+                                        $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
+                                        echo $thaiFormattedDate;
+                                        ?></h4>
+                                        <p>วันตรวจสอบสถานที่ติดตั้ง</p>
+                                        <h4><?php 
+                                        $date = $row['order_reserve'];
+                                        $timestamp = strtotime($date);
+                                        $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
+                                        echo $thaiFormattedDate;
+                                        ?>
+                                        </h4>
+                                        <p>ราคา</p>
+                                        <h4><?php 
+                                        echo $row['oder_total']?>&nbsp;฿</h4>
+                                        <hr>
+                                        <br>
+                                        <div class="status">
+                                            <h4><?php 
+                                        echo $row['oder_status']?>ชำระเงิน&nbsp;
+                                                <div class="spinner-border text-primary" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php 
+                            }
+                            } else {
+                              echo "0 results";
+                            } ?>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="navs-justified-status" role="tabpanel">
                         <p>
-                            Oat cake chupa chups dragée donut toffee. Sweet cotton candy jelly beans macaroon gummies
+                            Oat cake chupa chups dragée donut toffee. Sweet cotton candy jelly beans macaroon
+                            gummies
                             cupcake gummi bears cake chocolate.
                         </p>
                         <p class="mb-0">
