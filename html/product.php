@@ -490,6 +490,7 @@
                     class="form-control border-0 shadow-none"
                     placeholder="Search..."
                     aria-label="Search..."
+                    id = "searchInput" 
                   />
                 </div>
               </div>
@@ -587,6 +588,7 @@
 
               <?php
               include('connect.php');
+              mysqli_set_charset($conn, "utf8");
               $query = mysqli_query($conn, "SELECT * FROM `product`");
               while ($fetch = mysqli_fetch_array($query)) {
               ?>
@@ -595,9 +597,9 @@
                 <img class="card-img-top" src="<?php echo $fetch['product_img'] ?>" alt="Card image cap"/>
                 <div class="card-body">
                 <h3 class="card-title none">ID : <?php echo $fetch['product_id'] ?></h3>
-                  <h5 class="card-title">ชื่อสินค้า : <?php echo $fetch['product_name'] ?></h5>
-                  <h5 class="card-title">ราคา : <?php echo $fetch['product_price'] ?></h5>
-                  <h5 class="card-title">ขนาด : <?php echo $fetch['product_width'] ?> X   <?php echo $fetch['product_length'] ?> ซม.</h5>
+                  <h5 class="card-title card-src">ชื่อสินค้า : <?php echo $fetch['product_name'] ?></h5>
+                  <h5 class="card-title card-src">ราคา : <?php echo $fetch['product_price'] ?></h5>
+                  <h5 class="card-title card-src">ขนาด : <?php echo $fetch['product_width'] ?> X   <?php echo $fetch['product_length'] ?> ซม.</h5>
                   <h5 class="card-title">สีกระจก :
                     <?php if ($fetch['colorglass'] === "1") {
                       $color = "เขียว";
@@ -632,7 +634,6 @@
                       $type = mysqli_fetch_array($inner);
                           echo $type['cat_name'];
                         ?>
-                      </class=>
                       <div class="col-12 mt-3 mb-auto">
                       <?php echo "<a class='btn btn-outline-primary' href='edit_product.php?id=" . $fetch['product_id'] . "'>แก้ไขข้อมูล</a>"; ?>
                       <?php echo "<a class='btn btn-primary' href='edit_product_img.php?idimg=" . $fetch['product_id'] . "'>แก้ไขรูปภาพ</a>"; ?>
@@ -648,6 +649,31 @@
               alert("คุณต้องการลบหรือไม่");
               }
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const searchInput = document.getElementById('searchInput');
+  const cards = document.querySelectorAll('.card');
+
+  searchInput.addEventListener('input', function (event) {
+    const searchText = event.target.value.trim().toLowerCase();
+
+    // Iterate through each card and check if the product name contains the search text
+    cards.forEach(function (card) {
+      const productName = card.querySelector('.card-src').textContent.trim().toLowerCase();
+
+      // Hide or show the card based on the search text
+      if (productName.includes(searchText)) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+});
+</script>
+
+
+
 
 
 
@@ -692,7 +718,7 @@
     </div>
     <!-- / Layout wrapper -->
     <?php include 'modal_product.php'; ?>
-                    
+          
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="../assets/vendor/libs/jquery/jquery.js"></script>
@@ -715,4 +741,5 @@
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
+  
 </html>
