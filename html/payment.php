@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Perform the database INSERT operation
             include('connect.php');
-            $sql = "INSERT INTO payment (oder_id, pay_img) VALUES ('$id', '$imagePath')";
+            $sql = "INSERT INTO payment (order_id, pay_img, cm_id) VALUES ('$id', '$imagePath', '20')";
             $result = $conn->query($sql);
             $sqli = "UPDATE `order` SET `oder_status` = 'รอการตรวจสอบ' WHERE `order_id` = $id";
             $resulti = $conn->query($sqli);
@@ -33,18 +33,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 "msg" => "ชำระเงินสำเร็จกรุณารอทางร้านตรวจสอบสลิป"
             );
             $successMessage = "ชำระเงินสำเร็จกรุณารอทางร้านตรวจสอบสลิป";
-                header("Location: myorder.php?status=success&msg=" . urlencode($successMessage));
-                exit();
+            header("Location: myorder.php?status=success&msg=" . urlencode($successMessage));
+            exit();
         } else {
             // Return a response indicating an error if there's an issue with moving the uploaded file
             $response = array(
                 "status" => "error",
                 "msg" => "ไฟล์อัปโหลดไม่ถูกต้อง"
             );
-              // Display error message and redirect to order.php
-              $errorMessage = "ไฟล์อัปโหลดไม่ถูกต้อง";
-              header("Location: myorder.php?status=error&msg=" . urlencode($errorMessage));
-              exit();
+            // Display error message and redirect to order.php
+            $errorMessage = "ไฟล์อัปโหลดไม่ถูกต้อง";
+            header("Location: myorder.php?status=error&msg=" . urlencode($errorMessage));
+            exit();
         }
     } else {
         // Return a response indicating an error if the file upload is not successful
@@ -52,10 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "status" => "error",
             "msg" => "กรุณาอัพโหลดรูปสลิปก่อนยืนยันชำระเงิน"
         );
-          // Display error message and redirect to order.php
-          $errorMessage = "เกิดข้อผิดพลาดกรุณาอัพโหลดใหม่อีกครั้ง";
-          header("Location: myorder.php?status=error&msg=" . urlencode($errorMessage));
-          exit();
+        // Display error message and redirect to order.php
+        $errorMessage = "เกิดข้อผิดพลาดกรุณาอัพโหลดใหม่อีกครั้ง";
+        header("Location: myorder.php?status=error&msg=" . urlencode($errorMessage));
+        exit();
     }
 } else {
     // Return a response indicating an error if the form is not submitted via POST method
@@ -63,10 +63,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         "status" => "error",
         "msg" => "เกิดข้อผิดพลาดกรุณาอัพโหลดใหม่อีกครั้ง"
     );
-      // Display error message and redirect to order.php
-      $errorMessage = "เกิดข้อผิดพลาดกรุณาอัพโหลดใหม่อีกครั้ง";
-      header("Location: myorder.php?status=error&msg=" . urlencode($errorMessage));
-      exit();
+    // Display error message and redirect to order.php
+    $errorMessage = "เกิดข้อผิดพลาดกรุณาอัพโหลดใหม่อีกครั้ง";
+    header("Location: myorder.php?status=error&msg=" . urlencode($errorMessage));
+    exit();
 }
 echo json_encode($response);
-?>

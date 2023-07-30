@@ -9,6 +9,9 @@ if (strtotime($selectedDate) <= strtotime($currentDate)) {
   // The switch value is false
   $response = array("status" => "error", "msg" => "จองได้ไม่เกิน 20 วัน");
 } else {
+  include('connect.php');
+  $sqldate = "INSERT INTO `events` (`id`, `start`, `end`, `color`) VALUES ('3', '$selectedDate', '$selectedDate', '#696cff')";
+  $resuldate = mysqli_query($conn, $sqldate);
   $response = array("status" => "success", "msg" => "บันทึกการจองแล้ว");
 }
 

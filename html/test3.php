@@ -50,6 +50,15 @@
                     html: html
                 };
             },
+            eventClick: function(info) {
+                var eventId = info.event.id;
+                Swal.fire({
+                    title: 'รายละเอียด',
+                    text: 'รายละเอียด' + eventId,
+                    icon: 'info',
+                    confirmButtonText: 'ตกลง'
+                });
+            },
             dateClick: function(info) {
                 moment.locale('th');
                 var selectedDate = info.dateStr;
@@ -76,6 +85,8 @@
                                 console.log(response);
                                 if (parsedResponse.status === "success") {
                                     Swal.fire('สำเร็จ', parsedResponse.msg, 'success');
+                                    calendar.refetchEvents();
+
                                 } else if (parsedResponse.status === "error") {
                                     Swal.fire('เกิดข้อผิดพลาด', parsedResponse.msg, 'error');
                                 }

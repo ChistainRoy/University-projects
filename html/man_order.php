@@ -59,7 +59,8 @@
 
     <!-- Helpers -->
     <script src="../assets/vendor/js/helpers.js"></script>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assets/js/config.js"></script>
@@ -602,7 +603,7 @@
                 <h5 class="card-header">ตารางข้อมูลคำสั่งซื้อ</h5>
               
                 <div class="table-responsive text-nowrap">
-                  <table class="table">
+                  <table class="table custom-datatable" id="table1" style="width: 100%;">
                     <thead>
                       <tr>
                         <th><h6>&nbsp;&nbsp;&nbsp;รหัสคำสั่งซื้อ</h6></th>
@@ -637,26 +638,26 @@
                         10 => 'ตุลาคม',
                         11 => 'พฤศจิกายน',
                         12 => 'ธันวาคม'
-                    );
+                      );
                     ?>
                                             <tr>
                                                 <td class="text-center"><i class="fab fa-angular fa-lg text-danger me-3"></i><?php echo $fetch['order_id'] ?></td>
-                                                <td><?php 
+                                                <td><?php
                                                     $date = $fetch['order_date'];
                                                     $timestamp = strtotime($date);
                                                     $buddhistYear = date("Y", $timestamp) + 543;
                                                     $monthNumber = date("n", $timestamp); // Get the month number (1-12)
                                                     $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
                                                     $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
-                                                    echo $thaiFormattedDate;?></td>
-                                                <td class="text-center"><?php 
-                                                 $date = $fetch['order_reserve'];
-                                                 $timestamp = strtotime($date);
-                                                 $buddhistYear = date("Y", $timestamp) + 543;
-                                                 $monthNumber = date("n", $timestamp); // Get the month number (1-12)
-                                                 $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
-                                                 $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
-                                                 echo $thaiFormattedDate;?></td>
+                                                    echo $thaiFormattedDate; ?></td>
+                                                <td class="text-center"><?php
+                                                                        $date = $fetch['order_reserve'];
+                                                                        $timestamp = strtotime($date);
+                                                                        $buddhistYear = date("Y", $timestamp) + 543;
+                                                                        $monthNumber = date("n", $timestamp); // Get the month number (1-12)
+                                                                        $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
+                                                                        $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
+                                                                        echo $thaiFormattedDate; ?></td>
                                                 <td class="text-center"><?php echo $fetch['oder_total'] ?></td>
                                                 <td><?php echo $row['name'] ?></td>
                                                 <td><?php echo $fetch['order_address'] ?></td>
@@ -675,6 +676,85 @@
                     </tbody>
                   </table>
                 </div>
+                
+              </div>
+              <div class="card mt-5">
+              <h5 class="card-header">ตารางข้อมูลคำสั่งซื้อ</h5>
+              
+              <div class="table-responsive text-nowrap">
+                <table class="table custom-datatable" id="table2" style="width: 100%;">
+                  <thead>
+                    <tr>
+                      <th><h6>&nbsp;&nbsp;&nbsp;รหัสคำสั่งซื้อ</h6></th>
+                      <th class ="text-center"><h6>&nbsp;&nbsp;วันที่สั่งซื้อ</h6></th>
+                      <th><h6>วันจองตรวจสอบสถานที่ติดตั้ง</h6></th>
+                      <th><h6>ราคาทั้งหมด</h6></th>
+                      <th><h6>&nbsp;&nbsp;&nbsp;ชื่อผู้สั่ง</h6></th>
+                      <th><h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ที่อยู่</h6></th>
+                      <th><h6>สถานะ</h6></th>
+                      <th><h6>ตรวจสอบการชำระเงิน</h6></th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-border-bottom-0">
+                  <?php
+                  include('connect.php');
+                  $query = mysqli_query($conn, "SELECT * FROM `order`");
+
+                  while ($fetch = mysqli_fetch_array($query)) {
+                    $user = $fetch['cm_id'];
+                    $sql = mysqli_query($conn, "SELECT * FROM cumtomer WHERE cm_id = $user");
+                    $row = mysqli_fetch_array($sql);
+                    $thaiMonths = array(
+                      1 => 'มกราคม',
+                      2 => 'กุมภาพันธ์',
+                      3 => 'มีนาคม',
+                      4 => 'เมษายน',
+                      5 => 'พฤษภาคม',
+                      6 => 'มิถุนายน',
+                      7 => 'กรกฎาคม',
+                      8 => 'สิงหาคม',
+                      9 => 'กันยายน',
+                      10 => 'ตุลาคม',
+                      11 => 'พฤศจิกายน',
+                      12 => 'ธันวาคม'
+                    );
+                  ?>
+                                          <tr>
+                                              <td class="text-center"><i class="fab fa-angular fa-lg text-danger me-3"></i><?php echo $fetch['order_id'] ?></td>
+                                              <td><?php
+                                                  $date = $fetch['order_date'];
+                                                  $timestamp = strtotime($date);
+                                                  $buddhistYear = date("Y", $timestamp) + 543;
+                                                  $monthNumber = date("n", $timestamp); // Get the month number (1-12)
+                                                  $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
+                                                  $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
+                                                  echo $thaiFormattedDate; ?></td>
+                                              <td class="text-center"><?php
+                                                                      $date = $fetch['order_reserve'];
+                                                                      $timestamp = strtotime($date);
+                                                                      $buddhistYear = date("Y", $timestamp) + 543;
+                                                                      $monthNumber = date("n", $timestamp); // Get the month number (1-12)
+                                                                      $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
+                                                                      $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
+                                                                      echo $thaiFormattedDate; ?></td>
+                                              <td class="text-center"><?php echo $fetch['oder_total'] ?></td>
+                                              <td><?php echo $row['name'] ?></td>
+                                              <td><?php echo $fetch['order_address'] ?></td>
+                                              <td><?php echo $fetch['oder_status'] ?></td>
+                                              <td class="text-center"><button type="button" 
+                                                      class="btn rounded-pill btn-icon btn-primary"
+                                                      data-bs-toggle="modal"
+                                                      data-bs-target="#normalModal<?php echo $fetch['order_id'] ?>">
+                                                      <span class="bx bx-search-alt-2"></span>
+                                              </button></td>
+                                          </tr>
+                                      <?php
+                                      include 'modal_order.php';
+                                    }
+                                      ?>
+                  </tbody>
+                </table>
+              </div>
               </div>
             <!-- / Content -->
               
@@ -703,10 +783,64 @@
       
     </script>
     <!-- / Layout wrapper -->
-    <?php include 'modal_product.php'; ?>
                     
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        // DataTable สำหรับตารางที่ 1
+        $('#table1').DataTable({
+          language: {
+                    "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/Thai.json",
+                    "oPaginate": {
+                        "sFirst": "หน้าแรก",
+                        "sLast": "หน้าสุดท้าย",
+                        "sNext": "ถัดไป",
+                        "sPrevious": "ก่อนหน้า"
+                    },
+                    "sEmptyTable": "ไม่มีข้อมูลในตาราง",
+                    "sInfo": "แสดง _START_ ถึง _END_ จากทั้งหมด _TOTAL_ รายการ",
+                    "sInfoEmpty": "แสดง 0 ถึง 0 จากทั้งหมด 0 รายการ",
+                    "sInfoFiltered": "(กรองจากทั้งหมด _MAX_ รายการ)",
+                    "sLengthMenu": "แสดง _MENU_ รายการ",
+                    "sSearch": "ค้นหา:",
+                    "sZeroRecords": "ไม่พบข้อมูลที่ค้นหา"
+                },
+                searching: true, paging: true, info: true
+        });
+        // DataTable สำหรับตารางที่ 2
+        $('#table2').DataTable({
+          language: {
+                    "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/Thai.json",
+                    "oPaginate": {
+                        "sFirst": "หน้าแรก",
+                        "sLast": "หน้าสุดท้าย",
+                        "sNext": "ถัดไป",
+                        "sPrevious": "ก่อนหน้า"
+                    },
+                    "sEmptyTable": "ไม่มีข้อมูลในตาราง",
+                    "sInfo": "แสดง _START_ ถึง _END_ จากทั้งหมด _TOTAL_ รายการ",
+                    "sInfoEmpty": "แสดง 0 ถึง 0 จากทั้งหมด 0 รายการ",
+                    "sInfoFiltered": "(กรองจากทั้งหมด _MAX_ รายการ)",
+                    "sLengthMenu": "แสดง _MENU_ รายการ",
+                    "sSearch": "ค้นหา:",
+                    "sZeroRecords": "ไม่พบข้อมูลที่ค้นหา"
+                },
+                searching: true, paging: true, info: true
+        });
+    });
+</script>
+    <script>
+        $(document).ready(function() {
+            var table = $('#customerTable').DataTable();
+            $('#searchInput').on('keyup', function() {
+                table.search(this.value).draw();
+            });
+        });
+    </script>
     <script src="../assets/vendor/js/bootstrap.js"></script>
     <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
