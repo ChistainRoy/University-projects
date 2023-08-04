@@ -3,8 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>Order - Detail | Buddy Aluminum</title>
 
@@ -16,9 +15,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
 
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
@@ -44,81 +41,81 @@
     <script src="../assets/js/config.js"></script>
 </head>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@200&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@200&display=swap');
 
-.navbar {
-    background-color: #ffffff;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-}
+    .navbar {
+        background-color: #ffffff;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    }
 
-a.navbar-brand {
-    color: white;
-}
+    a.navbar-brand {
+        color: white;
+    }
 
-span {
-    font-family: 'Sarabun', sans-serif;
-}
+    span {
+        font-family: 'Sarabun', sans-serif;
+    }
 
-span.uppercase {
+    span.uppercase {
 
-    text-transform: uppercase;
-}
+        text-transform: uppercase;
+    }
 
-<<<<<<< HEAD h5 {
-    font-family: 'Sarabun', sans-serif;
-}
+    h5 {
+        font-family: 'Sarabun', sans-serif;
+    }
 
-h3 {
-    color: #ffff;
-}
+    h3 {
+        color: #ffff;
+    }
 
-h2 {
-    color: #696cff;
-}
+    h2 {
+        color: #696cff;
+    }
 
-body {
-    background: -webkit-linear-gradient(left, #e0e0e0, #696cff);
-}
+    body {
+        background: -webkit-linear-gradient(left, #e0e0e0, #696cff);
+    }
 
-.card-header {
-    background: #696cff;
-}
+    .card-header {
+        background: #696cff;
+    }
 
-.img {
-    margin: auto auto;
-}
+    .img {
+        margin: auto auto;
+    }
 
-.preview {
-    margin: auto auto;
-}
+    .preview {
+        margin: auto auto;
+    }
 
-h5 {
-    font-family: 'Sarabun', sans-serif;
-}
+    h5 {
+        font-family: 'Sarabun', sans-serif;
+    }
 
-h3 {
-    color: #ffff;
-}
+    h3 {
+        color: #ffff;
+    }
 
-h2 {
-    color: #696cff;
-}
+    h2 {
+        color: #696cff;
+    }
 
-body {
-    background: -webkit-linear-gradient(left, #e0e0e0, #696cff);
-}
+    body {
+        background: -webkit-linear-gradient(left, #e0e0e0, #696cff);
+    }
 
-.card-header {
-    background: #696cff;
-}
+    .card-header {
+        background: #696cff;
+    }
 
-.img {
-    margin: auto auto;
-}
+    .img {
+        margin: auto auto;
+    }
 
-.preview {
-    margin: auto auto;
-}
+    .preview {
+        margin: auto auto;
+    }
 </style>
 
 <body>
@@ -134,37 +131,36 @@ body {
                     <hr>
                     <div class="modal-body">
                         <?php
-                                session_start();
-                 include('connect.php');
-                if(isset($_GET['ids'])){
-                        $id = $_GET['ids'];
-                        $sql = "SELECT * FROM `order` INNER JOIN oderdetail ON `order`.`order_id` = oderdetail.oder_id
+                        session_start();
+                        include('connect.php');
+                        if (isset($_GET['ids'])) {
+                            $id = $_GET['ids'];
+                            $sql = "SELECT * FROM `order` INNER JOIN oderdetail ON `order`.`order_id` = oderdetail.oder_id
                         INNER JOIN product ON oderdetail.product_id = product.product_id WHERE `order_id` = $id";
-                        $result = mysqli_query($conn, $sql);
-                        while($row = mysqli_fetch_assoc($result)) { ?>
-                        <div class="card-body">
-                            <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                <img src="<?php echo $row['product_img'] ?>" alt="user-avatar" class="d-block rounded"
-                                    height="150" width="120" />
-                                <p><?php echo $row['product_name'] ?><br>ขนาด
-                                    <?php echo $row['product_width'] ?> X
-                                    <?php echo $row['product_length'] ?></p>
-                                <h5 class="mx-5">ราคา</h5>
-                                <h5><?php echo $row['product_price'] ?></h5>
-                                <h5>X</h5>
-                                <h5><?php echo $row['oder_qty'] ?></h5>
-                                <?php $address = $row['order_address'] ?>
-                                <?php $total = $row['oder_total'] ?>
-                                <?php $price = $total * 20 / 100 
+                            $result = mysqli_query($conn, $sql);
+                            while ($row = mysqli_fetch_assoc($result)) { ?>
+                                <div class="card-body">
+                                    <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                        <img src="<?php echo $row['product_img'] ?>" alt="user-avatar" class="d-block rounded" height="150" width="120" />
+                                        <p><?php echo $row['product_name'] ?><br>ขนาด
+                                            <?php echo $row['product_width'] ?> X
+                                            <?php echo $row['product_length'] ?></p>
+                                        <h5 class="mx-5">ราคา</h5>
+                                        <h5><?php echo $row['product_price'] ?></h5>
+                                        <h5>X</h5>
+                                        <h5><?php echo $row['oder_qty'] ?></h5>
+                                        <?php $address = $row['order_address'] ?>
+                                        <?php $total = $row['oder_total'] ?>
+                                        <?php $price = $total * 20 / 100
                                         ?>
-                            </div>
-                        </div>
-                        <hr>
-                        <?php   } 
-            ?>
+                                    </div>
+                                </div>
+                                <hr>
+                            <?php   }
+                            ?>
                         <?php
-            }
-            ?>
+                        }
+                        ?>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
@@ -183,7 +179,7 @@ body {
                         <h3 class="card-header text-center mb-3">ชำระเงิน</h3>
                         <img src="upload/scan.png" alt class="img d-block rounded p-2" height="200" width="200" />
                         <div class="card-body p-3">
-                            <h2 class="text-center">฿ <?php echo $price?></h2>
+                            <h2 class="text-center">฿ <?php echo $price ?></h2>
                             <p class="text-center">ร้าน บัดดี้อลูมิเนียม-กระจก</p>
                             <p class="text-center">Buddy Aluminum-glass</p>
                             <label for="formFile" class="form-label">กดปุ่มอัปโหลดสลิป</label>
@@ -191,10 +187,8 @@ body {
                                 <form action="payment.php" method="post" enctype="multipart/form-data" id="frompayment">
                                     <div class="input-group">
                                         <input class="form-control" type="file" id="formFile" name="pic" />
-                                        <input type="hidden" id="hiddenInput" value="<?php echo $id ?>"
-                                            name="hiddenInput" />
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#modalCenter" id="submit">
+                                        <input type="hidden" id="hiddenInput" value="<?php echo $id ?>" name="hiddenInput" />
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCenter" id="submit">
                                             <i class="bi bi-eye-fill"></i>
                                         </button>
                                     </div>
@@ -211,8 +205,7 @@ body {
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="modalCenterTitle">รูปที่อัพโหลด</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <hr>
                             <div class="modal-body">
@@ -236,8 +229,7 @@ body {
                             <h5 class="mx-2"><?php echo $total ?></h5>
                             <p>ราคามัดจำที่ต้องจ่าย (20%)</p>
                             <h5 class="mx-2"><?php echo $price ?></h5>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#modalScrollable">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalScrollable">
                                 รายละเอียดคำสั่งซื้อ
                             </button>
                         </div>
@@ -246,63 +238,63 @@ body {
             </div>
     </section>
     <script>
-    const input = document.getElementById('formFile');
-    const preview = document.getElementById('preview');
-    const defaultImageSrc = 'upload/ขอภัย.png';
+        const input = document.getElementById('formFile');
+        const preview = document.getElementById('preview');
+        const defaultImageSrc = 'upload/ขอภัย.png';
 
-    // Set the default image
-    preview.src = defaultImageSrc;
+        // Set the default image
+        preview.src = defaultImageSrc;
 
-    input.addEventListener('change', () => {
-        const file = input.files[0];
-        const reader = new FileReader();
+        input.addEventListener('change', () => {
+            const file = input.files[0];
+            const reader = new FileReader();
 
-        reader.addEventListener('load', () => {
+            reader.addEventListener('load', () => {
+                if (file) {
+                    // If the input has a file selected, display the image preview
+                    preview.src = reader.result;
+                } else {
+                    // If no file is selected, display the default image
+                    preview.src = defaultImageSrc;
+                }
+            });
+
             if (file) {
-                // If the input has a file selected, display the image preview
-                preview.src = reader.result;
-            } else {
-                // If no file is selected, display the default image
-                preview.src = defaultImageSrc;
+                reader.readAsDataURL(file);
             }
         });
-
-        if (file) {
-            reader.readAsDataURL(file);
-        }
-    });
     </script>
     <!-- Core JS -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-    $(document).ready(function() {
-        $("#submitfrom").click(function() {
-            var form = $("#frompayment")[0];
-            var formData = new FormData(form);
+        $(document).ready(function() {
+            $("#submitfrom").click(function() {
+                var form = $("#frompayment")[0];
+                var formData = new FormData(form);
 
-            formData.append('hiddenInput', $("#hiddenInput").val());
+                formData.append('hiddenInput', $("#hiddenInput").val());
 
-            $.ajax({
-                url: "payment.php",
-                type: "POST",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(data) {
-                    let result = JSON.parse(data);
-                    if (result.status == "success") {
-                        console.log("Success", result);
-                    } else {
-                        console.log("Error", result);
+                $.ajax({
+                    url: "payment.php",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(data) {
+                        let result = JSON.parse(data);
+                        if (result.status == "success") {
+                            console.log("Success", result);
+                        } else {
+                            console.log("Error", result);
+                        }
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.error("AJAX Error:", textStatus, errorThrown);
                     }
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    console.error("AJAX Error:", textStatus, errorThrown);
-                }
+                });
             });
         });
-    });
     </script>
     <script src="../assets/vendor/libs/popper/popper.js"></script>
     <script src="../assets/vendor/js/bootstrap.js"></script>

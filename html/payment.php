@@ -11,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Database insertion code here
         // Connect to your database and perform the necessary INSERT operation
+        include('connect.php');
 
         // Example: Insert the image file and associated ID into a 'payment' table
         $targetDir = "upload/payment/";
@@ -21,51 +22,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $imagePath = $targetFile;
 
             // Perform the database INSERT operation
-            include('connect.php');
-            $sql = "INSERT INTO payment (order_id, pay_img, cm_id) VALUES ('$id', '$imagePath', '20')";
-            $result = $conn->query($sql);
-            $sqli = "UPDATE `order` SET `oder_status` = 'รอการตรวจสอบ' WHERE `order_id` = $id";
-            $resulti = $conn->query($sqli);
+            $sql = "UPDATE `order` SET `payment` = '$imagePath' WHERE order_id = $id";
+            $result = mysqli_query($conn, $sql);
 
-            // Return a response indicating success
-            $response = array(
-                "status" => "success",
-                "msg" => "ชำระเงินสำเร็จกรุณารอทางร้านตรวจสอบสลิป"
-            );
-            $successMessage = "ชำระเงินสำเร็จกรุณารอทางร้านตรวจสอบสลิป";
-            header("Location: myorder.php?status=success&msg=" . urlencode($successMessage));
-            exit();
+            // Check if the INSERT operation is successful
+            if ($result) {
+                // Update the status in the 'order' table
+                $sqli = "UPDATE `order` SET `oder_status` = 'รอการตรวจสอบ' WHERE `order_id` = $id";
+                $resultli = mysqli_query($conn, $sqli);
+
+                // Check if the UPDATE operation is successful
+                if ($resultli) {
+                    // Return a response indicating success and redirect
+                    $successMessage = "ชำระเงินสำเร็จ กรุณารอทางร้านตรวจสอบสลิป";
+                    header("Location: myorder.php?status=success&msg=" . urlencode($successMessage));
+                    exit();
+                } else {
+                    // Return a response indicating an error if the UPDATE operation fails
+                    $errorMessage = "เกิดข้อผิดพลาดในการอัปเดตสถานะในตาราง order";
+                    header("Location: myorder.php?status=error&msg=" . urlencode($errorMessage));
+                    exit();
+                }
+            } else {
+                // Return a response indicating an error if the INSERT operation fails
+                $errorMessage = "เกิดข้อผิดพลาดในการเพิ่มข้อมูลลงในตาราง payment";
+                header("Location: myorder.php?status=error&msg=" . urlencode($errorMessage));
+                exit();
+            }
         } else {
             // Return a response indicating an error if there's an issue with moving the uploaded file
-            $response = array(
-                "status" => "error",
-                "msg" => "ไฟล์อัปโหลดไม่ถูกต้อง"
-            );
-            // Display error message and redirect to order.php
             $errorMessage = "ไฟล์อัปโหลดไม่ถูกต้อง";
             header("Location: myorder.php?status=error&msg=" . urlencode($errorMessage));
             exit();
         }
     } else {
         // Return a response indicating an error if the file upload is not successful
-        $response = array(
-            "status" => "error",
-            "msg" => "กรุณาอัพโหลดรูปสลิปก่อนยืนยันชำระเงิน"
-        );
-        // Display error message and redirect to order.php
-        $errorMessage = "เกิดข้อผิดพลาดกรุณาอัพโหลดใหม่อีกครั้ง";
+        $errorMessage = "กรุณาอัพโหลดรูปสลิปก่อนยืนยันชำระเงิน";
         header("Location: myorder.php?status=error&msg=" . urlencode($errorMessage));
         exit();
     }
 } else {
     // Return a response indicating an error if the form is not submitted via POST method
-    $response = array(
-        "status" => "error",
-        "msg" => "เกิดข้อผิดพลาดกรุณาอัพโหลดใหม่อีกครั้ง"
-    );
-    // Display error message and redirect to order.php
     $errorMessage = "เกิดข้อผิดพลาดกรุณาอัพโหลดใหม่อีกครั้ง";
     header("Location: myorder.php?status=error&msg=" . urlencode($errorMessage));
     exit();
 }
-echo json_encode($response);
