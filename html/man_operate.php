@@ -628,7 +628,7 @@ mark.orang {
               <div class="card">
               <div class="add demo-inline-spacing">
               <div class="row mb-5">
-                <div class="col-md-6 col-lg-5 mb-3">
+                <div class="col-md-6 col-lg-7 mb-3">
                   <div class="card">
                     <div class="card-body">
                       <h5 class="card-title">ค้นหาสถานะชำระเงิน</h5>

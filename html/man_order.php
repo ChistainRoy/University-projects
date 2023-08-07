@@ -628,7 +628,7 @@ mark.orang {
               <div class="card">
               <div class="add demo-inline-spacing">
               <div class="row mb-5">
-                <div class="col-md-6 col-lg-5 mb-3">
+                <div class="col-md-6 col-lg-7 mb-3">
                   <div class="card">
                     <div class="card-body">
                       <h5 class="card-title">ค้นหาสถานะชำระเงิน</h5>
@@ -636,9 +636,9 @@ mark.orang {
                         กดปุ่มเพื่อค้นหาสถานะที่ต้องการ
                       </p>
                       <button type="button"class="btn btn-primary" onclick=setSearchValueall()>ทั้งหมด</button>
-                      <button type="button"class="btn btn-primary mx-3" onclick=setSearchValue()>รอชำระเงิน</button>
-                      <button type="button"class="btn btn-primary mx-3" onclick=setSearchValuepayment()>รอการตรวจสอบ</button>
-                      <button type="button"class="btn btn-primary mx-3" onclick=setSearchValuepass()>อนุมัติ</button>
+                      <button type="button"class="btn btn-primary mx-2" onclick=setSearchValue()>รอชำระเงิน</button>
+                      <button type="button"class="btn btn-primary mx-2" onclick=setSearchValuepayment()>รอการตรวจสอบ</button>
+                      <button type="button"class="btn btn-primary mx-2" onclick=setSearchValuepass()>อนุมัติ</button>
                     </div>
                   </div>
                 </div>   
