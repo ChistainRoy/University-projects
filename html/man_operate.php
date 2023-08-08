@@ -645,7 +645,7 @@ mark.orang {
               </div>  
               </div>
               
-                <h5 class="card-header">ตารางข้อมูลดำเนินงาน(คำสั่งซื้อที่อนุมัติแล้ว)</h5>
+                <h5 class="card-header">ตารางข้อมูลดำเนินงาน (คำสั่งซื้อที่อนุมัติแล้ว)</h5>
               
                 <div class="table-responsive text-nowrap">
                   <table class="table custom-datatable" id="table1" style="width: 100%;">
@@ -654,6 +654,7 @@ mark.orang {
                         <th><h6>รหัสคำสั่งซื้อ</h6></th>
                         <th><h6>วันดำเนินงาน</h6></th>
                         <th><h6>สถานะดำเนินงาน</h6></th>
+                        <th><h6>รายละเอียดคำสั่งซื้อ</h6></th>
                         <th><h6>รายละเอียดงาน</h6></th>
                         <th><h6>จัดการผลการดำเนินงาน</h6></th>
                       </tr>
@@ -661,7 +662,17 @@ mark.orang {
                     <tbody class="table-border-bottom-0">
                     <?php
                     include('connect.php');
-                    $query = mysqli_query($conn, "SELECT * FROM `order` WHERE `oder_status` = 'อนุมัติ'");
+                    $query = mysqli_query($conn, "SELECT `order`.order_id, `order`.order_address, cumtomer.tel, cumtomer.name, performance.`date_ operate`, performance.status_performance
+                    FROM `order`
+                    INNER JOIN cumtomer ON `order`.`cm_id` = cumtomer.cm_id
+                    INNER JOIN performance ON `order`.`order_id` = performance.order_id
+                    WHERE `order`.oder_status = 'อนุมัติ'
+                    AND performance.`date_ operate` = (
+                        SELECT MAX(`date_ operate`)
+                        FROM performance
+                        WHERE performance.order_id = `order`.order_id
+                    )
+                    ");
                     while ($fetch = mysqli_fetch_array($query)) {
                       $thaiMonths = array(
                         1 => 'มกราคม',
