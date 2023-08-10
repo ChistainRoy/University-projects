@@ -1,5 +1,15 @@
 <!DOCTYPE html>
-
+<?php
+session_start();
+if (!isset($_SESSION['username_admin'])) {
+  header("location: login.php");
+}
+if (isset($_GET['logout'])) {
+  session_destroy();
+  unset($_SESSION['username_admin']);
+  header("location: login.php");
+}
+?>
 <!-- =========================================================
 * Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
 ==============================================================
@@ -63,6 +73,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
     <script src="../assets/js/config.js"></script>
   </head>
 <style>
@@ -137,19 +148,40 @@ mark.orang {
   .dataTables_info {
     margin-left: 3.5%;
 }
+.timeline-with-icons {
+  border-left: 1px solid hsl(0, 0%, 90%);
+  position: relative;
+  list-style: none;
+}
+
+.timeline-with-icons .timeline-item {
+  position: relative;
+}
+
+.timeline-with-icons .timeline-item:after {
+  position: absolute;
+  display: block;
+  top: 0;
+}
+
+.timeline-with-icons .timeline-icon {
+  position: absolute;
+  left: -48px;
+  background-color: #696cff;
+  color: white;
+  border-radius: 50%;
+  height: 31px;
+  width: 31px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.text-box{
+  max-width: 700px;
+  white-space: initial;
+}
 </style>
   <body>
-  <?php
-  session_start();
-  if (!isset($_SESSION['username_admin'])) {
-    header("location: login.php");
-  }
-  if (isset($_GET['logout'])) {
-    session_destroy();
-    unset($_SESSION['username_admin']);
-    header("location: login.php");
-  }
-  ?>
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
@@ -652,6 +684,9 @@ mark.orang {
                     <thead>
                       <tr class="text-center">
                         <th><h6>รหัสคำสั่งซื้อ</h6></th>
+                        <th><h6>ชื่อผู้สั่งซื้อ</h6></th>
+                        <th><h6>เบอร์โทรศัพท์</h6></th>
+                        <th><h6>ที่อยู่สำหรับติดตั้ง</h6></th>
                         <th><h6>วันดำเนินงาน</h6></th>
                         <th><h6>สถานะดำเนินงาน</h6></th>
                         <th><h6>รายละเอียดคำสั่งซื้อ</h6></th>
@@ -691,6 +726,9 @@ mark.orang {
                     ?>
                                             <tr class="text-center">
                                                 <td><?php echo $fetch['order_id'] ?></td>
+                                                <td><?php echo $fetch['name'] ?></td>
+                                                <td><?php echo $fetch['tel'] ?></td>
+                                                <td><?php echo $fetch['order_address'] ?></td>
                                                 <td>
                                                 <?php
                                                 $date = $fetch['date_ operate'];
@@ -702,17 +740,21 @@ mark.orang {
                                                 echo $thaiFormattedDate; ?></td>
                                                   <?php $status = $fetch['status_performance']; ?>
                                                 <td><mark class="<?php echo $status === 'รอตรวจสอบสถานที่ติดตั้ง' ? 'yellow' : ($status === 'รอดำเนิการติดตั้ง' ? 'green' : ($status === 'รอดำเนินการแก้ไข' ? 'orang' : '')); ?>"><?php echo $status ?></mark></td>
-                                                <td><button type="button" 
+                                                <td><button
+                                                    type="button"
+                                                    class="btn rounded-pill btn-icon btn-primary"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#exLargeModal<?php echo $fetch['order_id'] ?>"
+                                                                                  >
+                                                                                  <span class="bx bxs-package"></span>
+                                                                                  </button></td>
+                                              <td><button type="button" 
                                                       class="btn rounded-pill btn-icon btn-primary"
                                                       data-bs-toggle="modal"
-                                                      data-bs-target="#detail<?php echo $fetch['order_id'] ?>">
+                                                      data-bs-target="#timeline<?php echo $fetch['order_id'] ?>">
                                                       <span class="bx bx-search-alt-2"></span>
                                               </button></td>
-                                                <td class="text-center"><a 
-                                                href="test3.php"
-                                                class="btn rounded-pill btn-icon btn-primary">
-                                                <i class='bx bxs-calendar-edit' style='color:#ffffff' ></i>
-                    </a></td>
+                                                <td class="text-center"><?php echo "<a class='btn rounded-pill btn-icon btn-primary bx bx-calendar-edit' href='test_calendar.php?id=" . $fetch['order_id'] . "'></a>"; ?></td>
                                             </tr>
                                         <?php
                                         include('modal_perform.php');

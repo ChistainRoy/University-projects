@@ -43,7 +43,7 @@
                     `<div class="p-2">
                     <div class="d-flex">
                         <i class="fa-solid fa-user pe-2"></i>
-                        <div style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">ถูกจองแล้ว </div>
+                        <div style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">จองแล้ว </div>
                     </div>
                 </div>`;
                 return {
@@ -52,11 +52,33 @@
             },
             eventClick: function(info) {
                 var eventId = info.event.id;
-                Swal.fire({
-                    title: 'รายละเอียด',
-                    text: 'รายละเอียด' + eventId,
-                    icon: 'info',
-                    confirmButtonText: 'ตกลง'
+                $.ajax({
+                    url: 'fetch_event_details.php', // แก้ไขเป็น URL ที่จะดึงข้อมูล
+                    type: 'POST',
+                    data: {
+                        eventId: eventId
+                    },
+                    success: function(data) {
+                        // Data received from the server
+                        var eventDetails = JSON.parse(data); // ข้อมูลรายละเอียดจากการค้นหา SQL
+                        // Show the event details in Swal.fire
+                        Swal.fire({
+                            title: 'รายละเอียด',
+                            html: 'รายละเอียด: ' + eventDetails.eventName + '<br>' +
+                                'ข้อมูลอื่น ๆ: ' + eventDetails.orderTotal,
+                            icon: 'info',
+                            confirmButtonText: 'ตกลง'
+                        });
+                    },
+                    error: function() {
+                        // Handle error
+                        Swal.fire({
+                            title: 'เกิดข้อผิดพลาด',
+                            text: 'ไม่สามารถดึงรายละเอียดได้',
+                            icon: 'error',
+                            confirmButtonText: 'ตกลง'
+                        });
+                    }
                 });
             },
             dateClick: function(info) {
@@ -70,6 +92,7 @@
                     icon: 'info',
                     confirmButtonText: 'OK',
                     allowOutsideClick: false,
+                    showCancelButton: true,
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Send the selected date to the server using AJAX
