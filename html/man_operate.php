@@ -180,6 +180,14 @@ mark.orang {
   max-width: 700px;
   white-space: initial;
 }
+.card-status{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bx-brightness-half{
+  font: 4em sans-serif;
+}
 </style>
   <body>
     <!-- Layout wrapper -->
@@ -650,7 +658,20 @@ mark.orang {
           </nav>
 
           <!-- / Navbar -->
-
+<?php
+include('connect.php');
+$query = mysqli_query($conn, "SELECT `order`.order_id, `order`.order_address, cumtomer.tel, cumtomer.name, performance.`date_ operate`, performance.status_performance
+ FROM `order`
+ INNER JOIN cumtomer ON `order`.`cm_id` = cumtomer.cm_id
+ INNER JOIN performance ON `order`.`order_id` = performance.order_id
+ WHERE `order`.oder_status = 'อนุมัติ'
+ AND performance.`date_ operate` = (
+     SELECT MAX(`date_ operate`)
+     FROM performance
+     WHERE performance.order_id = `order`.order_id
+ )
+ ");
+?>
           <!-- Content wrapper -->
           <div class="content-wrapper">
             <!-- Content -->
@@ -660,17 +681,50 @@ mark.orang {
               <div class="card">
               <div class="add demo-inline-spacing">
               <div class="row mb-5">
+              <div class="col-md-6 col-lg-5 mb-3">
+                  <div class="card">
+                    <div class="card-body">
+                    <div class="row mb-5">
+                     <div class="col-xl-2">
+                     <i class='bx bx-brightness-half' style='color:#696cff'></i>
+                      </div>
+                      <div class="col-xl-10">
+                      <h5 class="card-title">งานวันนี้</h5>
+                      <p class="card-text">
+                        วันที่ 24 ธันวาคม 2544
+                      </p>
+                       </div>
+                </div>
+                <hr>
+                <button
+                  type="button"
+                  class="btn rounded-pill btn-icon btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exLargeModal<?php echo $fetch['order_id'] ?>">
+                  <span class="bx bxs-package"></span>
+                  </button>
+                  <button type="button" 
+                  class="btn rounded-pill btn-icon btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#timeline<?php echo $fetch['order_id'] ?>">
+                  <span class="bx bx-search-alt-2"></span>
+                </button>
+                                              <?php echo "<a class='btn rounded-pill btn-icon btn-primary bx bx-calendar-edit' href='test_calendar.php?id=" . $fetch['order_id'] . "'></a>"; ?>
+                                         
+                    </div>
+                  </div>
+                </div>   
                 <div class="col-md-6 col-lg-7 mb-3">
                   <div class="card">
                     <div class="card-body">
-                      <h5 class="card-title">ค้นหาสถานะชำระเงิน</h5>
+                      <h5 class="card-title">ค้นหาสถานะการดำเนินงาน</h5>
                       <p class="card-text">
                         กดปุ่มเพื่อค้นหาสถานะที่ต้องการ
                       </p>
                       <button type="button"class="btn btn-primary" onclick=setSearchValueall()>ทั้งหมด</button>
-                      <button type="button"class="btn btn-primary mx-3" onclick=setSearchValue()>รอชำระเงิน</button>
-                      <button type="button"class="btn btn-primary mx-3" onclick=setSearchValuepayment()>รอการตรวจสอบ</button>
-                      <button type="button"class="btn btn-primary mx-3" onclick=setSearchValuepass()>อนุมัติ</button>
+                      <button type="button"class="btn btn-primary mx-3" onclick=setSearchValue()>รอตรวจสอบสถานที่ติดตั้ง</button>
+                      <button type="button"class="btn btn-primary mx-3" onclick=setSearchValuepayment()>รอดำเนินการแก้ไข</button>
+                      <button type="button"class="btn btn-primary mx-3" onclick=setSearchValuepass()>รอดำเนินการติดตั้งสินค้า</button>
                     </div>
                   </div>
                 </div>   
@@ -696,18 +750,6 @@ mark.orang {
                     </thead>
                     <tbody class="table-border-bottom-0">
                     <?php
-                    include('connect.php');
-                    $query = mysqli_query($conn, "SELECT `order`.order_id, `order`.order_address, cumtomer.tel, cumtomer.name, performance.`date_ operate`, performance.status_performance
-                    FROM `order`
-                    INNER JOIN cumtomer ON `order`.`cm_id` = cumtomer.cm_id
-                    INNER JOIN performance ON `order`.`order_id` = performance.order_id
-                    WHERE `order`.oder_status = 'อนุมัติ'
-                    AND performance.`date_ operate` = (
-                        SELECT MAX(`date_ operate`)
-                        FROM performance
-                        WHERE performance.order_id = `order`.order_id
-                    )
-                    ");
                     while ($fetch = mysqli_fetch_array($query)) {
                       $thaiMonths = array(
                         1 => 'มกราคม',

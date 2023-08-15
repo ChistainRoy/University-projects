@@ -6,7 +6,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $date = $_POST['date'];
         $detail = $_POST['detail'];
         $flexRadioDefault = $_POST['flexRadioDefault'];
-
+        $currentDate = date('Y-m-d');
+        if (strtotime($date) <= strtotime($currentDate)) {
+            echo json_encode(array("status" => "error", "msg" => "ไม่สามารจองวันที่ผ่านมาแล้วหรือวันปัจจุบันได้"));
+            exit;
+        }
         // ตรวจสอบว่ามีการอัปโหลดไฟล์รูปภาพ
         if (isset($_FILES['imageFile']) && $_FILES['imageFile']['error'] === UPLOAD_ERR_OK) {
             $file = $_FILES['imageFile'];

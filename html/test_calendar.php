@@ -186,7 +186,15 @@
                             }
                         });
                     } else if (parsedResponse.status === "error") {
-                        Swal.fire('เกิดข้อผิดพลาด', parsedResponse.msg, 'error');
+                        Swal.fire({
+                            title: 'เกิดข้อผิดพลาด',
+                            text: parsedResponse.msg,
+                            icon: 'error',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = 'man_operate.php';
+                            }
+                        });
                     }
                 },
                 error: function(xhr, status, error) {
