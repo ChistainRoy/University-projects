@@ -28,83 +28,55 @@
     <!-- Locale ของภาษาไทย -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/th.js"></script>
 </head>
-<style>
-.star-rating {
-    font-size: 30px;
-}
-
-.star {
-    cursor: pointer;
-    color: lightgray;
-}
-
-.star.active {
-    color: gold;
-}
-</style>
 
 <body>
-    <div class="star-rating">
-        <span class="star" data-rating="1">&#9733;</span>
-        <span class="star" data-rating="2">&#9733;</span>
-        <span class="star" data-rating="3">&#9733;</span>
-        <span class="star" data-rating="4">&#9733;</span>
-        <div id="rating-description">Please rate this item.</div>
-    </div>
+    <div class="row">
+        <?php
+  // Assuming $data is an array of data for each card
+  foreach ($data as $item) {
+  ?>
+        <div class="col-md-4">
+            <div class="card">
+                <!-- Card content here -->
+                <div class="card-footer text-center">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#modal_<?php echo $item['id']; ?>">
+                        Open Modal
+                    </button>
+                </div>
+            </div>
+        </div>
 
+        <!-- Modal -->
+        <div class="modal fade" id="modal_<?php echo $item['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Modal content here -->
+                        <p><?php echo $item['description']; ?></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+  }
+  ?>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
     </script>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-    $(".star").click(function() {
-        $(this).addClass("active");
-        $(this).prevAll().addClass("active");
-        $(this).nextAll().removeClass("active");
-
-        var rating = $(this).data("rating");
-        var description = getRatingDescription(rating);
-
-        // แสดงคำอธิบายใน element HTML ที่มี id="rating-description"
-        $("#rating-description").text(description);
-
-        // ส่งคะแนนไปยังเซิร์ฟเวอร์ (PHP) โดยใช้ AJAX
-        $.ajax({
-            type: "POST",
-            url: "rating.php",
-            data: {
-                rating: rating
-            },
-            success: function(response) {
-                console.log("Rating submitted successfully.");
-            }
-        });
-    });
-
-    // ฟังก์ชันเพื่อเรียกคำอธิบายของคะแนน
-    function getRatingDescription(rating) {
-        var description = "";
-        switch (rating) {
-            case 1:
-                description = "พอประมาณ";
-                break;
-            case 2:
-                description = "พอใช้";
-                break;
-            case 3:
-                description = "ดี";
-                break;
-            case 4:
-                description = "ดีมาก";
-                break;
-            default:
-                description = "Please rate this item.";
-        }
-        return description;
-    }
-    </script>
 </body>
 
 </html>
