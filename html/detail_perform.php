@@ -3,8 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
@@ -16,9 +15,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
 
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
@@ -43,72 +40,72 @@
     <script src="../assets/js/config.js"></script>
 </head>
 <style>
-.navbar {
-    background-color: #ffffff;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-}
+    .navbar {
+        background-color: #ffffff;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    }
 
-a.navbar-brand {
-    color: white;
-}
+    a.navbar-brand {
+        color: white;
+    }
 
-.status {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    .status {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-.text-primary {
-    color: #696cff;
-}
+    .text-primary {
+        color: #696cff;
+    }
 
-.modal-backdrop {
-    z-index: -1;
-}
+    .modal-backdrop {
+        z-index: -1;
+    }
 
-.timeline-with-icons {
-    border-left: 1px solid hsl(0, 0%, 90%);
-    position: relative;
-    list-style: none;
-}
+    .timeline-with-icons {
+        border-left: 1px solid hsl(0, 0%, 90%);
+        position: relative;
+        list-style: none;
+    }
 
-.timeline-with-icons .timeline-item {
-    position: relative;
-}
+    .timeline-with-icons .timeline-item {
+        position: relative;
+    }
 
-.timeline-with-icons .timeline-item:after {
-    position: absolute;
-    display: block;
-    top: 0;
-}
+    .timeline-with-icons .timeline-item:after {
+        position: absolute;
+        display: block;
+        top: 0;
+    }
 
-.timeline-with-icons .timeline-icon {
-    position: absolute;
-    left: -48px;
-    background-color: #696cff;
-    color: white;
-    border-radius: 50%;
-    height: 31px;
-    width: 31px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    .timeline-with-icons .timeline-icon {
+        position: absolute;
+        left: -48px;
+        background-color: #696cff;
+        color: white;
+        border-radius: 50%;
+        height: 31px;
+        width: 31px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-.text-box {
-    max-width: 700px;
-    white-space: initial;
-}
+    .text-box {
+        max-width: 700px;
+        white-space: initial;
+    }
 
-.card-status {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    .card-status {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-.bx-brightness-half {
-    font: 4em sans-serif;
-}
+    .bx-brightness-half {
+        font: 4em sans-serif;
+    }
 </style>
 <?php
 include('connect.php');
@@ -127,9 +124,7 @@ if (isset($_GET['ids'])) {
         <div class="container-fluid">
 
             <img src="upload/b.png" width="50">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -141,8 +136,7 @@ if (isset($_GET['ids'])) {
                         <a class="nav-link" href="#">เกี่ยวกับร้าน</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             สินค้า
                         </a>
                         <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
@@ -164,14 +158,12 @@ if (isset($_GET['ids'])) {
                     <button class="btn btn-outline-primary me-2" type="submit">Search</button>
                 </form>
                 <div class="btn-group dropstart">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <?php echo $_SESSION['username_user'] ?>
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
-                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน&nbsp;&nbsp;<span
-                                    class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $numorder ?></span></a>
+                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน&nbsp;&nbsp;<span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $numorder ?></span></a>
 
                         <li>
                             <hr class="dropdown-divider" />
@@ -185,10 +177,11 @@ if (isset($_GET['ids'])) {
     </nav>
     <section>
         <div class="container mt-5">
-            <section class="p-3">
-                <ul class="timeline-with-icons">
-                    <?php 
-                         $thaiMonths = array(
+            <div class="card">
+                <section class="p-5">
+                    <ul class="timeline-with-icons">
+                        <?php
+                        $thaiMonths = array(
                             1 => 'มกราคม',
                             2 => 'กุมภาพันธ์',
                             3 => 'มีนาคม',
@@ -202,24 +195,24 @@ if (isset($_GET['ids'])) {
                             11 => 'พฤศจิกายน',
                             12 => 'ธันวาคม'
                         );
-                      
-                        while ($row = mysqli_fetch_assoc($result)) {    
+
+                        while ($row = mysqli_fetch_assoc($result)) {
                             $date = $row['date_ operate'];
                             $timestamp = strtotime($date);
                             $buddhistYear = date("Y", $timestamp) + 543;
                             $monthNumber = date("n", $timestamp); // Get the month number (1-12)
                             $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
                             $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear; ?>
-                    <li class="timeline-item mb-5">
-                        <div class="text-box">
-                            <span class="timeline-icon">
-                                <i class='bx bxs-cog'></i>
-                            </span>
+                            <li class="timeline-item mb-5">
+                                <div class="text-box">
+                                    <span class="timeline-icon">
+                                        <i class='bx bxs-cog'></i>
+                                    </span>
 
-                            <h5 class="fw-bold"><?php echo $row['status_performance'] ?></h5>
-                            <p class="text-muted mb-2 fw-bold"><?php echo $thaiFormattedDate ?></p>
-                            <p class="text-muted">
-                                <?php
+                                    <h5 class="fw-bold"><?php echo $row['status_performance'] ?></h5>
+                                    <p class="text-muted mb-2 fw-bold"><?php echo $thaiFormattedDate ?></p>
+                                    <p class="text-muted">
+                                        <?php
                                         if ($row['detail_ correction'] == "") {
                                             echo 'ตรวจสอบสถานที่ติดตั้งวันแรก';
                                         } else {
@@ -227,12 +220,13 @@ if (isset($_GET['ids'])) {
                                         }
                                         ?>
 
-                            </p>
-                        </div>
-                    </li>
-                    <?php } ?>
-                </ul>
-            </section>
+                                    </p>
+                                </div>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </section>
+            </div>
         </div>
     </section>
     <!-- Footer -->
@@ -241,7 +235,7 @@ if (isset($_GET['ids'])) {
             <div class="mb-2 mb-md-0">
                 ©
                 <script>
-                document.write(new Date().getFullYear());
+                    document.write(new Date().getFullYear());
                 </script>
                 , made with ❤️ by
                 <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
@@ -250,11 +244,9 @@ if (isset($_GET['ids'])) {
                 <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
                 <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
 
-                <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-                    target="_blank" class="footer-link me-4">Documentation</a>
+                <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" target="_blank" class="footer-link me-4">Documentation</a>
 
-                <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues" target="_blank"
-                    class="footer-link me-4">Support</a>
+                <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues" target="_blank" class="footer-link me-4">Support</a>
             </div>
         </div>
     </footer>

@@ -188,6 +188,14 @@ mark.orang {
 .bx-brightness-half{
   font: 4em sans-serif;
 }
+    .swal2-styled.swal2-confirm {
+      background-color: #27ae60; /* Green background color */
+      color: #fff; /* Text color */
+    }
+    .swal2-styled.swal2-cancel {
+      background-color: #c0392b; /* Red background color */
+      color: #fff; /* Text color */
+    }
 </style>
   <body>
     <!-- Layout wrapper -->
@@ -746,6 +754,7 @@ $query = mysqli_query($conn, "SELECT `order`.order_id, `order`.order_address, cu
                         <th><h6>รายละเอียดคำสั่งซื้อ</h6></th>
                         <th><h6>รายละเอียดงาน</h6></th>
                         <th><h6>จัดการผลการดำเนินงาน</h6></th>
+                        <th><h6>สำเร็จการดำเนินงาน</h6></th>
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -781,7 +790,7 @@ $query = mysqli_query($conn, "SELECT `order`.order_id, `order`.order_address, cu
                                                 $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
                                                 echo $thaiFormattedDate; ?></td>
                                                   <?php $status = $fetch['status_performance']; ?>
-                                                <td><mark class="<?php echo $status === 'รอตรวจสอบสถานที่ติดตั้ง' ? 'yellow' : ($status === 'รอดำเนิการติดตั้ง' ? 'green' : ($status === 'รอดำเนินการแก้ไข' ? 'orang' : '')); ?>"><?php echo $status ?></mark></td>
+                                                <td><mark class="<?php echo $status === 'ดำเนินการแก้ไข' ? 'yellow' : ($status === 'ดำเนินการเสร็จสิ้น' ? 'green' : ($status === 'รอดำเนินการติดตั้งสินค้า' ? 'orang' : '')); ?>"><?php echo $status ?></mark></td>
                                                 <td><button
                                                     type="button"
                                                     class="btn rounded-pill btn-icon btn-primary"
@@ -797,6 +806,16 @@ $query = mysqli_query($conn, "SELECT `order`.order_id, `order`.order_address, cu
                                                       <span class="bx bx-search-alt-2"></span>
                                               </button></td>
                                                 <td class="text-center"><?php echo "<a class='btn rounded-pill btn-icon btn-primary bx bx-calendar-edit' href='test_calendar.php?id=" . $fetch['order_id'] . "'></a>"; ?></td>
+                                                <?php if ($status === 'รอดำเนินการติดตั้งสินค้า') {
+                                                ?><td><button type="button" 
+                                                  class="btn rounded-pill btn-icon btn-success"
+                                                  onclick="confirmUpdate(<?php echo $fetch['order_id']; ?>, '<?php echo $fetch['date_ operate']; ?>')">
+                                                  <span class="bx bx-check"></span>
+                                          </button></td>
+                                                <?php } else {
+                                                ?>
+                                                <td>ไม่สามารถใช้งานได้</td>
+                                               <?php } ?>
                                             </tr>
                                         <?php
                                         include('modal_perform.php');
@@ -827,9 +846,60 @@ $query = mysqli_query($conn, "SELECT `order`.order_id, `order`.order_address, cu
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+   function confirmUpdate(orderId, dateOperate) {
+    Swal.fire({
+        title: "Confirmation",
+        text: `Are you sure you want to update the order with ID ${orderId} and date ${dateOperate}?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, update it!",
+        cancelButtonText: "No, cancel",
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // User confirmed, proceed with the update
+            $.ajax({
+                url: 'update_script.php',
+                type: 'POST',
+                data: {
+                    orderId: orderId,
+                    dateOperate: dateOperate
+                },
+                success: function(response) {
+                    var parsedResponse = JSON.parse(response);
+                    
+                    if (parsedResponse.status === "success") {
+                        Swal.fire({
+                            title: "Success",
+                            text: parsedResponse.msg,
+                            icon: "success",
+                            confirmButtonText: "OK"
+                        }).then(() => {
+                            // Reload the page or perform other actions
+                            location.reload();
+                        });
+                    } else if (parsedResponse.status === "error") {
+                        Swal.fire({
+                            title: "Error",
+                            text: parsedResponse.msg,
+                            icon: "error",
+                            confirmButtonText: "OK"
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            // User canceled
+            Swal.fire("Cancelled", "The update has been cancelled.", "info");
+        }
+    });
+}
 
-      
-    </script>
+</script>
+
     <!-- / Layout wrapper -->
                     
     <!-- Core JS -->

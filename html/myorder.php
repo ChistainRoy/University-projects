@@ -3,8 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
@@ -16,9 +15,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
 
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
@@ -43,72 +40,72 @@
     <script src="../assets/js/config.js"></script>
 </head>
 <style>
-.navbar {
-    background-color: #ffffff;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-}
+    .navbar {
+        background-color: #ffffff;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    }
 
-a.navbar-brand {
-    color: white;
-}
+    a.navbar-brand {
+        color: white;
+    }
 
-.status {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    .status {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-.text-primary {
-    color: #696cff;
-}
+    .text-primary {
+        color: #696cff;
+    }
 
-.modal-backdrop {
-    z-index: -1;
-}
+    .modal-backdrop {
+        z-index: -1;
+    }
 
-.timeline-with-icons {
-    border-left: 1px solid hsl(0, 0%, 90%);
-    position: relative;
-    list-style: none;
-}
+    .timeline-with-icons {
+        border-left: 1px solid hsl(0, 0%, 90%);
+        position: relative;
+        list-style: none;
+    }
 
-.timeline-with-icons .timeline-item {
-    position: relative;
-}
+    .timeline-with-icons .timeline-item {
+        position: relative;
+    }
 
-.timeline-with-icons .timeline-item:after {
-    position: absolute;
-    display: block;
-    top: 0;
-}
+    .timeline-with-icons .timeline-item:after {
+        position: absolute;
+        display: block;
+        top: 0;
+    }
 
-.timeline-with-icons .timeline-icon {
-    position: absolute;
-    left: -48px;
-    background-color: #696cff;
-    color: white;
-    border-radius: 50%;
-    height: 31px;
-    width: 31px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    .timeline-with-icons .timeline-icon {
+        position: absolute;
+        left: -48px;
+        background-color: #696cff;
+        color: white;
+        border-radius: 50%;
+        height: 31px;
+        width: 31px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-.text-box {
-    max-width: 700px;
-    white-space: initial;
-}
+    .text-box {
+        max-width: 700px;
+        white-space: initial;
+    }
 
-.card-status {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    .card-status {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-.bx-brightness-half {
-    font: 4em sans-serif;
-}
+    .bx-brightness-half {
+        font: 4em sans-serif;
+    }
 </style>
 <?php
 include('connect.php');
@@ -143,43 +140,65 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 $status_wait = 0;
 $status_chackwait = 0;
-$pass = 0;
+$orderWait = array();
+$orderChackWait = array();
 $sqli = "SELECT * FROM `order` WHERE cm_id = $numberuser";
 $resulti = mysqli_query($conn, $sqli);
 while ($fetch = mysqli_fetch_assoc($resulti)) {
     if ($fetch['oder_status'] == 'รอชำระเงิน') {
         $status_wait++;
+        $orderWait[] = $fetch;
     } else if ($fetch['oder_status'] == 'รอการตรวจสอบ') {
         $status_chackwait++;
-    } else if ($fetch['oder_status'] == 'อนุมัติ') {
-        $pass++;
+        $orderChackWait[] = $fetch;
     }
 }
 
+
 $status_all = 0;
-$sqlstatus = "SELECT COUNT(DISTINCT `order`.`order_id`) AS unique_order_count
+$success = 0;
+$orderpass = array();
+$sqlstatus = "SELECT `order`.order_id, `order`.`cm_id`, performance.`date_ operate`, performance.status_performance
 FROM `order`
-INNER JOIN `performance` ON `order`.`order_id` = `performance`.`order_id`
-WHERE `order`.`cm_id` = $numberuser;
+INNER JOIN performance ON `order`.`order_id` = performance.order_id
+WHERE `order`.`cm_id` = $numberuser
+AND performance.`date_ operate` = (
+    SELECT MAX(`date_ operate`)
+    FROM performance
+    WHERE performance.order_id = `order`.order_id
+)
 ";
 $resultstatus = mysqli_query($conn, $sqlstatus);
 // ตรวจสอบการคิวรีและนำผลลัพธ์ไปเก็บในตัวแปร
 if ($resultstatus) {
     // ใช้ fetch_assoc เพื่อรับข้อมูลแถวเดียว
-    if ($fetch = mysqli_fetch_assoc($resultstatus)) {
-        // นำค่าจากคอลัมน์ unique_order_count ไปเก็บในตัวแปร
-        $status_all = $fetch['unique_order_count'];
-
-        // แสดงผลลัพธ์
-        echo "Total unique orders: " . $status_all;
-    } else {
-        // ไม่พบข้อมูล
-        echo "No data found.";
+    while ($fetch = mysqli_fetch_assoc($resultstatus)) {
+        if ($fetch['status_performance'] == 'ดำเนินการแก้ไข' or $fetch['status_performance'] == 'รอดำเนินการติดตั้งสินค้า') {
+            $status_all++;
+        } else if ($fetch['status_performance'] == 'ดำเนินการเสร็จสิ้น') {
+            $success++;
+            $orderpass[] = $fetch;
+        }
     }
 }
 
+$number = 0;
+$wait = "SELECT `order`.`order_id`,`order`.`order_reserve`,`order`.`oder_total`,`order`.`oder_status`, `order`.`cm_id`, `order`.`order_date`, performance.*
+FROM `order`
+INNER JOIN performance ON `order`.`order_id` = performance.order_id
+WHERE `order`.`cm_id` = $numberuser
+GROUP BY `order`.`order_id`
+HAVING COUNT(*) = 1;
+";
+$querywait = mysqli_query($conn, $wait);
 
+// สร้างอาร์เรย์เปล่าเพื่อเก็บข้อมูล
+$dataArray = array();
 
+while ($row = mysqli_fetch_assoc($querywait)) {
+    $dataArray[] = $row;
+    $number++;
+}
 ?>
 
 <body>
@@ -187,9 +206,7 @@ if ($resultstatus) {
         <div class="container-fluid">
 
             <img src="upload/b.png" width="50">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -201,8 +218,7 @@ if ($resultstatus) {
                         <a class="nav-link" href="#">เกี่ยวกับร้าน</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             สินค้า
                         </a>
                         <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
@@ -224,14 +240,12 @@ if ($resultstatus) {
                     <button class="btn btn-outline-primary me-2" type="submit">Search</button>
                 </form>
                 <div class="btn-group dropstart">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <?php echo $_SESSION['username_user'] ?>
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
-                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน&nbsp;&nbsp;<span
-                                    class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $numorder ?></span></a>
+                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน&nbsp;&nbsp;<span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $numorder ?></span></a>
 
                         <li>
                             <hr class="dropdown-divider" />
@@ -248,54 +262,43 @@ if ($resultstatus) {
             <div class="nav-align-top mb-4">
                 <ul class="nav nav-tabs nav-fill" role="tablist">
                     <li class="nav-item">
-                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-justified-home" aria-controls="navs-justified-home"
-                            aria-selected="true">
+                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-home" aria-controls="navs-justified-home" aria-selected="true">
                             <i class='bx bx-coin-stack'></i> รอชำระเงิน
                             <?php if ($status_wait != 0) : ?>
-                            <span
-                                class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $status_wait ?></span>
+                                <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $status_wait ?></span>
                             <?php endif; ?>
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-justified-profile" aria-controls="navs-justified-profile"
-                            aria-selected="false">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-profile" aria-controls="navs-justified-profile" aria-selected="false">
                             <i class='bx bx-loader-circle'></i> รอตวจสอบการชำระเงิน
                             <?php if ($status_chackwait != 0) : ?>
-                            <span
-                                class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $status_chackwait ?></span>
+                                <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $status_chackwait ?></span>
                             <?php endif; ?>
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-justified-messages" aria-controls="navs-justified-messages"
-                            aria-selected="false">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-messages" aria-controls="navs-justified-messages" aria-selected="false">
                             <i class="tf-icons bx bx-message-square"></i> รอตรวจสอบสถานที่ติดตั้ง
-                            <?php if ($pass != 0) : ?>
-                            <span
-                                class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $pass ?></span>
+                            <?php if ($number != 0) : ?>
+                                <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $number ?></span>
                             <?php endif; ?>
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-justified-result" aria-controls="navs-justified-result"
-                            aria-selected="false">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-result" aria-controls="navs-justified-result" aria-selected="false">
                             <i class='bx bx-badge-check'></i> ผลการดำเนินงาน
-                            <?php if ($pass != 0) : ?>
-                            <span
-                                class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $status_all ?></span>
+                            <?php if ($status_all != 0) : ?>
+                                <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $status_all ?></span>
                             <?php endif; ?>
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-justified-status" aria-controls="navs-justified-status"
-                            aria-selected="false">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-status" aria-controls="navs-justified-status" aria-selected="false">
                             <i class='bx bx-badge-check'></i> ดำเนินการเสร็จสิ้น
+                            <?php if ($success != 0) : ?>
+                                <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $success ?></span>
+                            <?php endif; ?>
                         </button>
                     </li>
                 </ul>
@@ -303,19 +306,17 @@ if ($resultstatus) {
                     <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
                         <div class="row">
                             <?php
-                            $wait = "SELECT * FROM `order` WHERE cm_id = $numberuser AND oder_status = 'รอชำระเงิน'";
-                            $querywait = mysqli_query($conn, $wait);
-                            if (mysqli_num_rows($querywait) > 0) {
+                            if (!empty($orderWait)) {
                                 // output data of each row
-                                while ($row = mysqli_fetch_assoc($querywait)) {
+                                foreach ($orderWait as $row) {
                             ?>
-                            <div class="col-xl-4">
-                                <div class="card">
-                                    <div class="card-title p-4">
-                                        <p>รหัสคำสั่งซื้อ</p>
-                                        <h2>#<?php echo $row['order_id'] ?></h2>
-                                        <p>วันสั่งซื้อ</p>
-                                        <h4><?php
+                                    <div class="col-xl-4">
+                                        <div class="card">
+                                            <div class="card-title p-4">
+                                                <p>รหัสคำสั่งซื้อ</p>
+                                                <h2>#<?php echo $row['order_id'] ?></h2>
+                                                <p>วันสั่งซื้อ</p>
+                                                <h4><?php
                                                     $thaiMonths = array(
                                                         1 => 'มกราคม',
                                                         2 => 'กุมภาพันธ์',
@@ -338,23 +339,23 @@ if ($resultstatus) {
                                                     $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
                                                     echo $thaiFormattedDate;
                                                     ?></h4>
-                                        <p>วันตรวจสอบสถานที่ติดตั้ง</p>
-                                        <h4><?php
+                                                <p>วันตรวจสอบสถานที่ติดตั้ง</p>
+                                                <h4><?php
                                                     $date = $row['order_reserve'];
                                                     $timestamp = strtotime($date);
                                                     $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
                                                     echo $thaiFormattedDate;
                                                     ?>
-                                        </h4>
-                                        <p>ราคา</p>
-                                        <h4><?php
+                                                </h4>
+                                                <p>ราคา</p>
+                                                <h4><?php
                                                     echo $row['oder_total'] ?>&nbsp;฿</h4>
-                                        <hr>
-                                        <?php echo "<a class='btn btn-primary' href='detail.php?ids=" . $row['order_id'] . "'>ดูรายละเอียด / ชำระเงิน</a>"; ?>
-                                        <?php echo "<a class='btn btn-danger' href='detail.php?idd=" . $row['order_id'] . "'>ยกเลิกคำสั่งซื้อ</a>"; ?>
+                                                <hr>
+                                                <?php echo "<a class='btn btn-primary' href='detail.php?ids=" . $row['order_id'] . "'>ดูรายละเอียด / ชำระเงิน</a>"; ?>
+                                                <?php echo "<a class='btn btn-danger' href='detail.php?idd=" . $row['order_id'] . "'>ยกเลิกคำสั่งซื้อ</a>"; ?>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
                             <?php
                                 }
                             } else {
@@ -365,19 +366,17 @@ if ($resultstatus) {
                     <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
                         <div class="row">
                             <?php
-                            $wait = "SELECT * FROM `order` WHERE cm_id = $numberuser AND oder_status = 'รอการตรวจสอบ'";
-                            $querywait = mysqli_query($conn, $wait);
-                            if (mysqli_num_rows($querywait) > 0) {
+                            if (!empty($orderChackWait)) {
                                 // output data of each row
-                                while ($row = mysqli_fetch_assoc($querywait)) {
+                                foreach ($orderChackWait as $row) {
                             ?>
-                            <div class="col-xl-4">
-                                <div class="card">
-                                    <div class="card-title p-4">
-                                        <p>รหัสคำสั่งซื้อ</p>
-                                        <h2>#<?php echo $row['order_id'] ?></h2>
-                                        <p>วันสั่งซื้อ</p>
-                                        <h4><?php
+                                    <div class="col-xl-4">
+                                        <div class="card">
+                                            <div class="card-title p-4">
+                                                <p>รหัสคำสั่งซื้อ</p>
+                                                <h2>#<?php echo $row['order_id'] ?></h2>
+                                                <p>วันสั่งซื้อ</p>
+                                                <h4><?php
                                                     $thaiMonths = array(
                                                         1 => 'มกราคม',
                                                         2 => 'กุมภาพันธ์',
@@ -400,27 +399,27 @@ if ($resultstatus) {
                                                     $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
                                                     echo $thaiFormattedDate;
                                                     ?></h4>
-                                        <p>วันตรวจสอบสถานที่ติดตั้ง</p>
-                                        <h4><?php
+                                                <p>วันตรวจสอบสถานที่ติดตั้ง</p>
+                                                <h4><?php
                                                     $date = $row['order_reserve'];
                                                     $timestamp = strtotime($date);
                                                     $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
                                                     echo $thaiFormattedDate;
                                                     ?>
-                                        </h4>
-                                        <p>ราคา</p>
-                                        <h4><?php
+                                                </h4>
+                                                <p>ราคา</p>
+                                                <h4><?php
                                                     echo $row['oder_total'] ?>&nbsp;฿</h4>
-                                        <hr>
-                                        <br>
+                                                <hr>
+                                                <br>
 
-                                        <h4 class="text-center"><?php
+                                                <h4 class="text-center"><?php
                                                                         echo $row['oder_status'] ?>&nbsp;
-                                        </h4>
+                                                </h4>
 
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
                             <?php
                                 }
                             } else {
@@ -431,19 +430,16 @@ if ($resultstatus) {
                     <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
                         <div class="row">
                             <?php
-                            $wait = "SELECT * FROM `order` WHERE cm_id = $numberuser AND oder_status = 'อนุมัติ'";
-                            $querywait = mysqli_query($conn, $wait);
-                            if (mysqli_num_rows($querywait) > 0) {
-                                // output data of each row
-                                while ($row = mysqli_fetch_assoc($querywait)) {
+                            if (!empty($dataArray)) {
+                                foreach ($dataArray as $data) {
                             ?>
-                            <div class="col-xl-4">
-                                <div class="card">
-                                    <div class="card-title p-4">
-                                        <p>รหัสคำสั่งซื้อ</p>
-                                        <h2>#<?php echo $row['order_id'] ?></h2>
-                                        <p>วันสั่งซื้อ</p>
-                                        <h4><?php
+                                    <div class="col-xl-4">
+                                        <div class="card">
+                                            <div class="card-title p-4">
+                                                <p>รหัสคำสั่งซื้อ</p>
+                                                <h2>#<?php echo $data['order_id'] ?></h2>
+                                                <p>วันสั่งซื้อ</p>
+                                                <h4><?php
                                                     $thaiMonths = array(
                                                         1 => 'มกราคม',
                                                         2 => 'กุมภาพันธ์',
@@ -458,7 +454,7 @@ if ($resultstatus) {
                                                         11 => 'พฤศจิกายน',
                                                         12 => 'ธันวาคม'
                                                     );
-                                                    $date = $row['order_date'];
+                                                    $date = $data['order_date'];
                                                     $timestamp = strtotime($date);
                                                     $buddhistYear = date("Y", $timestamp) + 543;
                                                     $monthNumber = date("n", $timestamp); // Get the month number (1-12)
@@ -466,31 +462,31 @@ if ($resultstatus) {
                                                     $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
                                                     echo $thaiFormattedDate;
                                                     ?></h4>
-                                        <p>วันตรวจสอบสถานที่ติดตั้ง</p>
-                                        <h4><?php
-                                                    $date = $row['order_reserve'];
+                                                <p>วันตรวจสอบสถานที่ติดตั้ง</p>
+                                                <h4><?php
+                                                    $date = $data['order_reserve'];
                                                     $timestamp = strtotime($date);
                                                     $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
                                                     echo $thaiFormattedDate;
                                                     ?>
-                                        </h4>
-                                        <p>ราคา</p>
-                                        <h4><?php
-                                                    echo $row['oder_total'] ?>&nbsp;฿</h4>
-                                        <hr>
-                                        <br>
-                                        <div class="status">
-                                            <h3 class="text-primary">
-                                                <?php
-                                                        echo $row['oder_status'] ?>
-                                            </h3>
-                                            <br>
+                                                </h4>
+                                                <p>ราคา</p>
+                                                <h4><?php
+                                                    echo $data['oder_total'] ?>&nbsp;฿</h4>
+                                                <hr>
+                                                <br>
+                                                <div class="status">
+                                                    <h3 class="text-primary">
+                                                        <?php
+                                                        echo $data['oder_status'] ?>
+                                                    </h3>
+                                                    <br>
+                                                </div>
+                                                <h3 class="text-center">(รอตรวจสอบสถานที่ติดตั้ง)
+                                                </h3>
+                                            </div>
                                         </div>
-                                        <h3 class="text-center">(รอตรวจสอบสถานที่ติดตั้ง)
-                                        </h3>
                                     </div>
-                                </div>
-                            </div>
                             <?php
                                 }
                             } else {
@@ -501,27 +497,93 @@ if ($resultstatus) {
                     <div class="tab-pane fade" id="navs-justified-result" role="tabpanel">
                         <div class="row">
                             <?php
-                            $wait = "SELECT `order`.order_id, `order`.`cm_id`, performance.`date_ operate`, performance.status_performance
+                            $wait = "SELECT `order`.`order_id`, `order`.`cm_id`, performance.`date_ operate`, performance.`status_performance`
                             FROM `order`
                             INNER JOIN performance ON `order`.`order_id` = performance.order_id
                             WHERE `order`.`cm_id` = $numberuser
                             AND performance.`date_ operate` = (
                                 SELECT MAX(`date_ operate`)
                                 FROM performance
-                                WHERE performance.order_id = `order`.order_id
-                            )";
+                                WHERE performance.order_id = `order`.`order_id`
+                            )
+                            AND `order`.`order_id` IN (
+                                SELECT order_id
+                                FROM performance
+                                GROUP BY order_id
+                                HAVING COUNT(*) > 1
+                            );
+                            ";
                             $querywait = mysqli_query($conn, $wait);
+                            $count_card = 0;
                             if (mysqli_num_rows($querywait) > 0) {
                                 // output data of each row
                                 while ($fetch = mysqli_fetch_assoc($querywait)) {
+                                    if ($fetch['status_performance'] == 'ดำเนินเสร็จสิ้น') {
+                                    } else {
+                                        $count_card++ ?>
+                                        <div class="col-xl-4">
+                                            <div class="card">
+                                                <div class="card-title p-4">
+                                                    <p>รหัสคำสั่งซื้อ</p>
+                                                    <h2>#<?php echo $fetch['order_id'] ?></h2>
+                                                    <p>วันดำเนินครั้งต่อไป</p>
+                                                    <h4><?php
+                                                        $thaiMonths = array(
+                                                            1 => 'มกราคม',
+                                                            2 => 'กุมภาพันธ์',
+                                                            3 => 'มีนาคม',
+                                                            4 => 'เมษายน',
+                                                            5 => 'พฤษภาคม',
+                                                            6 => 'มิถุนายน',
+                                                            7 => 'กรกฎาคม',
+                                                            8 => 'สิงหาคม',
+                                                            9 => 'กันยายน',
+                                                            10 => 'ตุลาคม',
+                                                            11 => 'พฤศจิกายน',
+                                                            12 => 'ธันวาคม'
+                                                        );
+                                                        $date = $fetch['date_ operate'];
+                                                        $timestamp = strtotime($date);
+                                                        $buddhistYear = date("Y", $timestamp) + 543;
+                                                        $monthNumber = date("n", $timestamp); // Get the month number (1-12)
+                                                        $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
+                                                        $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
+                                                        echo $thaiFormattedDate;
+                                                        ?></h4>
+                                                    <p>สถานะปัจจุบัน</p>
+                                                    <h4><?php
+                                                        echo $fetch['status_performance'];
+                                                        ?>
+                                                    </h4>
+                                                    <hr>
+                                                    <?php echo "<a class='btn btn-primary' href='detail_perform.php?ids=" . $fetch['order_id'] . "'>ดูรายละเอียดงาน</a>"; ?>
+                                                    <br>
+                                                </div>
+                                            </div>
+                                        </div>
+                            <?php
+                                    }
+                                    include('modal_perform.php');
+                                }
+                            } else {
+                                echo "0 results";
+                            } ?>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="navs-justified-status" role="tabpanel">
+                        <div class="row">
+                            <?php
+                            if (!empty($orderpass)) {
+                                // output data of each row
+                                foreach ($orderpass as $pass) {
                             ?>
-                            <div class="col-xl-4">
-                                <div class="card">
-                                    <div class="card-title p-4">
-                                        <p>รหัสคำสั่งซื้อ</p>
-                                        <h2>#<?php echo $fetch['order_id'] ?></h2>
-                                        <p>วันดำเนินครั้งต่อไป</p>
-                                        <h4><?php
+                                    <div class="col-xl-4">
+                                        <div class="card">
+                                            <div class="card-title p-4">
+                                                <p>รหัสคำสั่งซื้อ</p>
+                                                <h2>#<?php echo $pass['order_id'] ?></h2>
+                                                <p>วันดำเนินครั้งต่อไป</p>
+                                                <h4><?php
                                                     $thaiMonths = array(
                                                         1 => 'มกราคม',
                                                         2 => 'กุมภาพันธ์',
@@ -536,7 +598,7 @@ if ($resultstatus) {
                                                         11 => 'พฤศจิกายน',
                                                         12 => 'ธันวาคม'
                                                     );
-                                                    $date = $fetch['date_ operate'];
+                                                    $date = $pass['date_ operate'];
                                                     $timestamp = strtotime($date);
                                                     $buddhistYear = date("Y", $timestamp) + 543;
                                                     $monthNumber = date("n", $timestamp); // Get the month number (1-12)
@@ -544,38 +606,23 @@ if ($resultstatus) {
                                                     $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
                                                     echo $thaiFormattedDate;
                                                     ?></h4>
-                                        <p>สถานะปัจจุบัน</p>
-                                        <h4><?php
-                                                    echo $fetch['status_performance'];
+                                                <p>สถานะปัจจุบัน</p>
+                                                <h4><?php
+                                                    echo $pass['status_performance'];
                                                     ?>
-                                        </h4>
-                                        <hr>
-                                        <?php echo "<a class='btn btn-primary' href='detail_perform.php?ids=" . $fetch['order_id'] . "'>ดูรายละเอียดงาน</a>"; ?>
-                                        <br>
+                                                </h4>
+                                                <hr>
+                                                <?php echo "<a class='btn btn-primary' href='comment.php?ids=" . $pass['order_id'] . "'>แสดงความคิดเห็น</a>"; ?>
+                                                <br>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
                             <?php
-                            include('modal_perform.php');
                                 }
                             } else {
                                 echo "0 results";
                             } ?>
                         </div>
-                    </div>
-                    <div class="tab-pane fade" id="navs-justified-status" role="tabpanel">
-                        <p>
-                            Oat cake chupa chups dragée donut toffee. Sweet cotton candy jelly beans macaroon
-                            gummies
-                            cupcake gummi bears cake chocolate.
-                        </p>
-                        <p class="mb-0">
-                            Cake chocolate bar cotton candy apple pie tootsie roll ice cream apple pie brownie cake.
-                            Sweet
-                            roll icing sesame snaps caramels danish toffee. Brownie biscuit dessert dessert. Pudding
-                            jelly
-                            jelly-o tart brownie jelly.
-                        </p>
                     </div>
                 </div>
             </div>
@@ -587,7 +634,7 @@ if ($resultstatus) {
             <div class="mb-2 mb-md-0">
                 ©
                 <script>
-                document.write(new Date().getFullYear());
+                    document.write(new Date().getFullYear());
                 </script>
                 , made with ❤️ by
                 <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
@@ -596,11 +643,9 @@ if ($resultstatus) {
                 <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
                 <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
 
-                <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-                    target="_blank" class="footer-link me-4">Documentation</a>
+                <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" target="_blank" class="footer-link me-4">Documentation</a>
 
-                <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues" target="_blank"
-                    class="footer-link me-4">Support</a>
+                <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues" target="_blank" class="footer-link me-4">Support</a>
             </div>
         </div>
     </footer>
@@ -612,39 +657,39 @@ if ($resultstatus) {
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-    // Get the URL query parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const status = urlParams.get('status');
-    const msg = urlParams.get('msg');
+        // Get the URL query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status');
+        const msg = urlParams.get('msg');
 
-    // Check the status and display the SweetAlert message
-    if (status === 'success') {
-        Swal.fire({
-            title: 'Success',
-            text: msg,
-            icon: 'success',
-            confirmButtonClass: 'btn btn-primary'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Redirect to order.php with success status and message
-                const redirectURL = 'myorder.php';
-                window.location.href = redirectURL;
-            }
-        });
-    } else if (status === 'error') {
-        Swal.fire({
-            title: 'Error',
-            text: msg,
-            icon: 'error',
-            confirmButtonClass: 'btn btn-primary'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Redirect to order.php with success status and message
-                const redirectURL = 'myorder.php';
-                window.location.href = redirectURL;
-            }
-        });
-    }
+        // Check the status and display the SweetAlert message
+        if (status === 'success') {
+            Swal.fire({
+                title: 'Success',
+                text: msg,
+                icon: 'success',
+                confirmButtonClass: 'btn btn-primary'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to order.php with success status and message
+                    const redirectURL = 'myorder.php';
+                    window.location.href = redirectURL;
+                }
+            });
+        } else if (status === 'error') {
+            Swal.fire({
+                title: 'Error',
+                text: msg,
+                icon: 'error',
+                confirmButtonClass: 'btn btn-primary'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to order.php with success status and message
+                    const redirectURL = 'myorder.php';
+                    window.location.href = redirectURL;
+                }
+            });
+        }
     </script>
     <script src="../assets/vendor/js/bootstrap.js"></script>
     <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
