@@ -668,28 +668,47 @@ mark.orang {
           <!-- / Navbar -->
 <?php
 include('connect.php');
-$query = mysqli_query($conn, "SELECT `order`.order_id, `order`.order_address, cumtomer.tel, cumtomer.name, performance.`date_ operate`, performance.status_performance
- FROM `order`
- INNER JOIN cumtomer ON `order`.`cm_id` = cumtomer.cm_id
- INNER JOIN performance ON `order`.`order_id` = performance.order_id
- WHERE `order`.oder_status = 'อนุมัติ'
- AND performance.`date_ operate` = (
-     SELECT MAX(`date_ operate`)
-     FROM performance
-     WHERE performance.order_id = `order`.order_id
- )
- ");
+$query = "SELECT `order`.order_id, `order`.order_address, cumtomer.tel, cumtomer.name, performance.`date_ operate`, performance.status_performance
+FROM `order`
+INNER JOIN cumtomer ON `order`.`cm_id` = cumtomer.cm_id
+INNER JOIN performance ON `order`.`order_id` = performance.order_id
+WHERE `order`.oder_status = 'อนุมัติ'
+AND performance.`date_ operate` = (
+    SELECT MAX(`date_ operate`)
+    FROM performance
+    WHERE performance.order_id = `order`.order_id
+)";
+
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+  $data = array();
+  while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row;
+  }
+
+  // Now the $data array contains the fetched data
+} else {
+  echo "Error: " . mysqli_error($conn);
+}
+
+// Close the connection
 ?>
           <!-- Content wrapper -->
           <div class="content-wrapper">
             <!-- Content -->
-
             <div class="container-xxl flex-grow-1 container-p-y">
               <!-- Basic Bootstrap Table -->
               <div class="card">
               <div class="add demo-inline-spacing">
               <div class="row mb-5">
               <div class="col-md-6 col-lg-5 mb-3">
+              <?php
+              $currentDate = date("Y-m-d"); // Format: Year-Month-Day
+              $elseConditionEntered = false;
+              foreach ($data as $fetch) {
+                if ($fetch['date_ operate'] == $currentDate) {
+              ?>
                   <div class="card">
                     <div class="card-body">
                     <div class="row mb-5">
@@ -717,11 +736,56 @@ $query = mysqli_query($conn, "SELECT `order`.order_id, `order`.order_address, cu
                   data-bs-target="#timeline<?php echo $fetch['order_id'] ?>">
                   <span class="bx bx-search-alt-2"></span>
                 </button>
-                                              <?php echo "<a class='btn rounded-pill btn-icon btn-primary bx bx-calendar-edit' href='test_calendar.php?id=" . $fetch['order_id'] . "'></a>"; ?>
-                                         
+                <?php echo "<a class='btn rounded-pill btn-icon btn-primary bx bx-calendar-edit' href='test_calendar.php?id=" . $fetch['order_id'] . "'></a>"; ?>               
                     </div>
                   </div>
-                </div>   
+                  <?php
+                } else {
+                  if (!$elseConditionEntered) {
+                    $elseConditionEntered = true;
+                  ?>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xl-2 mt-4">
+                                    <i class='bx bx-brightness-half' style='color:#696cff'></i>
+                                </div>
+                                <div class="col-xl-10 mt-4 mb-4">
+                                    <h5 class="card-title">ไม่มีงานสำหรับวันนี้</h5>
+                                    <h3 class="card-text">
+                                    วันนี้ <?php
+                                            $thaiMonths = array(
+                                              1 => 'มกราคม',
+                                              2 => 'กุมภาพันธ์',
+                                              3 => 'มีนาคม',
+                                              4 => 'เมษายน',
+                                              5 => 'พฤษภาคม',
+                                              6 => 'มิถุนายน',
+                                              7 => 'กรกฎาคม',
+                                              8 => 'สิงหาคม',
+                                              9 => 'กันยายน',
+                                              10 => 'ตุลาคม',
+                                              11 => 'พฤศจิกายน',
+                                              12 => 'ธันวาคม'
+                                            );
+                                            $timestamp = strtotime($currentDate);
+                                            $buddhistYear = date("Y", $timestamp) + 543;
+                                            $monthNumber = date("n", $timestamp); // Get the month number (1-12)
+                                            $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
+                                            $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
+                                            echo $thaiFormattedDate;
+                                            ?>
+                                    </h3>
+                                </div>
+                            </div>             
+                        </div>
+                    </div>
+                    <?php
+                  }
+                }
+              }
+                    ?>
+                </div>
                 <div class="col-md-6 col-lg-7 mb-3">
                   <div class="card">
                     <div class="card-body">
@@ -759,7 +823,7 @@ $query = mysqli_query($conn, "SELECT `order`.order_id, `order`.order_address, cu
                     </thead>
                     <tbody class="table-border-bottom-0">
                     <?php
-                    while ($fetch = mysqli_fetch_array($query)) {
+                    foreach ($data as $fetch) {
                       $thaiMonths = array(
                         1 => 'มกราคม',
                         2 => 'กุมภาพันธ์',

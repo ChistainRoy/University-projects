@@ -30,13 +30,19 @@
 <?php
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
+    $data = array();
     include('connect.php');
-    $sql = mysqli_query($conn, "SELECT `date_ operate` FROM `performance` WHERE `order_id` = $id");
+    $sql = mysqli_query($conn, "SELECT `order`.order_id, performance.`date_ operate`, performance.status_performance, cumtomer.name
+    FROM `order`
+    INNER JOIN cumtomer ON `order`.`cm_id` =cumtomer.cm_id
+    INNER JOIN performance ON `order`.`order_id` = performance.order_id
+    WHERE `order`.`order_id` = $id;");
     $dates = array(); // สร้าง array เพื่อเก็บข้อมูล
     while ($fetch = mysqli_fetch_array($sql)) {
-        $dates[] = $fetch['date_ operate']; // เพิ่มวันที่เข้าไปใน array
-        $lastday = $fetch['date_ operate'];
+        $dates[] = $fetch['date_ operate'];
+        $data[] = $fetch;
     }
+    $latestData = end($data);
 }
 ?>
 <script>
@@ -60,7 +66,7 @@ if (isset($_GET['id'])) {
                 var html =
                     `<div class="p-2 ${eventClass}">
                 <div class="d-flex">
-                    <i class="fa-solid fa-user pe-2"></i>
+                    <i class="fa-solid fa-user pe-2 mt-1"></i>
                     <div class="custom" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                         ${isDateInArray ? 'วันคำสั่งซื้อนี้' : 'จองแล้ว'}
                     </div>
@@ -85,6 +91,14 @@ if (isset($_GET['id'])) {
     });
 </script>
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pathway+Extreme:ital,opsz,wght@1,8..144,200&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@200&display=swap');
+
+    * {
+        font-family: 'Sarabun', sans-serif;
+        font-size: 16px;
+    }
+
     html,
     body {
         height: 100%;
@@ -112,12 +126,93 @@ if (isset($_GET['id'])) {
         /* เปลี่ยนสีข้อความให้ตรงกับสีที่คุณต้องการ */
         border-radius: 7px;
     }
+
+    .calendar {
+        justify-content: center;
+        align-items: center;
+        margin-top: 150px;
+    }
+
+    .position {
+        margin-bottom: 5%;
+        align-items: center;
+    }
+
+    hr {
+        border-color: black;
+        border-width: 1px;
+    }
+
+    .card-header {
+        background-color: #696cff;
+    }
+
+    .icon {
+        font-size: 28px;
+        /* Adjust the font size as needed */
+        color: #ffffff;
+        margin-bottom: 5px;
+    }
+
+    p {
+        font-size: 16px;
+    }
 </style>
 
 <body>
-    <div class="container">
-        <div id="calendar" class="">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="calendar col-xl-8 d-flex">
+                <div id="calendar" class="">
+                </div>
+            </div>
+            <div class="position col-xl-4 d-flex">
+                <div class="card">
+                    <div class="card-header text-white p-3">
+                        <h3>จัดการผลการดำเนินงาน <i class='bx bxs-info-circle icon' style='color:#ffffff'></i></h3>
+                    </div>
+                    <div class="card-body mt-3">
+                        <h5 class="card-title">รหัสคำสั่งซื้อ</h5>
+                        <p class="card-text">
+                        <h3># <?php
+                                echo  $latestData['order_id'] ?></h3>
+                        </p>
+                        <p class="card-title">ชื่อผู้สั่งซื้อ</p>
+                        <p class="card-text">
+                        <h4><?php
+                            echo  $latestData['name'] ?></h4>
+                        </p>
+                        <p class="card-title">วันดำเนินงานล่าสุด</p>
+                        <p class="card-text">
+                        <h4><?php
+
+                            $thaiMonths = array(
+                                1 => 'มกราคม',
+                                2 => 'กุมภาพันธ์',
+                                3 => 'มีนาคม',
+                                4 => 'เมษายน',
+                                5 => 'พฤษภาคม',
+                                6 => 'มิถุนายน',
+                                7 => 'กรกฎาคม',
+                                8 => 'สิงหาคม',
+                                9 => 'กันยายน',
+                                10 => 'ตุลาคม',
+                                11 => 'พฤศจิกายน',
+                                12 => 'ธันวาคม'
+                            );
+                            $timestamp = strtotime($latestData['date_ operate']);
+                            $buddhistYear = date("Y", $timestamp) + 543;
+                            $monthNumber = date("n", $timestamp); // Get the month number (1-12)
+                            $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
+                            $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
+                            echo $thaiFormattedDate;
+                            ?>
+                            </p>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
     <!-- Modal for Form and Image Upload -->
     <div class="modal fade" id="formModal" tabindex="-1" aria-hidden="true">
