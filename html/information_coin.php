@@ -2,12 +2,12 @@
 <?php
 session_start();
 if (!isset($_SESSION['username_admin'])) {
-  header("location: login.php");
+    header("location: login.php");
 }
 if (isset($_GET['logout'])) {
-  session_destroy();
-  unset($_SESSION['username_admin']);
-  header("location: login.php");
+    session_destroy();
+    unset($_SESSION['username_admin']);
+    header("location: login.php");
 }
 ?>
 <!-- =========================================================
@@ -73,10 +73,12 @@ if (isset($_GET['logout'])) {
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
     <script src="../assets/js/config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 <style>
+     @import url('https://fonts.googleapis.com/css2?family=Pathway+Extreme:ital,opsz,wght@1,8..144,200&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@200&display=swap');
   th{
     font-size: 16px;
   }
@@ -148,54 +150,14 @@ mark.orang {
   .dataTables_info {
     margin-left: 3.5%;
 }
-.timeline-with-icons {
-  border-left: 1px solid hsl(0, 0%, 90%);
-  position: relative;
-  list-style: none;
-}
-
-.timeline-with-icons .timeline-item {
-  position: relative;
-}
-
-.timeline-with-icons .timeline-item:after {
-  position: absolute;
-  display: block;
-  top: 0;
-}
-
-.timeline-with-icons .timeline-icon {
-  position: absolute;
-  left: -48px;
-  background-color: #696cff;
-  color: white;
-  border-radius: 50%;
-  height: 31px;
-  width: 31px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.text-box{
-  max-width: 700px;
-  white-space: initial;
-}
-.card-status{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.bx-brightness-half{
-  font: 4em sans-serif;
-}
-    .swal2-styled.swal2-confirm {
-      background-color: #27ae60; /* Green background color */
-      color: #fff; /* Text color */
-    }
-    .swal2-styled.swal2-cancel {
-      background-color: #c0392b; /* Red background color */
-      color: #fff; /* Text color */
-    }
+.col-divider {
+    border-right: 1px solid #696cff;
+  }
+  .coin{
+    font-family: 'Sigmar', cursive;
+        font-size: 42px;
+    color: #696cff;
+  }
 </style>
   <body>
     <!-- Layout wrapper -->
@@ -266,7 +228,7 @@ mark.orang {
               </ul>
             </li>
             <!-- DropDown -->
-            <li class="menu-item active open">
+            <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
               <i class='menu-icon tf-icons bx bx-book'></i>
                 <div data-i18n="Account Settings">ออเดอร์</div>
@@ -277,7 +239,7 @@ mark.orang {
                     <div data-i18n="Account">คำสั่งซื้อ</div>
                   </a>
                 </li>
-                <li class="menu-item active">
+                <li class="menu-item">
                   <a href="man_operate.php" class="menu-link">
                     <div data-i18n="Notifications">สถานะคำสั่งซื้อ</div>
                   </a>
@@ -297,19 +259,19 @@ mark.orang {
 
 
             <!-- จัดการข้อมูล -->
-            <li class="menu-item">
+            <li class="menu-item active open">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
               <i class='menu-icon tf-icons bx bx-coin'></i>
                 <div data-i18n="Account Settings">รายได้</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="#" class="menu-link">
+                <li class="menu-item active">
+                  <a href="information_coin.php" class="menu-link">
                     <div data-i18n="Account">รายเดือน</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="#" class="menu-link">
+                  <a href="category_chart.php" class="menu-link">
                     <div data-i18n="Notifications">ประเภทสินค้า</div>
                   </a>
                 </li>
@@ -666,230 +628,94 @@ mark.orang {
           </nav>
 
           <!-- / Navbar -->
-<?php
-include('connect.php');
-$query = "SELECT `order`.order_id, `order`.order_address, cumtomer.tel, cumtomer.name, performance.`date_ operate`, performance.status_performance
+<?php include('connect.php');
+
+$query = mysqli_query($conn, "SELECT MONTH(`performance`.`date_ operate`) AS month,
+SUM(`order`.`oder_total`) AS total_oder_total
 FROM `order`
-INNER JOIN cumtomer ON `order`.`cm_id` = cumtomer.cm_id
-INNER JOIN performance ON `order`.`order_id` = performance.order_id
-WHERE `order`.oder_status = 'อนุมัติ'
-AND performance.`date_ operate` = (
-    SELECT MAX(`date_ operate`)
-    FROM performance
-    WHERE performance.order_id = `order`.order_id
-)";
+INNER JOIN `performance` ON `order`.`order_id` = `performance`.`order_id`
+WHERE `performance`.`status_performance` = 'ดำเนินการเสร็จสิ้น'
+GROUP BY MONTH(`performance`.`date_ operate`);
+");
 
-$result = mysqli_query($conn, $query);
+$monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
+$totalSum = 0;
+if ($query) {
+    while ($row = mysqli_fetch_assoc($query)) {
+        $oder_total = $row['total_oder_total'];
+        $totalSum += $oder_total; // Add the oder_total to the total sum
+        $month = (int)$row['month'];
+        $total = (float)$row['total_oder_total'];
+        $monthlySalesData[$month - 1] = $total; // Assign total to the respective month index (0-based)
 
-if ($result) {
-  $data = array();
-  while ($row = mysqli_fetch_assoc($result)) {
-    $data[] = $row;
-  }
-
-  // Now the $data array contains the fetched data
+    }
 } else {
-  echo "Error: " . mysqli_error($conn);
+    echo "Error: " . mysqli_error($conn);
 }
 
-// Close the connection
 ?>
           <!-- Content wrapper -->
           <div class="content-wrapper">
             <!-- Content -->
+
             <div class="container-xxl flex-grow-1 container-p-y">
               <!-- Basic Bootstrap Table -->
               <div class="card">
               <div class="add demo-inline-spacing">
               <div class="row mb-5">
-              <div class="col-md-6 col-lg-5 mb-3">
-              <?php
-              $currentDate = date("Y-m-d"); // Format: Year-Month-Day
-              $elseConditionEntered = false;
-              foreach ($data as $fetch) {
-                if ($fetch['date_ operate'] == $currentDate) {
-              ?>
-                  <div class="card">
-                    <div class="card-body">
-                    <div class="row mb-5">
-                     <div class="col-xl-2">
-                     <i class='bx bx-brightness-half' style='color:#696cff'></i>
-                      </div>
-                      <div class="col-xl-10">
-                      <h5 class="card-title">งานวันนี้</h5>
-                      <p class="card-text">
-                        วันที่ 24 ธันวาคม 2544
-                      </p>
-                       </div>
-                </div>
-                <hr>
-                <button
-                  type="button"
-                  class="btn rounded-pill btn-icon btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exLargeModal<?php echo $fetch['order_id'] ?>">
-                  <span class="bx bxs-package"></span>
-                  </button>
-                  <button type="button" 
-                  class="btn rounded-pill btn-icon btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#timeline<?php echo $fetch['order_id'] ?>">
-                  <span class="bx bx-search-alt-2"></span>
-                </button>
-                <?php echo "<a class='btn rounded-pill btn-icon btn-primary bx bx-calendar-edit' href='test_calendar.php?id=" . $fetch['order_id'] . "'></a>"; ?>               
-                    </div>
-                  </div>
-                  <?php
-                } else {
-                  if (!$elseConditionEntered) {
-                    $elseConditionEntered = true;
-                  ?>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-xl-2 mt-4">
-                                    <i class='bx bx-brightness-half' style='color:#696cff'></i>
-                                </div>
-                                <div class="col-xl-10 mt-4 mb-4">
-                                    <h5 class="card-title">ไม่มีงานสำหรับวันนี้</h5>
-                                    <h3 class="card-text">
-                                    วันนี้ <?php
-                                            $thaiMonths = array(
-                                              1 => 'มกราคม',
-                                              2 => 'กุมภาพันธ์',
-                                              3 => 'มีนาคม',
-                                              4 => 'เมษายน',
-                                              5 => 'พฤษภาคม',
-                                              6 => 'มิถุนายน',
-                                              7 => 'กรกฎาคม',
-                                              8 => 'สิงหาคม',
-                                              9 => 'กันยายน',
-                                              10 => 'ตุลาคม',
-                                              11 => 'พฤศจิกายน',
-                                              12 => 'ธันวาคม'
-                                            );
-                                            $timestamp = strtotime($currentDate);
-                                            $buddhistYear = date("Y", $timestamp) + 543;
-                                            $monthNumber = date("n", $timestamp); // Get the month number (1-12)
-                                            $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
-                                            $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
-                                            echo $thaiFormattedDate;
-                                            ?>
-                                    </h3>
-                                </div>
-                            </div>             
-                        </div>
-                    </div>
-                    <?php
-                  }
-                }
-              }
-                    ?>
-                </div>
                 <div class="col-md-6 col-lg-7 mb-3">
                   <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">ค้นหาสถานะการดำเนินงาน</h5>
+                  <div class="row">
+                    <div class="card-body col-xl-6 col-divider">
+                      <h5 class="card-title">รายได้ทั้งหมด</h5>
                       <p class="card-text">
-                        กดปุ่มเพื่อค้นหาสถานะที่ต้องการ
+                        จำนวนเงินที่ได้รับทั้งหมดจากงานที่การดำเนินงานเสร็จสิ้นแล้ว
                       </p>
-                      <button type="button"class="btn btn-primary" onclick=setSearchValueall()>ทั้งหมด</button>
-                      <button type="button"class="btn btn-primary mx-3" onclick=setSearchValue()>รอตรวจสอบสถานที่ติดตั้ง</button>
-                      <button type="button"class="btn btn-primary mx-3" onclick=setSearchValuepayment()>รอดำเนินการแก้ไข</button>
-                      <button type="button"class="btn btn-primary mx-3" onclick=setSearchValuepass()>รอดำเนินการติดตั้งสินค้า</button>
+                    </div>
+                    <div class="card-body col-xl-6">
+                      <h1 class="card-title text-center coin"><?php
+                                                                $formattedNum = number_format($totalSum);
+                                                                echo  $formattedNum ?> ฿</h1>
+                    </div>
                     </div>
                   </div>
                 </div>   
               </div>  
               </div>
               
-                <h5 class="card-header">ตารางข้อมูลดำเนินงาน (คำสั่งซื้อที่อนุมัติแล้ว)</h5>
-              
-                <div class="table-responsive text-nowrap">
-                  <table class="table custom-datatable" id="table1" style="width: 100%;">
-                    <thead>
-                      <tr class="text-center">
-                        <th><h6>รหัสคำสั่งซื้อ</h6></th>
-                        <th><h6>ชื่อผู้สั่งซื้อ</h6></th>
-                        <th><h6>เบอร์โทรศัพท์</h6></th>
-                        <th><h6>ที่อยู่สำหรับติดตั้ง</h6></th>
-                        <th><h6>วันดำเนินงาน</h6></th>
-                        <th><h6>สถานะดำเนินงาน</h6></th>
-                        <th><h6>รายละเอียดคำสั่งซื้อ</h6></th>
-                        <th><h6>รายละเอียดงาน</h6></th>
-                        <th><h6>จัดการผลการดำเนินงาน</h6></th>
-                        <th><h6>พิมพ์สัญญาซื้อขาย</h6></th>
-                        <th><h6>สำเร็จการดำเนินงาน</h6></th>
-                      </tr>
-                    </thead>
-                    <tbody class="table-border-bottom-0">
-                    <?php
-                    foreach ($data as $fetch) {
-                      $thaiMonths = array(
-                        1 => 'มกราคม',
-                        2 => 'กุมภาพันธ์',
-                        3 => 'มีนาคม',
-                        4 => 'เมษายน',
-                        5 => 'พฤษภาคม',
-                        6 => 'มิถุนายน',
-                        7 => 'กรกฎาคม',
-                        8 => 'สิงหาคม',
-                        9 => 'กันยายน',
-                        10 => 'ตุลาคม',
-                        11 => 'พฤศจิกายน',
-                        12 => 'ธันวาคม'
-                      );
-                    ?>
-                                            <tr class="text-center">
-                                                <td><?php echo $fetch['order_id'] ?></td>
-                                                <td><?php echo $fetch['name'] ?></td>
-                                                <td><?php echo $fetch['tel'] ?></td>
-                                                <td><?php echo $fetch['order_address'] ?></td>
-                                                <td>
-                                                <?php
-                                                $date = $fetch['date_ operate'];
-                                                $timestamp = strtotime($date);
-                                                $buddhistYear = date("Y", $timestamp) + 543;
-                                                $monthNumber = date("n", $timestamp); // Get the month number (1-12)
-                                                $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
-                                                $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
-                                                echo $thaiFormattedDate; ?></td>
-                                                  <?php $status = $fetch['status_performance']; ?>
-                                                <td><mark class="<?php echo $status === 'ดำเนินการแก้ไข' ? 'yellow' : ($status === 'ดำเนินการเสร็จสิ้น' ? 'green' : ($status === 'รอดำเนินการติดตั้งสินค้า' ? 'orang' : '')); ?>"><?php echo $status ?></mark></td>
-                                                <td><button
-                                                    type="button"
-                                                    class="btn rounded-pill btn-icon btn-primary"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exLargeModal<?php echo $fetch['order_id'] ?>"
-                                                                                  >
-                                                                                  <span class="bx bxs-package"></span>
-                                                                                  </button></td>
-                                              <td><button type="button" 
-                                                      class="btn rounded-pill btn-icon btn-primary"
-                                                      data-bs-toggle="modal"
-                                                      data-bs-target="#timeline<?php echo $fetch['order_id'] ?>">
-                                                      <span class="bx bx-search-alt-2"></span>
-                                              </button></td>
-                                                <td class="text-center"><?php echo "<a class='btn rounded-pill btn-icon btn-primary bx bx-calendar-edit' href='test_calendar.php?id=" . $fetch['order_id'] . "'></a>"; ?></td>
-                                                <td class="text-center"><?php echo "<a class='btn rounded-pill btn-icon btn-primary bx bx-printer' href='bargain.php?id=" . $fetch['order_id'] . "'></a>"; ?></td>
-                                                <?php if ($status === 'รอดำเนินการติดตั้งสินค้า') {
-                                                ?><td><button type="button" 
-                                                  class="btn rounded-pill btn-icon btn-success"
-                                                  onclick="confirmUpdate(<?php echo $fetch['order_id']; ?>, '<?php echo $fetch['date_ operate']; ?>')">
-                                                  <span class="bx bx-check"></span>
-                                          </button></td>
-                                                <?php } else {
-                                                ?>
-                                                <td>ไม่สามารถใช้งานได้</td>
-                                               <?php } ?>
-                                            </tr>
-                                        <?php
-                                        include('modal_perform.php');
-                                      }
-                                        ?>
-                    </tbody>
-                  </table>
-                </div>
+                <h5 class="card-header">กราฟแสดงรายได้แต่ละเดือน</h5>
+                <canvas id="lineChart" width="450" height="100"></canvas>
+    <script src="line-chart.js"></script> <!-- Your JavaScript file -->
+    <script>
+        // Get the canvas element
+        var ctx = document.getElementById('lineChart').getContext('2d');
+
+        // Chart configuration
+        var chartConfig = {
+            type: 'line',
+            data: {
+                labels: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+                datasets: [{
+                    label: 'รายได้',
+                    data: <?php echo json_encode($monthlySalesData); ?>,
+                    borderColor: 'rgba(105, 108, 255, 1)',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        // Create the line chart
+        var lineChart = new Chart(ctx, chartConfig);
+    </script>
+                
                 
               </div>
             <!-- / Content -->
@@ -912,60 +738,9 @@ if ($result) {
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-   function confirmUpdate(orderId, dateOperate) {
-    Swal.fire({
-        title: "Confirmation",
-        text: `Are you sure you want to update the order with ID ${orderId} and date ${dateOperate}?`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, update it!",
-        cancelButtonText: "No, cancel",
-        reverseButtons: true
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // User confirmed, proceed with the update
-            $.ajax({
-                url: 'update_script.php',
-                type: 'POST',
-                data: {
-                    orderId: orderId,
-                    dateOperate: dateOperate
-                },
-                success: function(response) {
-                    var parsedResponse = JSON.parse(response);
-                    
-                    if (parsedResponse.status === "success") {
-                        Swal.fire({
-                            title: "Success",
-                            text: parsedResponse.msg,
-                            icon: "success",
-                            confirmButtonText: "OK"
-                        }).then(() => {
-                            // Reload the page or perform other actions
-                            location.reload();
-                        });
-                    } else if (parsedResponse.status === "error") {
-                        Swal.fire({
-                            title: "Error",
-                            text: parsedResponse.msg,
-                            icon: "error",
-                            confirmButtonText: "OK"
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.log(xhr.responseText);
-                }
-            });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-            // User canceled
-            Swal.fire("Cancelled", "The update has been cancelled.", "info");
-        }
-    });
-}
 
-</script>
-
+      
+    </script>
     <!-- / Layout wrapper -->
                     
     <!-- Core JS -->
@@ -1008,36 +783,6 @@ if ($result) {
                 table.search(this.value).draw();
             });
         });
-    </script>
-    <script>
-        function setSearchValue() {
-          var searchInput = document.getElementById("searchInput");
-          searchInput.value = "รอชำระเงิน";
-
-          var dataTable = $('#table1').DataTable();
-          dataTable.search(searchInput.value).draw();
-        }
-        function setSearchValuepayment(){
-          var searchInput = document.getElementById("searchInput");
-          searchInput.value = "รอการตรวจสอบ";
-
-          var dataTable = $('#table1').DataTable();
-          dataTable.search(searchInput.value).draw();
-        }
-        function setSearchValuepass(){
-          var searchInput = document.getElementById("searchInput");
-          searchInput.value = "อนุมัติ";
-
-          var dataTable = $('#table1').DataTable();
-          dataTable.search(searchInput.value).draw();
-        }
-        function setSearchValueall(){
-          var searchInput = document.getElementById("searchInput");
-          searchInput.value = "";
-
-          var dataTable = $('#table1').DataTable();
-          dataTable.search(searchInput.value).draw();
-        }
     </script>
     <script src="../assets/vendor/js/bootstrap.js"></script>
     <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>

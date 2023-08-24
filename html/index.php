@@ -176,7 +176,7 @@
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="pages-account-settings-account.html" class="menu-link">
+                  <a href="information_coin.php" class="menu-link">
                     <div data-i18n="Account">รายเดือน</div>
                   </a>
                 </li>

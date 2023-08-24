@@ -474,16 +474,7 @@ while ($row = mysqli_fetch_assoc($querywait)) {
                                                 <h4><?php
                                                     echo $data['oder_total'] ?>&nbsp;฿</h4>
                                                 <hr>
-                                                <br>
-                                                <div class="status">
-                                                    <h3 class="text-primary">
-                                                        <?php
-                                                        echo $data['oder_status'] ?>
-                                                    </h3>
-                                                    <br>
-                                                </div>
-                                                <h3 class="text-center">(รอตรวจสอบสถานที่ติดตั้ง)
-                                                </h3>
+                                                <?php echo "<a class='btn btn-primary' href='generatePDF.php?ids=" . $row['order_id'] . "'>พิมพ์ใบเสร็จชำระเงิน</a>"; ?>
                                             </div>
                                         </div>
                                     </div>

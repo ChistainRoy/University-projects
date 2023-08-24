@@ -1,11 +1,14 @@
 <?php
 require_once('./fpdf186/fpdf.php');
 include('connect.php');
+if (isset($_GET['ids'])) {
+    $id = $_GET['ids'];
+}
 $sql = "SELECT `order`.order_id,`order`.`oder_total`,`order`.`order_address`,oderdetail.oder_price,oderdetail.oder_qty,oder_total,product.product_name ,product.product_width,product.product_length,product.colorglass,product.colorframe
 FROM `order` 
 INNER JOIN oderdetail ON oderdetail.oder_id = `order`.`order_id` 
 INNER JOIN product ON product.product_id = oderdetail.product_id 
-WHERE `order`.order_id = 2;";
+WHERE `order`.order_id = 3;";
 $currentDate = date("Y-m-d");
 $thaiMonths = array(
     1 => 'มกราคม',
@@ -34,7 +37,7 @@ $sqli = "SELECT `cumtomer`.`name`,`cumtomer`.`tel`,`order`.`order_address`
     FROM `cumtomer`
     INNER JOIN `order` ON `cumtomer`.`cm_id` = `order`.`cm_id`
     WHERE `cumtomer`.`username` = 'darknight7577'
-    AND `order`.`order_id` = 2;";
+    AND `order`.`order_id` = $id;";
 $uername_data = mysqli_query($conn, $sqli);
 while ($row = mysqli_fetch_assoc($uername_data)) {
     // นำผลลัพธ์ที่ได้มาใช้งานตามต้องการ
