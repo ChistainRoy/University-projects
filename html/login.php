@@ -135,7 +135,7 @@ session_start();
               </form>
 
               <p class="text-center">
-                <a href="auth-register-basic.html">
+                <a href="auth-register-basic.php">
                   <span>สมัครสมาชิก</span>
                 </a>
               </p>

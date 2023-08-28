@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-
+<?php session_start();
+?>
 <!-- =========================================================
 * Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
 ==============================================================
@@ -58,14 +59,39 @@
     <link rel="stylesheet" href="../assets/vendor/css/pages/page-auth.css" />
     <!-- Helpers -->
     <script src="../assets/vendor/js/helpers.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assets/js/config.js"></script>
   </head>
   <body>
-    <!-- Content -->
+  <?php if (isset($_SESSION['errors'])) : ?>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: '<?php echo $_SESSION['errors']; ?>',
+        });
+    </script>
+<?php unset($_SESSION['errors']);
+  endif; ?>
 
+<?php if (isset($_SESSION['success'])) : ?>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'สำเร็จ',
+            text: '<?php echo $_SESSION['success']; ?>',
+        }).then(function() {
+            // เมื่อผู้ใช้กด OK ใน Swal.fire จะเปลี่ยนเส้นทางไปหน้าอื่น
+            window.location.href = 'login.php';
+        });
+    </script>
+<?php unset($_SESSION['success']);
+endif; ?>
+
+
+    <!-- Content -->
     <div class="container-xxl">
       <div class="authentication-wrapper authentication-basic container-p-y">
         <div class="authentication-inner">
@@ -92,6 +118,7 @@
                         aria-label="John"
                         aria-describedby="basic-icon-default-fullname2"
                         name="username"
+                        required
                       />
                     </div>
                   </div>
@@ -108,11 +135,12 @@
                         aria-label="ACME Inc."
                         aria-describedby="basic-icon-default-company2"
                         name="password"
+                        required
                       />
                     </div>
                   </div>
                   <div class="mb-3">
-                    <label class="form-label" for="basic-icon-default-email">ชื่อจริง-นามสกุล</label>
+                    <label class="form-label" for="basic-icon-default-email">ชื่อจริง-นามสกุล (เว้นวรรค)</label>
                     <div class="input-group input-group-merge">
                       <span class="input-group-text"><i class='bx bx-notepad'></i></span>
                       <input
@@ -123,6 +151,7 @@
                         aria-label="john doe"
                         aria-describedby="basic-icon-default-email2"
                         name="name"
+                        required
                       />
                     </div>
                   </div>
@@ -140,6 +169,7 @@
                         aria-label="658 799 8941"
                         aria-describedby="basic-icon-default-phone2"
                         name="tel"
+                        required
                       />
                     </div>
                   </div>
@@ -156,6 +186,7 @@
                         aria-label="address"
                         aria-describedby="basic-icon-default-message2"
                         name="address"
+                        required
                       ></textarea>
                     </div>
                   </div>
@@ -180,6 +211,8 @@
     <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
     <script src="../assets/vendor/js/menu.js"></script>
+    <!-- Include SweetAlert library -->
+
     <!-- endbuild -->
 
     <!-- Vendors JS -->
