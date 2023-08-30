@@ -145,41 +145,7 @@ a.navbar-brand {
                         <a class="nav-link" href="javascript:void(0)">เกี่ยวกับร้าน</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="javascript:void(0)" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            สินค้า
-                        </a>
-                        <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="cart2.php">หน้าต่างบานเลื่อน</a></li>
-                            <li><a class="dropdown-item" href="cart3.php">หน้าต่างบานพับ</a></li>
-                            <li><a class="dropdown-item" href="cart4.php">หน้าต่างห้องน้ำ</a></li>
-                            <li><a class="dropdown-item" href="cart5.php">ประตูบานเลื่อน</a></li>
-                            <li><a class="dropdown-item" href="cart6.php">ประตูบานพับ</a></li>
-                            <li>
-                                <hr class="dropdown-divider" />
-
-                            </li>
-                            <li class="nav-item dropend">
-                                <a class="nav-link" href="javascript:void(0)" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    สินค้า
-                                </a>
-                                <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="cart2.php">หน้าต่างบานเลื่อน</a></li>
-                                    <li><a class="dropdown-item" href="cart3.php">หน้าต่างบานพับ</a></li>
-                                    <li><a class="dropdown-item" href="cart4.php">หน้าต่างห้องน้ำ</a></li>
-                                    <li><a class="dropdown-item" href="cart5.php">ประตูบานเลื่อน</a></li>
-                                    <li><a class="dropdown-item" href="cart6.php">ประตูบานพับ</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider" />
-
-                                    </li>
-                                    <li><a class="dropdown-item" href="allproduct.php">สินค้าทั้งหมด</a></li>
-
-                                </ul>
-                            </li>
-
-                        </ul>
+                        <a class="nav-link" href="allproduct.php">สินค้าทั้งหมด</a>
                     </li>
                 </ul>
                 <form class="d-flex" onsubmit="return false">

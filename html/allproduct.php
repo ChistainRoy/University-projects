@@ -14,7 +14,8 @@ if (isset($_GET['logout'])) {
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>Buddy - Aluminum | สินค้าทั้งหมด</title>
 
@@ -46,149 +47,182 @@ if (isset($_GET['logout'])) {
     <script src="../assets/js/config.js"></script>
 </head>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Pathway+Extreme:ital,opsz,wght@1,8..144,200&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pathway+Extreme:ital,opsz,wght@1,8..144,200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@200&display=swap');
 
-    .footer-text {
-        font-family: 'Sarabun', sans-serif;
-        font-size: 24px;
-    }
+.footer-text {
+    font-family: 'Sarabun', sans-serif;
+    font-size: 24px;
+}
 
-    a {
-        font-family: 'Sarabun', sans-serif;
-    }
+a {
+    font-family: 'Sarabun', sans-serif;
+}
 
-    h3 {
-        font-family: 'Sarabun', sans-serif;
-    }
+h3 {
+    font-family: 'Sarabun', sans-serif;
+}
 
-    h2 {
-        font-family: 'Sigmar', cursive;
-        font-size: 32px;
-        color: #696cff;
-    }
+h2 {
+    font-family: 'Sigmar', cursive;
+    font-size: 32px;
+    color: #696cff;
+}
 
-    .navbar {
-        background-color: #ffffff;
-        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    }
+.navbar {
+    background-color: #ffffff;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
 
-    a.navbar-brand {
-        color: white;
-    }
+a.navbar-brand {
+    color: white;
+}
 
-    .card {
-        border-radius: 4px;
-        background: #fff;
-        box-shadow: 0 6px 10px rgba(0, 0, 0, .08), 0 0 6px rgba(0, 0, 0, .05);
-        transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
-        cursor: pointer;
+.card {
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, .08), 0 0 6px rgba(0, 0, 0, .05);
+    transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
+    cursor: pointer;
 
-    }
+}
 
-    .card:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
-    }
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+}
 
-    .carousel-item {
-        width: 100%;
-        height: 700px;
-    }
+.carousel-item {
+    width: 100%;
+    height: 700px;
+}
 
+.slide {
+    width: 100%;
+    height: 700px;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 400px;
+    padding: 10px;
+}
+
+@media (max-width:767px) {
     .slide {
-        width: 100%;
-        height: 700px;
+        max-width: 100%;
+        height: 200px;
+    }
+}
+
+@media (max-width:767px) {
+    .carousel-item {
+        max-width: 100%;
+        height: 200px;
+    }
+}
+
+#navbarSupportedContent {
+    text-align: center;
+}
+
+.bi-cart-plus {
+    font-size: 20px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.num {
+    font-family: 'Sigmar', cursive;
+    background-color: red;
+    position: absolute;
+    color: white;
+    font-size: 14px;
+    margin-left: 16px;
+    margin-bottom: 20px;
+    width: 30px;
+    text-align: center;
+    padding: 4px;
+    border-radius: 20px;
+}
+
+@media (min-width:992px) {
+    .buy-now {
+        display: none;
     }
 
-    .card-img-top {
-        width: 100%;
-        height: 400px;
-        padding: 10px;
+}
+
+@media (max-width:991px) {
+    .max {
+        display: none;
+    }
+}
+
+.nav-link a {
+    font-size: 24px;
+}
+
+@media only screen and (min-width: 375px) and (max-width: 767px) {
+    a {
+        font-size: 18px;
     }
 
-    @media (max-width:767px) {
-        .slide {
-            max-width: 100%;
-            height: 200px;
-        }
+    .navbar-light .navbar-nav .nav-link:hover:after,
+    .navbar-light .navbar-nav .nav-link:focus:after {
+        color: #696cff;
+        transform: scaleX(0);
     }
+}
 
-    @media (max-width:767px) {
-        .carousel-item {
-            max-width: 100%;
-            height: 200px;
-        }
-    }
-
-    #navbarSupportedContent {
-        text-align: center;
-    }
-
-    .bi-cart-plus {
-        font-size: 20px;
-        padding: 5px;
-        display: flex;
-        align-items: center;
-    }
-
-    .num {
-        font-family: 'Sigmar', cursive;
-        background-color: red;
-        position: absolute;
-        color: white;
-        font-size: 14px;
-        margin-left: 16px;
-        margin-bottom: 20px;
-        width: 30px;
-        text-align: center;
-        padding: 4px;
-        border-radius: 20px;
-    }
-
-    @media (min-width:992px) {
-        .buy-now {
-            display: none;
-        }
-
-    }
-
-    @media (max-width:991px) {
-        .max {
-            display: none;
-        }
-    }
-
-    .nav-link a {
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    a {
         font-size: 24px;
     }
 
-    @media only screen and (min-width: 375px) and (max-width: 767px) {
-        a {
-            font-size: 18px;
-        }
-
-        .navbar-light .navbar-nav .nav-link:hover:after,
-        .navbar-light .navbar-nav .nav-link:focus:after {
-            color: #696cff;
-            transform: scaleX(0);
-        }
+    .navbar-light .navbar-nav .nav-link:hover:after,
+    .navbar-light .navbar-nav .nav-link:focus:after {
+        color: #696cff;
+        transform: scaleX(0);
     }
+}
 
-    @media only screen and (min-width: 768px) and (max-width: 991px) {
-        a {
-            font-size: 24px;
-        }
+.navbar-fillter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .navbar-light .navbar-nav .nav-link:hover:after,
-        .navbar-light .navbar-nav .nav-link:focus:after {
-            color: #696cff;
-            transform: scaleX(0);
-        }
+select {
+    border-radius: 6px;
+    border-color: none;
+    background-color: #F3F3F3;
+}
 
+label {
+    font-size: 16px;
+    padding-left: 10px;
+    color: while;
+}
 
-    }
+option {
+    background-color: #F3F3F3;
+}
+
+option:hover {
+    background-color: back;
+}
+
+.submit {
+
+    border-radius: 6px;
+    border-color: none;
+    background-color: #F3F3F3;
+    font-size: 16px;
+}
 </style>
+
 
 <body>
     <?php
@@ -258,31 +292,73 @@ if (isset($_GET['logout'])) {
     <!-- สินค้า -->
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">สินค้า /</span> สินค้าทั้งหมด</h4>
+            <nav class="navbar navbar-light bg-primary mb-3">
+                <div class="container-fluid">
+                    <form action="Search.php">
+                        <label for="type">ประเภทสินค้า:</label>
+                        <select name="cars" class="py-1 px-1">
+                            <option value="volvo">ประตูบานเลื่อน</option>
+                            <option value="saab">ประตูบานพับ</option>
+                            <option value="audi">หน้าต่างบานเลื่อน</option>
+                            <option value="audi">หน้าต่างบานพับ</option>
+                            <option value="fiat">หน้าต่างห้องน้ำ</option>
+                        </select>
+                        <label for="type">ขนาด:</label>
+                        <select name="cars" class="py-1 px-1">
+                            <option value="volvo">ประตูบานเลื่อน</option>
+                            <option value="saab">ประตูบานพับ</option>
+                            <option value="audi">หน้าต่างบานเลื่อน</option>
+                            <option value="audi">หน้าต่างบานพับ</option>
+                            <option value="fiat">หน้าต่างห้องน้ำ</option>
+                        </select>
+                        <label for="type">สีกรอบ:</label>
+                        <select name="cars" class="py-1 px-1">
+                            <option value="volvo">ประตูบานเลื่อน</option>
+                            <option value="saab">ประตูบานพับ</option>
+                            <option value="audi">หน้าต่างบานเลื่อน</option>
+                            <option value="audi">หน้าต่างบานพับ</option>
+                            <option value="fiat">หน้าต่างห้องน้ำ</option>
+                        </select>
+                        <label for="type">สีกระจก:</label>
+                        <select name="cars" class="py-1 px-1">
+                            <option value="volvo">ประตูบานเลื่อน</option>
+                            <option value="saab">ประตูบานพับ</option>
+                            <option value="audi">หน้าต่างบานเลื่อน</option>
+                            <option value="audi">หน้าต่างบานพับ</option>
+                            <option value="fiat">หน้าต่างห้องน้ำ</option>
+                        </select>
+                        <button class="submit mx-2" type="submit">ค้นหา</button>
+                    </form>
+                </div>
+            </nav>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-3">
                 <?php
                 include('connect.php');
                 $query = mysqli_query($conn, "SELECT * FROM `product`");
                 while ($fetch = mysqli_fetch_array($query)) {
                 ?>
-                    <form action="allproduct.php" method="post">
-                        <div class="card-group mb-5">
-                            <div class="card h-100">
-                                <img class="card-img-top" src="<?php echo $fetch['product_img'] ?>" alt="Card image cap" />
-                                <div class="card-body">
-                                    <h3 class="card-title"><?php echo $fetch['product_name'] ?> <?php echo $fetch['product_width'] ?> X <?php echo $fetch['product_length'] ?> ซม.</h3>
-                                    <h2 class="card-text text-center p-0">
-                                        <?php echo $fetch['product_price'] ?> ฿
-                                    </h2>
-                                    <hr class="dropdown-divider mb-4" />
-                                    <input type="hidden" id="number" class="form-control" name="productid" value="<?php echo $fetch['product_id'] ?>" hidden />
-                                    <div class="row d-grid gap-2 col-6 mx-auto mx-2">
-                                        <button class="bt btn rounded-pill btn-outline-primary" type="submit" name="add">เพิ่มลงรถเข็น</button>
-                                    </div>
+                <form action="allproduct.php" method="post">
+                    <div class="card-group mb-5">
+                        <div class="card h-100">
+                            <img class="card-img-top" src="<?php echo $fetch['product_img'] ?>" alt="Card image cap" />
+                            <div class="card-body">
+                                <h3 class="card-title"><?php echo $fetch['product_name'] ?>
+                                    <?php echo $fetch['product_width'] ?> X <?php echo $fetch['product_length'] ?> ซม.
+                                </h3>
+                                <h2 class="card-text text-center p-0">
+                                    <?php echo $fetch['product_price'] ?> ฿
+                                </h2>
+                                <hr class="dropdown-divider mb-4" />
+                                <input type="hidden" id="number" class="form-control" name="productid"
+                                    value="<?php echo $fetch['product_id'] ?>" hidden />
+                                <div class="row d-grid gap-2 col-6 mx-auto mx-2">
+                                    <button class="bt btn rounded-pill btn-outline-primary" type="submit"
+                                        name="add">เพิ่มลงรถเข็น</button>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
+                </form>
                 <?php } ?>
             </div>
         </div>
@@ -292,9 +368,11 @@ if (isset($_GET['logout'])) {
     <section id="basic-footer">
         <div class="container-fluid p-0">
             <footer class="footer bg-primary">
-                <div class="container d-flex flex-md-row flex-column justify-content-between align-items-md-center gap-1 container-p-x py-3">
+                <div
+                    class="container d-flex flex-md-row flex-column justify-content-between align-items-md-center gap-1 container-p-x py-3">
                     <div>
-                        <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+                        <a href="https://themeselection.com/license/" class="footer-link me-4"
+                            target="_blank">License</a>
                         <a href="javascript:void(0)" class="footer-link me-4">Help</a>
                         <a href="javascript:void(0)" class="footer-link me-4">Contact</a>
                         <a href="javascript:void(0)" class="footer-link">Terms &amp; Conditions</a>
@@ -308,7 +386,8 @@ if (isset($_GET['logout'])) {
     <!-- ตระกร้าขนาดมือถือ -->
     <div class="buy-now">
 
-        <a href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/" target="_blank" class="btn rounded-pill btn-icon btn-danger btn-buy-now"> <i class="bi bi-cart-plus fs-3">
+        <a href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/" target="_blank"
+            class="btn rounded-pill btn-icon btn-danger btn-buy-now"> <i class="bi bi-cart-plus fs-3">
                 <?php
                 if (isset($_SESSION['cart'])) {
                     $count = count($_SESSION['cart']);
