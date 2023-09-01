@@ -2,12 +2,12 @@
 <?php
 session_start();
 if (!isset($_SESSION['username_admin'])) {
-    header("location: login.php");
+  header("location: login.php");
 }
 if (isset($_GET['logout'])) {
-    session_destroy();
-    unset($_SESSION['username_admin']);
-    header("location: login.php");
+  session_destroy();
+  unset($_SESSION['username_admin']);
+  header("location: login.php");
 }
 ?>
 <!-- =========================================================
@@ -629,28 +629,100 @@ mark.orang {
 
           <!-- / Navbar -->
 <?php include('connect.php');
+if (isset($_POST['year'])) {
+  if ($_POST['year'] == '2023') {
+    $query = mysqli_query($conn, "SELECT MONTH(`performance`.`date_ operate`) AS month, SUM(`order`.`oder_total`) AS total_oder_total 
+    FROM `order` 
+    INNER JOIN `performance` ON `order`.`order_id` = `performance`.`order_id` 
+    WHERE `performance`.`status_performance` = 'ดำเนินการเสร็จสิ้น' 
+    AND YEAR(`performance`.`date_ operate`) = 2023
+    GROUP BY MONTH(`performance`.`date_ operate`);");
 
-$query = mysqli_query($conn, "SELECT MONTH(`performance`.`date_ operate`) AS month,
-SUM(`order`.`oder_total`) AS total_oder_total
-FROM `order`
-INNER JOIN `performance` ON `order`.`order_id` = `performance`.`order_id`
-WHERE `performance`.`status_performance` = 'ดำเนินการเสร็จสิ้น'
-GROUP BY MONTH(`performance`.`date_ operate`);
-");
-
-$monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
-$totalSum = 0;
-if ($query) {
-    while ($row = mysqli_fetch_assoc($query)) {
+    $monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
+    $totalSum = 0;
+    $year = "2023";
+    if ($query) {
+      while ($row = mysqli_fetch_assoc($query)) {
         $oder_total = $row['total_oder_total'];
         $totalSum += $oder_total; // Add the oder_total to the total sum
         $month = (int)$row['month'];
         $total = (float)$row['total_oder_total'];
         $monthlySalesData[$month - 1] = $total; // Assign total to the respective month index (0-based)
 
+      }
+    } else {
+      echo "Error: " . mysqli_error($conn);
     }
+  } else if ($_POST['year'] == '2022') {
+    $query = mysqli_query($conn, "SELECT MONTH(`performance`.`date_ operate`) AS month, SUM(`order`.`oder_total`) AS total_oder_total 
+    FROM `order` 
+    INNER JOIN `performance` ON `order`.`order_id` = `performance`.`order_id` 
+    WHERE `performance`.`status_performance` = 'ดำเนินการเสร็จสิ้น' 
+    AND YEAR(`performance`.`date_ operate`) = 2022
+    GROUP BY MONTH(`performance`.`date_ operate`);");
+
+    $monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
+    $totalSum = 0;
+    $year = "2022";
+    if ($query) {
+      while ($row = mysqli_fetch_assoc($query)) {
+        $oder_total = $row['total_oder_total'];
+        $totalSum += $oder_total; // Add the oder_total to the total sum
+        $month = (int)$row['month'];
+        $total = (float)$row['total_oder_total'];
+        $monthlySalesData[$month - 1] = $total; // Assign total to the respective month index (0-based)
+
+      }
+    } else {
+      echo "Error: " . mysqli_error($conn);
+    }
+  } else {
+    $query = mysqli_query($conn, "SELECT MONTH(`performance`.`date_ operate`) AS month, SUM(`order`.`oder_total`) AS total_oder_total 
+    FROM `order` 
+    INNER JOIN `performance` ON `order`.`order_id` = `performance`.`order_id` 
+    WHERE `performance`.`status_performance` = 'ดำเนินการเสร็จสิ้น' 
+    AND YEAR(`performance`.`date_ operate`) = 2024
+    GROUP BY MONTH(`performance`.`date_ operate`);");
+
+    $monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
+    $totalSum = 0;
+    $year = "2024";
+    if ($query) {
+      while ($row = mysqli_fetch_assoc($query)) {
+        $oder_total = $row['total_oder_total'];
+        $totalSum += $oder_total; // Add the oder_total to the total sum
+        $month = (int)$row['month'];
+        $total = (float)$row['total_oder_total'];
+        $monthlySalesData[$month - 1] = $total; // Assign total to the respective month index (0-based)
+
+      }
+    } else {
+      echo "Error: " . mysqli_error($conn);
+    }
+  }
 } else {
+  $query = mysqli_query($conn, "SELECT MONTH(`performance`.`date_ operate`) AS month, SUM(`order`.`oder_total`) AS total_oder_total 
+    FROM `order` 
+    INNER JOIN `performance` ON `order`.`order_id` = `performance`.`order_id` 
+    WHERE `performance`.`status_performance` = 'ดำเนินการเสร็จสิ้น' 
+    AND YEAR(`performance`.`date_ operate`) = 2023
+    GROUP BY MONTH(`performance`.`date_ operate`);");
+
+  $monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
+  $totalSum = 0;
+  $year = "2023";
+  if ($query) {
+    while ($row = mysqli_fetch_assoc($query)) {
+      $oder_total = $row['total_oder_total'];
+      $totalSum += $oder_total; // Add the oder_total to the total sum
+      $month = (int)$row['month'];
+      $total = (float)$row['total_oder_total'];
+      $monthlySalesData[$month - 1] = $total; // Assign total to the respective month index (0-based)
+
+    }
+  } else {
     echo "Error: " . mysqli_error($conn);
+  }
 }
 
 ?>
@@ -674,8 +746,8 @@ if ($query) {
                     </div>
                     <div class="card-body col-xl-6">
                       <h1 class="card-title text-center coin"><?php
-                                                                $formattedNum = number_format($totalSum);
-                                                                echo  $formattedNum ?> ฿</h1>
+                                                              $formattedNum = number_format($totalSum);
+                                                              echo  $formattedNum ?> ฿</h1>
                     </div>
                     </div>
                   </div>
@@ -684,7 +756,19 @@ if ($query) {
               </div>
               
                 <h5 class="card-header">กราฟแสดงรายได้แต่ละเดือน</h5>
+                <form action="information_coin.php" method="post">
+                <select class="form-select" id="inputGroupSelect01" name="year">
+                    <option selected>เลือกปีของรายได้</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                </select>
+      <button class="btn btn-primary mt-3 d-flex" type="submit" name="pass">แสดงข้อมูล</button>
+  </form>
                 <canvas id="lineChart" width="450" height="100"></canvas>
+
+
+
     <script src="line-chart.js"></script> <!-- Your JavaScript file -->
     <script>
         // Get the canvas element
@@ -696,7 +780,7 @@ if ($query) {
             data: {
                 labels: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
                 datasets: [{
-                    label: 'รายได้',
+                    label: 'รายได้ปี <?php echo $year ?>',
                     data: <?php echo json_encode($monthlySalesData); ?>,
                     borderColor: 'rgba(105, 108, 255, 1)',
                     borderWidth: 2,
@@ -714,8 +798,7 @@ if ($query) {
 
         // Create the line chart
         var lineChart = new Chart(ctx, chartConfig);
-    </script>
-                
+    </script>      
                 
               </div>
             <!-- / Content -->

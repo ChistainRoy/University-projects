@@ -193,7 +193,7 @@
 
             <!-- ลูกค้าใหม่ -->
             <li class="menu-item">
-              <a href="cards-basic.html" class="menu-link">
+              <a href="customer_new.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-user-plus"></i>
                 <div data-i18n="Basic">ลูกค้าใหม่รายเดือน</div>
               </a>
