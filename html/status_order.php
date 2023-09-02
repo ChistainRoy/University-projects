@@ -158,6 +158,10 @@ mark.orang {
         font-size: 42px;
     color: #696cff;
   }
+  .no{
+    margin-top: 20%;
+    
+  }
 </style>
   <body>
     <!-- Layout wrapper -->
@@ -300,7 +304,7 @@ mark.orang {
 
             <!-- ความคิดเห็นลูกค้า -->
             <li class="menu-item">
-              <a href="#" class="menu-link">
+              <a href="comment_chart.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-message-rounded"></i>
                 <div data-i18n="Basic">ความคิดเห็นลูกค้า</div>
               </a>
@@ -629,28 +633,113 @@ mark.orang {
 
           <!-- / Navbar -->
 <?php include('connect.php');
-
-$query = mysqli_query($conn, "SELECT * FROM `cumtomer`");
-
-$monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
+if(isset($_POST['pass'])){
+  $year = $_POST['year'];
+  $month = $_POST['month'];
+  $query = mysqli_query($conn, " SELECT `order`.`order_id`, `order`.`oder_status`, performance.`date_ operate`, performance.status_performance
+  FROM `order`
+  INNER JOIN performance ON `order`.`order_id` = performance.order_id
+  INNER JOIN (
+      SELECT `order_id`, MAX(`date_ operate`) AS max_date
+      FROM performance
+      GROUP BY `order_id`
+  ) AS latest_performance ON performance.order_id = latest_performance.order_id AND performance.`date_ operate` = latest_performance.max_date
+  WHERE YEAR(performance.`date_ operate`) = $year
+  AND MONTH(performance.`date_ operate`) = $month;
+");
+$monthlySalesData = array_fill(0, 4, 0); // Initialize an array to store monthly sales data with 4 zeros
 $sum = 0;
 if ($query) {
   while ($row = mysqli_fetch_assoc($query)) {
-    $dateRegis = $row['date_regis']; // Assuming 'date_regis' is the name of the column
+    $status_performance = $row['status_performance']; // เก็บค่า status_performance ไว้ในตัวแปร
 
-    // Convert the date string to a DateTime object
-    $date = new DateTime($dateRegis);
-
-    // Get the month and year
-    $month = (int)$date->format('m');
-    $year = (int)$date->format('Y');
-
-    // Update the monthlySalesData array with the count of registrations in the respective month
-    $monthlySalesData[$month - 1]++;
+    if ($status_performance == 'รอตรวจสอบสถานที่ติดตั้ง') {
+      $monthlySalesData[0]++;
+    } else if ($status_performance == 'ดำเนินการแก้ไข') {
+      $monthlySalesData[1]++;
+    } else if ($status_performance == 'รอติดตั้งสินค้า') {
+      $monthlySalesData[2]++;
+    } else {
+      $monthlySalesData[3]++;
+    }
     $sum++;
   }
 } else {
   echo "Error: " . mysqli_error($conn);
+}
+$result = mysqli_query($conn, "SELECT `order`.`order_id`, `order`.`oder_status`,`order`.`order_reserve` FROM `order`WHERE YEAR(`order`.`order_reserve`) = $year
+AND MONTH(`order`.`order_reserve`) = $month;
+");
+
+$Data = array_fill(0, 3, 0); // Initialize an array to store monthly sales data with 4 zeros
+$total = 0;
+if ($result) {
+  while ($row = mysqli_fetch_assoc($result)) {
+    $status = $row['oder_status']; // เก็บค่า status_performance ไว้ในตัวแปร
+
+    if ($status == 'รอชำระเงิน') {
+      $Data[0]++;
+    } else if ($status == 'รอตรวจสอบ') {
+      $Data[1]++;
+    } else if ($status == 'อนุมัติ') {
+      $Data[2]++;
+    }
+    $total++;
+  }
+} else {
+  echo "Error: " . mysqli_error($conn);
+}
+}else{
+  $query = mysqli_query($conn, " SELECT `order`.`order_id`, `order`.`oder_status`, performance.`date_ operate`, performance.status_performance
+  FROM `order`
+  INNER JOIN performance ON `order`.`order_id` = performance.order_id
+  INNER JOIN (
+      SELECT `order_id`, MAX(`date_ operate`) AS max_date
+      FROM performance
+      GROUP BY `order_id`
+  ) AS latest_performance ON performance.order_id = latest_performance.order_id AND performance.`date_ operate` = latest_performance.max_date;
+");
+$monthlySalesData = array_fill(0, 4, 0); // Initialize an array to store monthly sales data with 4 zeros
+$sum = 0;
+if ($query) {
+  while ($row = mysqli_fetch_assoc($query)) {
+    $status_performance = $row['status_performance']; // เก็บค่า status_performance ไว้ในตัวแปร
+
+    if ($status_performance == 'รอตรวจสอบสถานที่ติดตั้ง') {
+      $monthlySalesData[0]++;
+    } else if ($status_performance == 'ดำเนินการแก้ไข') {
+      $monthlySalesData[1]++;
+    } else if ($status_performance == 'รอติดตั้งสินค้า') {
+      $monthlySalesData[2]++;
+    } else {
+      $monthlySalesData[3]++;
+    }
+    $sum++;
+  }
+} else {
+  echo "Error: " . mysqli_error($conn);
+}
+$result = mysqli_query($conn, "SELECT `order`.`order_id`, `order`.`oder_status`,`order`.`order_reserve` FROM `order`;
+");
+
+$Data = array_fill(0, 3, 0); // Initialize an array to store monthly sales data with 4 zeros
+$total = 0;
+if ($result) {
+  while ($row = mysqli_fetch_assoc($result)) {
+    $status = $row['oder_status']; // เก็บค่า status_performance ไว้ในตัวแปร
+
+    if ($status == 'รอชำระเงิน') {
+      $Data[0]++;
+    } else if ($status == 'รอตรวจสอบ') {
+      $Data[1]++;
+    } else if ($status == 'อนุมัติ') {
+      $Data[2]++;
+    }
+    $total++;
+  }
+} else {
+  echo "Error: " . mysqli_error($conn);
+}
 }
 
 ?>
@@ -663,58 +752,150 @@ if ($query) {
               <div class="card">
               <div class="add demo-inline-spacing">
               <div class="row mb-5">
-                <div class="col-md-6 col-lg-7 mb-3">
+                <div class="col-md-6 col-lg-6 mb-3">
                   <div class="card">
                   <div class="row">
                     <div class="card-body col-xl-6 col-divider">
-                      <h5 class="card-title">จำนวนลูกค้าทั้งหมด</h5>
-                      <p class="card-text">
-                        จำนวนลูกค้าที่สมัครสมาชืกเข้ามาในระบบทั้งหมด
-                      </p>
+                      <h5 class="card-title mt-4">จำนวนสถานะทั้งหมดในการชำระเงิน</h5>
                     </div>
                     <div class="card-body col-xl-6">
-                      <h1 class="card-title text-center coin"><?php
-                                                              $formattedNum = number_format($sum);
-                                                              echo  $sum ?> (บัญชี)</h1>
+                      <h2 class="card-title text-center coin"><?php
+                                                              $formattedNum = number_format($total);
+                                                              echo  $formattedNum ?> (คำสั่งซื้อ)</h2>
                     </div>
                     </div>
                   </div>
-                </div>   
+                </div>
+                <div class="col-md-6 col-lg-6 mb-3">
+                  <div class="card">
+                  <div class="row">
+                    <div class="card-body col-xl-6 col-divider">
+                      <h5 class="card-title mt-4">จำนวนสถานะซื้อทั้งหมดในการดำเนินงาน</h5>
+                    </div>
+                    <div class="card-body col-xl-6">
+                      <h2 class="card-title text-center coin"><?php
+                                                              $formattedNum = number_format($sum);
+                                                              echo $formattedNum ?> (คำสั่งซื้อ)</h2>
+                    </div>
+                    </div>
+                  </div>
+                </div>      
               </div>  
               </div>
-              
-                <h5 class="card-header">กราฟแสดงรายได้แต่ละเดือน</h5>
-                <canvas id="lineChart" width="450" height="100"></canvas>
+              <div class="row">
+              <form action="status_order.php" method="post" onsubmit="return validateForm()">
+                <p>เลือก เดือน/ปี ที่ต้องการแสดงข้อมูล</p>
+                <div class="col-xl-2">
+                <select class="form-select mb-2" id="inputGroupSelectYear" name="year"required>
+                    <option selected>ปี</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                </select>
+                </div>
+                <div class="col-xl-2">
+                <select class="form-select" id="inputGroupSelectMonth" name="month"required>
+                    <option selected>เดือน</option>
+                    <option value="1">มกราคม</option>
+                    <option value="2">กุมภาพันธ์</option>
+                    <option value="3">มีนาคม</option>
+                    <option value="4">เมษายน</option>
+                    <option value="5">พฤษภาคม</option>
+                    <option value="6">มิถุนายน</option>
+                    <option value="7">กรกฎาคม</option>
+                    <option value="8">สิงหาคม</option>
+                    <option value="9">กันยายน</option>
+                    <option value="10">ตุลาคม</option>
+                    <option value="11">พฤศจิกายน</option>
+                    <option value="12">ธันวาคม</option>
+                    
+</select>
+</div>
+<div class="col-xl-2">
+      <button class="btn btn-primary mt-3 d-flex" type="submit" name="pass">แสดงข้อมูล</button>
+      </div>
+  </form>
+  
+                <div class="col-xl-6">
+                <h5 class="card-header">กราฟแสดงจำนวนสถานะการชำระเงิน</h5>
+                <?php  if (count(array_filter($Data)) == 0) {
+                    // มีข้อมูล
+                    $no = "ไม่มีข้อมูล";
+                }else{ $no = "" ;
+                ?> <canvas id="myPieChart" width="400" height="400"></canvas>
+                <?php } ?>
+               
+                <h1 class="no text-center"><?php  echo $no; ?></h1>
+                </div>
+                <div class="col-xl-6">
+                <h5 class="card-header">กราฟแสดงจำนวนสถานะการดำเนินงาน</h5>
+              <?php  if (count(array_filter($monthlySalesData)) == 0) {
+                    // มีข้อมูล
+                    $no = "ไม่มีข้อมูล";
+                }else{ $no = "" ;
+                ?> <canvas id="myPieChart2" width="400" height="400"></canvas>
+                <?php } ?>
+               
+                <h1 class="no text-center"><?php  echo $no; ?></h1>
+                </div>
+                
+                </div>
     <script src="line-chart.js"></script> <!-- Your JavaScript file -->
     <script>
-        // Get the canvas element
-        var ctx = document.getElementById('lineChart').getContext('2d');
+       // หากคุณต้องการข้อมูลตัวอย่าง
+var data = {
+    labels: ["รอชำระเงิน", "รอตรวจสอบ", "อนุมัติ"],
+    datasets: [{
+        data: <?php echo json_encode($Data); ?>,
+        backgroundColor: ["#7FB3D5", "#EC7063", "#76D7C4"]
+    }]
+};
 
-        // Chart configuration
-        var chartConfig = {
-            type: 'line',
-            data: {
-                labels: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
-                datasets: [{
-                    label: 'ลูกค้า (บัญชี)',
-                    data: <?php echo json_encode($monthlySalesData); ?>,
-                    borderColor: 'rgba(105, 108, 255, 1)',
-                    borderWidth: 2,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        };
+// สร้าง Pie Chart
+var ctx = document.getElementById('myPieChart').getContext('2d');
+var myPieChart = new Chart(ctx, {
+    type: 'pie',
+    data: data
+});
 
-        // Create the line chart
-        var lineChart = new Chart(ctx, chartConfig);
     </script>
+
+    <script>
+       // หากคุณต้องการข้อมูลตัวอย่าง
+var data = {
+    labels: ["รอตรวจสอบสถานที่ติดตั้ง", "รอดำเนินการแก้ไข", "รอดำเนินการติดตั้งสินค้า","ดำเนินการเสร็จสิ้น"],
+    datasets: [{
+        data: <?php echo json_encode($monthlySalesData); ?>,
+        backgroundColor: ["#73C6B6", "#F8C471", "#5499C7 ","#F1948A"]
+    }]
+};
+
+// สร้าง Pie Chart
+var ctx = document.getElementById('myPieChart2').getContext('2d');
+var myPieChart = new Chart(ctx, {
+    type: 'pie',
+    data: data
+});
+    </script>
+
+
+
+
+
+<script>
+function validateForm() {
+  var yearSelect = document.getElementById("inputGroupSelectYear");
+  var monthSelect = document.getElementById("inputGroupSelectMonth");
+  var selectedYear = yearSelect.options[yearSelect.selectedIndex].value;
+  var selectedMonth = monthSelect.options[monthSelect.selectedIndex].value;
+
+  if (selectedYear === "ปี" || selectedMonth === "เดือน") {
+    alert("กรุณาเลือกปีและเดือนให้ครบถ้วน");
+    return false;
+  }
+  return true;
+}
+</script>      
                 
                 
               </div>

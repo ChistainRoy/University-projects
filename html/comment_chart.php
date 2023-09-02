@@ -2,12 +2,12 @@
 <?php
 session_start();
 if (!isset($_SESSION['username_admin'])) {
-    header("location: login.php");
+  header("location: login.php");
 }
 if (isset($_GET['logout'])) {
-    session_destroy();
-    unset($_SESSION['username_admin']);
-    header("location: login.php");
+  session_destroy();
+  unset($_SESSION['username_admin']);
+  header("location: login.php");
 }
 ?>
 <!-- =========================================================
@@ -158,6 +158,10 @@ mark.orang {
         font-size: 42px;
     color: #696cff;
   }
+  .no{
+    margin-top: 20%;
+    
+  }
 </style>
   <body>
     <!-- Layout wrapper -->
@@ -282,7 +286,7 @@ mark.orang {
 
 
             <!-- ลูกค้าใหม่ -->
-            <li class="menu-item active">
+            <li class="menu-item">
               <a href="#" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-user-plus"></i>
                 <div data-i18n="Basic">ลูกค้าใหม่รายเดือน</div>
@@ -299,8 +303,8 @@ mark.orang {
 
 
             <!-- ความคิดเห็นลูกค้า -->
-            <li class="menu-item">
-              <a href="#" class="menu-link">
+            <li class="menu-item active">
+              <a href="comment_chart.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-message-rounded"></i>
                 <div data-i18n="Basic">ความคิดเห็นลูกค้า</div>
               </a>
@@ -629,59 +633,9 @@ mark.orang {
 
           <!-- / Navbar -->
 <?php include('connect.php');
-if(isset($_POST['year'])){
-  $year = $_POST['year'];
-  $query = mysqli_query($conn, "SELECT * FROM `cumtomer` WHERE YEAR(`cumtomer`.`date_regis`) = $year");
+if(isset($_POST['pass'])){
 
-  $monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
-  $sum = 0;
-  if ($query) {
-      while ($row = mysqli_fetch_assoc($query)) {
-          $dateRegis = $row['date_regis']; // Assuming 'date_regis' is the name of the column
-  
-          // Convert the date string to a DateTime object
-          $date = new DateTime($dateRegis);
-  
-          // Get the month and year
-          $month = (int)$date->format('m');
-          $year = (int)$date->format('Y');
-  
-          // Update the monthlySalesData array with the count of registrations in the respective month
-          $monthlySalesData[$month - 1]++;
-          $sum++;
-      }
-  } else {
-      echo "Error: " . mysqli_error($conn);
-  }
-  
-}else{
-  $year = 2023;
-  $query = mysqli_query($conn, "SELECT * FROM `cumtomer` WHERE YEAR(`cumtomer`.`date_regis`) = $year");
-
-  $monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
-  $sum = 0;
-  if ($query) {
-      while ($row = mysqli_fetch_assoc($query)) {
-          $dateRegis = $row['date_regis']; // Assuming 'date_regis' is the name of the column
-  
-          // Convert the date string to a DateTime object
-          $date = new DateTime($dateRegis);
-  
-          // Get the month and year
-          $month = (int)$date->format('m');
-          $year = (int)$date->format('Y');
-  
-          // Update the monthlySalesData array with the count of registrations in the respective month
-          $monthlySalesData[$month - 1]++;
-          $sum++;
-      }
-  } else {
-      echo "Error: " . mysqli_error($conn);
-  }
-  
 }
-
-
 
 ?>
           <!-- Content wrapper -->
@@ -693,66 +647,136 @@ if(isset($_POST['year'])){
               <div class="card">
               <div class="add demo-inline-spacing">
               <div class="row mb-5">
-                <div class="col-md-6 col-lg-7 mb-3">
+                <div class="col-md-6 col-lg-8 mb-3">
                   <div class="card">
                   <div class="row">
                     <div class="card-body col-xl-6 col-divider">
-                      <h5 class="card-title">จำนวนลูกค้าทั้งหมด</h5>
-                      <p class="card-text">
-                        จำนวนลูกค้าที่สมัครสมาชืกเข้ามาในระบบทั้งหมด
-                      </p>
+                      <h5 class="card-title mt-4">จำนวนสถานะทั้งหมดในการชำระเงิน</h5>
                     </div>
                     <div class="card-body col-xl-6">
-                      <h1 class="card-title text-center coin"><?php
-                                                                $formattedNum = number_format($sum);
-                                                                echo  $sum ?> (บัญชี)</h1>
+                      <h2 class="card-title text-center coin"><?php
+                                                              $formattedNum = number_format($total);
+                                                              echo  $formattedNum ?> (คำสั่งซื้อ)</h2>
                     </div>
                     </div>
                   </div>
-                </div>   
+                </div> 
               </div>  
               </div>
-              <form action="customer_new.php" method="post">
-                <select class="form-select" id="inputGroupSelect01" name="year">
-                    <option selected>เลือกปีของผุ้สมัครบัญชีผู้ใช้</option>
+              <div class="row">
+              <form action="status_order.php" method="post" onsubmit="return validateForm()">
+                <p>เลือก เดือน/ปี ที่ต้องการแสดงข้อมูล</p>
+                <div class="col-xl-2">
+                <select class="form-select mb-2" id="inputGroupSelectYear" name="year"required>
+                    <option selected>ปี</option>
                     <option value="2022">2022</option>
                     <option value="2023">2023</option>
                     <option value="2024">2024</option>
                 </select>
+                </div>
+                <div class="col-xl-2">
+                <select class="form-select" id="inputGroupSelectMonth" name="month"required>
+                    <option selected>เดือน</option>
+                    <option value="1">มกราคม</option>
+                    <option value="2">กุมภาพันธ์</option>
+                    <option value="3">มีนาคม</option>
+                    <option value="4">เมษายน</option>
+                    <option value="5">พฤษภาคม</option>
+                    <option value="6">มิถุนายน</option>
+                    <option value="7">กรกฎาคม</option>
+                    <option value="8">สิงหาคม</option>
+                    <option value="9">กันยายน</option>
+                    <option value="10">ตุลาคม</option>
+                    <option value="11">พฤศจิกายน</option>
+                    <option value="12">ธันวาคม</option>
+                    
+</select>
+</div>
+<div class="col-xl-2">
       <button class="btn btn-primary mt-3 d-flex" type="submit" name="pass">แสดงข้อมูล</button>
+      </div>
   </form>
-                <h5 class="card-header">กราฟแสดงรายได้แต่ละเดือน</h5>
-                <canvas id="lineChart" width="450" height="100"></canvas>
+  
+                <div class="col-xl-6">
+                <h5 class="card-header">กราฟแสดงจำนวนสถานะการชำระเงิน</h5>
+                <?php  if (count(array_filter($Data)) == 0) {
+                    // มีข้อมูล
+                    $no = "ไม่มีข้อมูล";
+                }else{ $no = "" ;
+                ?> <canvas id="myPieChart" width="400" height="400"></canvas>
+                <?php } ?>
+               
+                <h1 class="no text-center"><?php  echo $no; ?></h1>
+                </div>
+                <div class="col-xl-6">
+                <h5 class="card-header">กราฟแสดงจำนวนสถานะการดำเนินงาน</h5>
+              <?php  if (count(array_filter($monthlySalesData)) == 0) {
+                    // มีข้อมูล
+                    $no = "ไม่มีข้อมูล";
+                }else{ $no = "" ;
+                ?> <canvas id="myPieChart2" width="400" height="400"></canvas>
+                <?php } ?>
+               
+                <h1 class="no text-center"><?php  echo $no; ?></h1>
+                </div>
+                
+                </div>
     <script src="line-chart.js"></script> <!-- Your JavaScript file -->
     <script>
-        // Get the canvas element
-        var ctx = document.getElementById('lineChart').getContext('2d');
+       // หากคุณต้องการข้อมูลตัวอย่าง
+var data = {
+    labels: ["รอชำระเงิน", "รอตรวจสอบ", "อนุมัติ"],
+    datasets: [{
+        data: <?php echo json_encode($Data); ?>,
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+    }]
+};
 
-        // Chart configuration
-        var chartConfig = {
-            type: 'line',
-            data: {
-                labels: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
-                datasets: [{
-                    label: 'ลูกค้า (บัญชี)',
-                    data: <?php echo json_encode($monthlySalesData); ?>,
-                    borderColor: 'rgba(105, 108, 255, 1)',
-                    borderWidth: 2,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        };
+// สร้าง Pie Chart
+var ctx = document.getElementById('myPieChart').getContext('2d');
+var myPieChart = new Chart(ctx, {
+    type: 'pie',
+    data: data
+});
 
-        // Create the line chart
-        var lineChart = new Chart(ctx, chartConfig);
     </script>
+
+    <script>
+       // หากคุณต้องการข้อมูลตัวอย่าง
+var data = {
+    labels: ["รอตรวจสอบสถานที่ติดตั้ง", "รอดำเนินการแก้ไข", "รอดำเนินการติดตั้งสินค้า","ดำเนินการเสร็จสิ้น"],
+    datasets: [{
+        data: <?php echo json_encode($monthlySalesData); ?>,
+        backgroundColor: ["#FF3F3F", "#FFE23F", "#9FFF3F","#3F6EFF"]
+    }]
+};
+
+// สร้าง Pie Chart
+var ctx = document.getElementById('myPieChart2').getContext('2d');
+var myPieChart = new Chart(ctx, {
+    type: 'pie',
+    data: data
+});
+    </script>
+
+
+
+
+
+<script>
+function validateForm() {
+  var yearSelect = document.getElementById("inputGroupSelectYear");
+  var monthSelect = document.getElementById("inputGroupSelectMonth");
+  var selectedYear = yearSelect.options[yearSelect.selectedIndex].value;
+  var selectedMonth = monthSelect.options[monthSelect.selectedIndex].value;
+
+  if (selectedYear === "ปี" || selectedMonth === "เดือน") {
+    alert("กรุณาเลือกปีและเดือนให้ครบถ้วน");
+    return false;
+  }
+  return true;
+}
+</script>      
                 
                 
               </div>

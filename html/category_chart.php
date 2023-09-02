@@ -646,6 +646,7 @@ WHERE performance.status_performance = 'ดำเนินการเสร็�
 AND YEAR(performance.`date_ operate`) = $year;
 ");
   if ($query) {
+    $totalQty = 0; // สำหรับรวมค่า 'oder_qty' ทั้งหมด
     $Data1 = array_fill(0, 12, 0); // สำหรับประเภท 'หน้าต่างบานเลื่อน'
     $Data2 = array_fill(0, 12, 0); // สำหรับประเภท 'หน้าต่างบานพับ'
     $Data3 = array_fill(0, 12, 0); // สำหรับประเภท 'หน้าต่างห้องน้ำ'
@@ -668,6 +669,7 @@ AND YEAR(performance.`date_ operate`) = $year;
       } elseif ($row['cat_name'] == 'ประตูบานพับ') {
         $Data5[$month - 1] += $row['oder_qty'];
       }
+      $totalQty += $row['oder_qty'];
     }
   }
 }
@@ -694,7 +696,7 @@ AND YEAR(performance.`date_ operate`) = $year;
                     </div>
                     <div class="card-body col-xl-6">
                       <h1 class="card-title text-center coin"><?php
-                                                              $formattedNum = number_format($totalSum);
+                                                              $formattedNum = number_format($totalQty);
                                                               echo  $formattedNum ?> ชิ้น</h1>
                     </div>
                     </div>
