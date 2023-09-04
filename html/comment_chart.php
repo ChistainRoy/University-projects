@@ -155,13 +155,34 @@ mark.orang {
   }
   .coin{
     font-family: 'Sigmar', cursive;
-        font-size: 42px;
+        font-size: 20px;
     color: #696cff;
   }
   .no{
     margin-top: 20%;
     
   }
+  .star-rating {
+        font-size: 30px;
+    }
+
+    .star {
+        cursor: pointer;
+        color: lightgray;
+        font-size: 40px;
+    }
+
+    .star.active {
+        color: gold;
+    }
+    .order{
+      margin-left: 90%;
+      background-color: #696cff;
+      color: white;
+      border-radius: 20px;
+      max-width: 100%;
+      text-align: center;
+    }
 </style>
   <body>
     <!-- Layout wrapper -->
@@ -545,14 +566,18 @@ mark.orang {
               <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
                   <i class="bx bx-search fs-4 lh-0"></i>
+                <form method="get">
                   <input
                     type="text"
                     class="form-control border-0 shadow-none"
                     placeholder="Search..."
                     aria-label="Search..."
                     id = "searchInput"
+                    name="search"
                   />
+                  <button class="btn btn-outline-primary d-none" type="submit">ค้นหา</button>
                 </div>
+                </form>
               </div>
               <!-- /Search -->
               <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -631,156 +656,188 @@ mark.orang {
             </div>
           </nav>
 
-          <!-- / Navbar -->
-<?php include('connect.php');
-if(isset($_POST['pass'])){
-
-}
-
-?>
-          <!-- Content wrapper -->
-          <div class="content-wrapper">
-            <!-- Content -->
-
-            <div class="container-xxl flex-grow-1 container-p-y">
-              <!-- Basic Bootstrap Table -->
-              <div class="card">
-              <div class="add demo-inline-spacing">
-              <div class="row mb-5">
-                <div class="col-md-6 col-lg-8 mb-3">
-                  <div class="card">
-                  <div class="row">
-                    <div class="card-body col-xl-6 col-divider">
-                      <h5 class="card-title mt-4">จำนวนสถานะทั้งหมดในการชำระเงิน</h5>
-                    </div>
-                    <div class="card-body col-xl-6">
-                      <h2 class="card-title text-center coin"><?php
-                                                              $formattedNum = number_format($total);
-                                                              echo  $formattedNum ?> (คำสั่งซื้อ)</h2>
-                    </div>
-                    </div>
-                  </div>
-                </div> 
-              </div>  
-              </div>
-              <div class="row">
-              <form action="status_order.php" method="post" onsubmit="return validateForm()">
-                <p>เลือก เดือน/ปี ที่ต้องการแสดงข้อมูล</p>
-                <div class="col-xl-2">
-                <select class="form-select mb-2" id="inputGroupSelectYear" name="year"required>
-                    <option selected>ปี</option>
-                    <option value="2022">2022</option>
-                    <option value="2023">2023</option>
-                    <option value="2024">2024</option>
-                </select>
-                </div>
-                <div class="col-xl-2">
-                <select class="form-select" id="inputGroupSelectMonth" name="month"required>
-                    <option selected>เดือน</option>
-                    <option value="1">มกราคม</option>
-                    <option value="2">กุมภาพันธ์</option>
-                    <option value="3">มีนาคม</option>
-                    <option value="4">เมษายน</option>
-                    <option value="5">พฤษภาคม</option>
-                    <option value="6">มิถุนายน</option>
-                    <option value="7">กรกฎาคม</option>
-                    <option value="8">สิงหาคม</option>
-                    <option value="9">กันยายน</option>
-                    <option value="10">ตุลาคม</option>
-                    <option value="11">พฤศจิกายน</option>
-                    <option value="12">ธันวาคม</option>
-                    
-</select>
-</div>
-<div class="col-xl-2">
-      <button class="btn btn-primary mt-3 d-flex" type="submit" name="pass">แสดงข้อมูล</button>
-      </div>
-  </form>
-  
-                <div class="col-xl-6">
-                <h5 class="card-header">กราฟแสดงจำนวนสถานะการชำระเงิน</h5>
-                <?php  if (count(array_filter($Data)) == 0) {
-                    // มีข้อมูล
-                    $no = "ไม่มีข้อมูล";
-                }else{ $no = "" ;
-                ?> <canvas id="myPieChart" width="400" height="400"></canvas>
-                <?php } ?>
-               
-                <h1 class="no text-center"><?php  echo $no; ?></h1>
-                </div>
-                <div class="col-xl-6">
-                <h5 class="card-header">กราฟแสดงจำนวนสถานะการดำเนินงาน</h5>
-              <?php  if (count(array_filter($monthlySalesData)) == 0) {
-                    // มีข้อมูล
-                    $no = "ไม่มีข้อมูล";
-                }else{ $no = "" ;
-                ?> <canvas id="myPieChart2" width="400" height="400"></canvas>
-                <?php } ?>
-               
-                <h1 class="no text-center"><?php  echo $no; ?></h1>
-                </div>
-                
-                </div>
-    <script src="line-chart.js"></script> <!-- Your JavaScript file -->
-    <script>
-       // หากคุณต้องการข้อมูลตัวอย่าง
-var data = {
-    labels: ["รอชำระเงิน", "รอตรวจสอบ", "อนุมัติ"],
-    datasets: [{
-        data: <?php echo json_encode($Data); ?>,
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
-    }]
-};
-
-// สร้าง Pie Chart
-var ctx = document.getElementById('myPieChart').getContext('2d');
-var myPieChart = new Chart(ctx, {
-    type: 'pie',
-    data: data
-});
-
-    </script>
-
-    <script>
-       // หากคุณต้องการข้อมูลตัวอย่าง
-var data = {
-    labels: ["รอตรวจสอบสถานที่ติดตั้ง", "รอดำเนินการแก้ไข", "รอดำเนินการติดตั้งสินค้า","ดำเนินการเสร็จสิ้น"],
-    datasets: [{
-        data: <?php echo json_encode($monthlySalesData); ?>,
-        backgroundColor: ["#FF3F3F", "#FFE23F", "#9FFF3F","#3F6EFF"]
-    }]
-};
-
-// สร้าง Pie Chart
-var ctx = document.getElementById('myPieChart2').getContext('2d');
-var myPieChart = new Chart(ctx, {
-    type: 'pie',
-    data: data
-});
-    </script>
-
-
-
-
-
-<script>
-function validateForm() {
-  var yearSelect = document.getElementById("inputGroupSelectYear");
-  var monthSelect = document.getElementById("inputGroupSelectMonth");
-  var selectedYear = yearSelect.options[yearSelect.selectedIndex].value;
-  var selectedMonth = monthSelect.options[monthSelect.selectedIndex].value;
-
-  if (selectedYear === "ปี" || selectedMonth === "เดือน") {
-    alert("กรุณาเลือกปีและเดือนให้ครบถ้วน");
-    return false;
+      
+<?php
+include('connect.php');
+$dataArray = array();
+$Count = array_fill(0, 2, 0);
+$Star = array_fill(0, 4, 0);
+$query = mysqli_query($conn, "SELECT cumtomer.name, `order`.`order_id`, performance.status_performance, comment.comment_detail, comment.comment_img 
+FROM `order` 
+LEFT JOIN cumtomer ON `order`.`cm_id` = cumtomer.cm_id
+LEFT JOIN performance ON `order`.`order_id` = performance.order_id 
+LEFT JOIN comment ON `order`.`order_id` = comment.order_id WHERE performance.status_performance = 'ดำเนินการเสร็จสิ้น';
+");
+while ($row = mysqli_fetch_assoc($query)) {
+  $dataArray[] = $row;
+  if (empty($row['comment_img'])) {
+    $Count[1]++;
+  } else {
+    $Count[0]++;
+    if ($row['comment_img'] == 1) {
+      $Star[0]++;
+    } elseif ($row['comment_img'] == 2) {
+      $Star[1]++;
+    } elseif ($row['comment_img'] == 3) {
+      $Star[2]++;
+    } elseif ($row['comment_img'] == 4) {
+      $Star[3]++;
+    } elseif ($row['comment_img'] == 5) {
+      $Star[4]++;
+    }
   }
-  return true;
 }
-</script>      
-                
-                
+// ตัวอย่างข้อมูล
+$total = array_sum($Count);
+
+// คำนวณค่าเปอร์เซ็นต์และใส่ลงในอาร์เรย์ใหม่
+$percentages = array();
+foreach ($Count as $value) {
+  $percentage = ($value * 100) / $total;
+  $percentages[] = $percentage;
+}
+
+// print_r($Star);
+$sum = array_sum($Star);
+// echo $sum;
+foreach ($Star as $Stars) {
+  $percentage = ($Stars * 100) / $sum;
+  $percent_2[] = $percentage;
+}
+// print_r($percent_2);
+?>
+    <!-- / Navbar -->
+    <div class="content-wrapper">
+    <!-- Content chart -->
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="row">
+              <div class="col-xl-4">
+              <div class="card">
+              <div class="card-body d-flex justify-content-center align-items-center">
+              
+                <div class="center" style="width: 300px;">
+                <p class="text-center">ความคิดเห็นทั้งหมดแต่ละคะแนนโดยเฉลี่ย</p>
+                    <canvas id="myPieChart"></canvas>
+                    <script src="line-chart.js"></script>
+                </div>
+                </div>
               </div>
-            <!-- / Content -->
+              </div>
+              <div class="col-xl-4">
+              <div class="card">
+              <div class="card-body d-flex justify-content-center align-items-center">
+              
+                <div class="center" style="width: 300px;">
+                <p class="text-center">ความคิดเห็นที่แสดงแล้วและยังไม่แสดงโดยเฉลี่ย</p>
+                    <canvas id="myPieChart2"></canvas>
+                    <script src="line-chart.js"></script>
+                </div>
+                </div>
+              </div>
+              </div>
+              </div>
+          </div>
+<?php
+// จำนวนข้อมูลในแต่ละหน้า
+$perPage = 6;
+
+// หาหน้าปัจจุบัน
+if (isset($_GET['page'])) {
+  $currentPage = $_GET['page'];
+} else {
+  $currentPage = 1;
+}
+
+// ตรวจสอบการค้นหา
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+// คำนวณตำแหน่งเริ่มต้นในอาเรย์
+$start = ($currentPage - 1) * $perPage;
+
+// กรองข้อมูลตามการค้นหา
+$filteredData = array_filter($dataArray, function ($data) use ($search) {
+  if (empty($search)) {
+    return true; // ไม่มีการค้นหา, แสดงทุกข้อมูล
+  }
+
+  // กรองตามคำค้นหา
+  return stripos($data['name'], $search) !== false ||
+    stripos($data['order_id'], $search) !== false ||
+    stripos($data['comment_detail'], $search) !== false ||
+    stripos($data['comment_img'], $search) !== false;
+});
+
+// จำนวนหน้าทั้งหมด
+$totalPages = ceil(count($filteredData) / $perPage);
+
+// ตัดข้อมูลออกมาสำหรับหน้าปัจจุบัน
+$currentPageData = array_slice($filteredData, $start, $perPage);
+?>
+<!-- Content wrapper -->
+<div class="content-wrapper">
+    <!-- Content -->
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <!-- Basic Bootstrap Table -->
+   <!-- เพิ่มแบบฟอร์มค้นหา -->
+        <div class="card">
+            <div class="add demo-inline-spacing">
+                <div class="row mb-5">
+                    <?php foreach ($currentPageData as $data) {
+                      if (!empty($data['comment_img'])) {
+                    ?>
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <div class="card">
+                              <h3 class="p-1 order">#<?php echo $data['order_id']; ?></h3>
+                                <div class="row">
+                                    <div class="card-body col-xl-6">
+                                        <h5 class="card-title"><i class='bx bxs-user-circle p-1' style='color:#696cff; font-size: 36px;'  ></i><?php echo $data['name']; ?></h5>
+                                       
+                                        <!-- <h5 class="card-title">คะแนนความพึงพอใจ: <?php echo $data['comment_img']; ?></h5> -->
+                                        <h5 class="card-title p-1">ความคิดเห็นลูกค้า: <?php echo $data['comment_detail']; ?></h5>
+                                        <h1 class="d-none"><?php echo $data['comment_img']; ?></h5>
+                                         <div class="star-rating">
+                      <?php
+                        $rating = $data['comment_img']; // แปลงคะแนนเป็นจำนวนเต็ม
+
+                        // วนลูปสร้างดาวตามคะแนน
+                        for ($i = 1; $i <= 4; $i++) {
+                          if ($i <= $rating) {
+                            // ถ้า $i น้อยกว่าหรือเท่ากับคะแนน ให้ใช้ class "active" เพื่อเปิดดาว
+                            echo '<span class="star active">&#9733;</span>';
+                          } else {
+                            // ถ้า $i มากกว่าคะแนน ให้ไม่ใช้ class "active" เพื่อปิดดาว
+                            echo '<span class="star">&#9733;</span>';
+                          }
+                        }
+                      ?>
+</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php
+                      }
+                    } ?>
+                </div>
+                <!-- เพิ่มปุ่มเปลี่ยนหน้า -->
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="pagination justify-content-center">
+                            <?php for ($i = 1; $i <= $totalPages; $i++) { ?>
+                                <li class="page-item <?php echo ($i == $currentPage) ? 'active' : ''; ?>">
+                                    <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / Content -->
+    <!-- Content wrapper -->
+</div>
+</div>
 
             <!-- Footer -->
             <?php include 'footer_admin.html'; ?>
@@ -800,8 +857,80 @@ function validateForm() {
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+       // หากคุณต้องการข้อมูลตัวอย่าง
+var data = {
+    labels: ["พอใช้", "ดี", "ดีมาก","เยี่ยม"],
+    datasets: [{
+        data: <?php echo json_encode($percent_2); ?>,
+        backgroundColor: ["#FF5F5F", "#FFF55F", "#97FF5F","#5F6BFF"]
+    }]
+};
 
-      
+// สร้าง Pie Chart
+var ctx = document.getElementById('myPieChart').getContext('2d');
+var myPieChart = new Chart(ctx, {
+    type: 'pie',
+    data: data,
+    options: {
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        var label = context.dataset.label || '';
+                        if (label) {
+                            label += ': ';
+                        }
+                        label += context.formattedValue + ' %'; // เพิ่ม % ตามหลังค่าเปอร์เซ็นต์
+                        return label;
+                    }
+                }
+            }
+        }
+    }
+});
+
+</script>
+
+
+
+
+
+
+
+
+
+    <script>
+var data = {
+    labels: ["แสดงความคิดเห็นแล้ว", "ยังไม่แสดงความคิดเห็น"],
+    datasets: [{
+        data: <?php echo json_encode($percentages); ?>,
+        backgroundColor: ["#FF5F5F", "#FFF55F"]
+    }]
+};
+
+// สร้าง Pie Chart
+var ctx = document.getElementById('myPieChart2').getContext('2d');
+var myPieChart = new Chart(ctx, {
+    type: 'pie',
+    data: data,
+    options: {
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        var label = context.dataset.label || '';
+                        if (label) {
+                            label += ': ';
+                        }
+                        label += context.formattedValue + ' %'; // เพิ่ม % ตามหลังค่าเปอร์เซ็นต์
+                        return label;
+                    }
+                }
+            }
+        }
+    }
+});
+
     </script>
     <!-- / Layout wrapper -->
                     

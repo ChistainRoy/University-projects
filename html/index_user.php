@@ -111,6 +111,35 @@
             left: 100%;
         }
     }
+
+    .about {
+        font-size: 80px;
+    }
+
+    .icon-large {
+        font-size: 48px;
+        color: white;
+    }
+
+    .icon-lar {
+        font-size: 28px;
+    }
+
+    .detail {
+        font-size: 20px;
+    }
+
+    .bg2 {
+        background-color: #696cff;
+    }
+
+    .detail2 {
+        color: white;
+    }
+
+    .star.active {
+        color: gold;
+    }
 </style>
 
 <body>
@@ -217,6 +246,159 @@
         </div>
     </section>
 
+    <section class="bg-light py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2>ยินดีต้อนรับ</h2>
+                    <p class="detail">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://cdn.pixabay.com/photo/2015/12/07/10/56/architect-1080589_1280.jpg" alt="Product Image" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- สิ้นสุด Hero Section -->
+
+    <!-- เริ่มต้น Features Section -->
+    <section class="py-5 bg2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <i class='bx bx-cart icon-large'></i>
+                        <h5 class="card-title mt-4 detail2">สั่งซื้อง่าย</h5>
+                        <p class="card-text detail2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <i class='bx bxs-calendar icon-large'></i>
+                        <h5 class="card-title mt-4 detail2">จองสบาย</h5>
+                        <p class="card-text detail2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <i class='bx bxs-cog icon-large''></i>
+                            <h5 class="card-title mt-4 detail2">ติดตั้งรวดเร็ว</h5>
+                            <p class="card-text detail2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        
+    </section>
+    <section>
+    <div class="container mt-5">
+    <h2 class="text-center">สินค้าภายในร้าน</h2>
+                <div class="row">
+                    <!-- Product 1 -->
+                    <div class="col-md-4">
+                    <div class="card">
+                                <img class="card-img-top" src="upload/b.png" alt="Card image cap" />
+                                <div class="card-body">
+                                    <h3 class="card-title">หน้าต่างบานพับ
+                                        50 X 160 ซม.
+                                    </h3>
+                                    <h2 class="card-text text-center p-0">
+                                        2000 ฿
+                                    </h2>
+                                </div>
+                            </div>
+                    </div>
+                    <!-- Product 2 -->
+                    <div class="col-md-4">
+                    <div class="card">
+                                <img class="card-img-top" src="upload/b.png" alt="Card image cap" />
+                                <div class="card-body">
+                                    <h3 class="card-title">หน้าต่างบานพับ
+                                        50 X 160 ซม.
+                                    </h3>
+                                    <h2 class="card-text text-center p-0">
+                                        2000 ฿
+                                    </h2>
+                                </div>
+                            </div>
+                    </div>
+                    <!-- Product 3 -->
+                    <div class="col-md-4">
+                    <div class="card">
+                                <img class="card-img-top" src="upload/b.png" alt="Card image cap" />
+                                <div class="card-body">
+                                    <h3 class="card-title">หน้าต่างบานพับ
+                                        50 X 160 ซม.
+                                    </h3>
+                                    <h2 class="card-text text-center p-0">
+                                        2000 ฿
+                                    </h2>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-5">
+                <a href="allproduct.php" class="btn btn-primary btn-lg">สินค้าทั้งหมด<i class=' bx bxs-chevron-down'></i></a>
+                    </div>
+                </div>
+    </section>
+    <!-- สิ้นสุด Features Section -->
+
+
+    <!-- เริ่มต้น Contact Section -->
+    <section class="bg-primary text-white py-5 mt-5">
+        <div class="container">
+            <h2 class="text-white">ความคิดเห็นจากผู้ที่ใช้บริการ</h2>
+
+            <!-- แสดงความคิดเห็นที่โพสต์แล้ว -->
+            <div class="comment">
+                <h3 class="text-white">John</h3>
+                <p>ความคิดเห็นที่น่าสนใจ! รายละเอียดเพิ่มเติมเกี่ยวกับความคิดเห็นของ John อาจปรากฎที่นี่...</p>
+                <div class="rating">
+                    <!-- 5 ดาว, 4 ดาวเต็ม และ 1/2 ดาว -->
+                    <span class="star active">&#9733;</span>
+                    <span class="star active">&#9733;</span>
+                    <span class="star active">&#9733;</span>
+                    <span class="star active">&#9733;</span>
+                </div>
+            </div>
+
+            <div class="comment">
+                <h3 class="text-white">Jane</h3>
+                <p>ขอบคุณสำหรับข้อมูล! รายละเอียดเพิ่มเติมเกี่ยวกับความคิดเห็นของ Jane อาจปรากฎที่นี่...</p>
+                <div class="rating">
+                    <!-- 4 ดาวเต็ม และ 1/2 ดาว -->
+                    <span class="star active">&#9733;</span>
+                    <span class="star active">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- สิ้นสุด Contact Section -->
+
+    <!-- เริ่มต้น Contact Section -->
+    <section class="bg-white text-white py-5">
+        <div class="container">
+            <h3>ติดต่อเรา <i class='bx bxs-phone-call icon-lar'></i></h3>
+            <h4>กรณีต้องการเดินทางมาสั่งที่ร้านโดยตรง</h4>
+            <a href="contact.php" class="btn btn-primary">ติดต่อตอนนี้</a>
+        </div>
+    </section>
+    <!-- สิ้นสุด Contact Section -->
+
+    <!-- เริ่มต้น Footer Section -->
+    <footer class="bg-dark text-white text-center py-3">
+        &copy; 2023 บัดดี้อลูมิเนียม-กระจก
+    </footer>
+    <!-- สิ้นสุด Footer Section -->
 
 
 

@@ -672,6 +672,49 @@ AND YEAR(performance.`date_ operate`) = $year;
       $totalQty += $row['oder_qty'];
     }
   }
+} else {
+  $year = 2023;
+  $query = mysqli_query($conn, "SELECT
+category.cat_name,
+oderdetail.oder_qty,
+performance.`date_ operate`,
+performance.status_performance
+FROM
+ `order`
+INNER JOIN performance ON `order`.`order_id` =  performance.order_id
+INNER JOIN oderdetail ON oderdetail.oder_id = `order`.`order_id`
+INNER JOIN product ON product.product_id = oderdetail.product_id
+INNER JOIN category ON category.id_cat = product.category_id
+WHERE performance.status_performance = 'ดำเนินการเสร็จสิ้น'
+AND YEAR(performance.`date_ operate`) = $year;
+");
+  if ($query) {
+    $totalQty = 0; // สำหรับรวมค่า 'oder_qty' ทั้งหมด
+    $Data1 = array_fill(0, 12, 0); // สำหรับประเภท 'หน้าต่างบานเลื่อน'
+    $Data2 = array_fill(0, 12, 0); // สำหรับประเภท 'หน้าต่างบานพับ'
+    $Data3 = array_fill(0, 12, 0); // สำหรับประเภท 'หน้าต่างห้องน้ำ'
+    $Data4 = array_fill(0, 12, 0); // สำหรับประเภท 'ประตูบานเลื่อน'
+    $Data5 = array_fill(0, 12, 0); // สำหรับประเภท 'ประตูบานพับ'
+
+    while ($row = mysqli_fetch_assoc($query)) {
+      $dateOperate = $row['date_ operate'];
+      $month = date('n', strtotime($dateOperate));
+
+      // เช็คประเภทสินค้าและกำหนดค่าในอาร์เรย์ที่เหมาะสมตามเดือน
+      if ($row['cat_name'] == 'หน้าต่างบานเลื่อน') {
+        $Data1[$month - 1] += $row['oder_qty'];
+      } elseif ($row['cat_name'] == 'หน้าต่างบานพับ') {
+        $Data2[$month - 1] += $row['oder_qty'];
+      } elseif ($row['cat_name'] == 'หน้าต่างห้องน้ำ') {
+        $Data3[$month - 1] += $row['oder_qty'];
+      } elseif ($row['cat_name'] == 'ประตูบานเลื่อน') {
+        $Data4[$month - 1] += $row['oder_qty'];
+      } elseif ($row['cat_name'] == 'ประตูบานพับ') {
+        $Data5[$month - 1] += $row['oder_qty'];
+      }
+      $totalQty += $row['oder_qty'];
+    }
+  }
 }
 
 
@@ -708,9 +751,9 @@ AND YEAR(performance.`date_ operate`) = $year;
                 <form action="category_chart.php" method="post">
                 <select class="form-select" id="inputGroupSelect01" name="year">
                     <option>เลือกสินค้าที่ถูกซื้อทั้งหมด(ปี)</option>
-                    <option  value="2022">2022</option>
-                    <option  value="2023">2023</option>
-                    <option  value="2024">2024</option>
+                    <option  value="2022"<?php if ($year == "2022") echo "selected"; ?>>2022</option>
+                    <option  value="2023"<?php if ($year == "2023") echo "selected"; ?>>2023</option>
+                    <option  value="2024"<?php if ($year == "2024") echo "selected"; ?>>2024</option>
                 </select>
       <button class="btn btn-primary mt-3 d-flex" type="submit" name="pass">แสดงข้อมูล</button>
   </form>

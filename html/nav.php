@@ -41,8 +41,8 @@ if (isset($_GET['logout'])) {
                     </ul>
                 </li>
             </ul>
-            <form class="d-flex justify-content-between" onsubmit="return false">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+            <form class="d-flex justify-content-between" method="post" action="">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search_query" />
                 <button class="btn btn-outline-primary me-2" type="submit">Search</button>
             </form>
             <div class="btn-group">

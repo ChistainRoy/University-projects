@@ -633,7 +633,7 @@ mark.orang {
 
           <!-- / Navbar -->
 <?php include('connect.php');
-if(isset($_POST['pass'])){
+if (isset($_POST['pass'])) {
   $year = $_POST['year'];
   $month = $_POST['month'];
   $query = mysqli_query($conn, " SELECT `order`.`order_id`, `order`.`oder_status`, performance.`date_ operate`, performance.status_performance
@@ -647,49 +647,49 @@ if(isset($_POST['pass'])){
   WHERE YEAR(performance.`date_ operate`) = $year
   AND MONTH(performance.`date_ operate`) = $month;
 ");
-$monthlySalesData = array_fill(0, 4, 0); // Initialize an array to store monthly sales data with 4 zeros
-$sum = 0;
-if ($query) {
-  while ($row = mysqli_fetch_assoc($query)) {
-    $status_performance = $row['status_performance']; // เก็บค่า status_performance ไว้ในตัวแปร
+  $monthlySalesData = array_fill(0, 4, 0); // Initialize an array to store monthly sales data with 4 zeros
+  $sum = 0;
+  if ($query) {
+    while ($row = mysqli_fetch_assoc($query)) {
+      $status_performance = $row['status_performance']; // เก็บค่า status_performance ไว้ในตัวแปร
 
-    if ($status_performance == 'รอตรวจสอบสถานที่ติดตั้ง') {
-      $monthlySalesData[0]++;
-    } else if ($status_performance == 'ดำเนินการแก้ไข') {
-      $monthlySalesData[1]++;
-    } else if ($status_performance == 'รอติดตั้งสินค้า') {
-      $monthlySalesData[2]++;
-    } else {
-      $monthlySalesData[3]++;
+      if ($status_performance == 'รอตรวจสอบสถานที่ติดตั้ง') {
+        $monthlySalesData[0]++;
+      } else if ($status_performance == 'ดำเนินการแก้ไข') {
+        $monthlySalesData[1]++;
+      } else if ($status_performance == 'รอติดตั้งสินค้า') {
+        $monthlySalesData[2]++;
+      } else {
+        $monthlySalesData[3]++;
+      }
+      $sum++;
     }
-    $sum++;
+  } else {
+    echo "Error: " . mysqli_error($conn);
   }
-} else {
-  echo "Error: " . mysqli_error($conn);
-}
-$result = mysqli_query($conn, "SELECT `order`.`order_id`, `order`.`oder_status`,`order`.`order_reserve` FROM `order`WHERE YEAR(`order`.`order_reserve`) = $year
+  $result = mysqli_query($conn, "SELECT `order`.`order_id`, `order`.`oder_status`,`order`.`order_reserve` FROM `order`WHERE YEAR(`order`.`order_reserve`) = $year
 AND MONTH(`order`.`order_reserve`) = $month;
 ");
 
-$Data = array_fill(0, 3, 0); // Initialize an array to store monthly sales data with 4 zeros
-$total = 0;
-if ($result) {
-  while ($row = mysqli_fetch_assoc($result)) {
-    $status = $row['oder_status']; // เก็บค่า status_performance ไว้ในตัวแปร
+  $Data = array_fill(0, 3, 0); // Initialize an array to store monthly sales data with 4 zeros
+  $total = 0;
+  if ($result) {
+    while ($row = mysqli_fetch_assoc($result)) {
+      $status = $row['oder_status']; // เก็บค่า status_performance ไว้ในตัวแปร
 
-    if ($status == 'รอชำระเงิน') {
-      $Data[0]++;
-    } else if ($status == 'รอตรวจสอบ') {
-      $Data[1]++;
-    } else if ($status == 'อนุมัติ') {
-      $Data[2]++;
+      if ($status == 'รอชำระเงิน') {
+        $Data[0]++;
+      } else if ($status == 'รอตรวจสอบ') {
+        $Data[1]++;
+      } else if ($status == 'อนุมัติ') {
+        $Data[2]++;
+      }
+      $total++;
     }
-    $total++;
+  } else {
+    echo "Error: " . mysqli_error($conn);
   }
 } else {
-  echo "Error: " . mysqli_error($conn);
-}
-}else{
   $query = mysqli_query($conn, " SELECT `order`.`order_id`, `order`.`oder_status`, performance.`date_ operate`, performance.status_performance
   FROM `order`
   INNER JOIN performance ON `order`.`order_id` = performance.order_id
@@ -699,47 +699,47 @@ if ($result) {
       GROUP BY `order_id`
   ) AS latest_performance ON performance.order_id = latest_performance.order_id AND performance.`date_ operate` = latest_performance.max_date;
 ");
-$monthlySalesData = array_fill(0, 4, 0); // Initialize an array to store monthly sales data with 4 zeros
-$sum = 0;
-if ($query) {
-  while ($row = mysqli_fetch_assoc($query)) {
-    $status_performance = $row['status_performance']; // เก็บค่า status_performance ไว้ในตัวแปร
+  $monthlySalesData = array_fill(0, 4, 0); // Initialize an array to store monthly sales data with 4 zeros
+  $sum = 0;
+  if ($query) {
+    while ($row = mysqli_fetch_assoc($query)) {
+      $status_performance = $row['status_performance']; // เก็บค่า status_performance ไว้ในตัวแปร
 
-    if ($status_performance == 'รอตรวจสอบสถานที่ติดตั้ง') {
-      $monthlySalesData[0]++;
-    } else if ($status_performance == 'ดำเนินการแก้ไข') {
-      $monthlySalesData[1]++;
-    } else if ($status_performance == 'รอติดตั้งสินค้า') {
-      $monthlySalesData[2]++;
-    } else {
-      $monthlySalesData[3]++;
+      if ($status_performance == 'รอตรวจสอบสถานที่ติดตั้ง') {
+        $monthlySalesData[0]++;
+      } else if ($status_performance == 'ดำเนินการแก้ไข') {
+        $monthlySalesData[1]++;
+      } else if ($status_performance == 'รอติดตั้งสินค้า') {
+        $monthlySalesData[2]++;
+      } else {
+        $monthlySalesData[3]++;
+      }
+      $sum++;
     }
-    $sum++;
+  } else {
+    echo "Error: " . mysqli_error($conn);
   }
-} else {
-  echo "Error: " . mysqli_error($conn);
-}
-$result = mysqli_query($conn, "SELECT `order`.`order_id`, `order`.`oder_status`,`order`.`order_reserve` FROM `order`;
+  $result = mysqli_query($conn, "SELECT `order`.`order_id`, `order`.`oder_status`,`order`.`order_reserve` FROM `order`;
 ");
 
-$Data = array_fill(0, 3, 0); // Initialize an array to store monthly sales data with 4 zeros
-$total = 0;
-if ($result) {
-  while ($row = mysqli_fetch_assoc($result)) {
-    $status = $row['oder_status']; // เก็บค่า status_performance ไว้ในตัวแปร
+  $Data = array_fill(0, 3, 0); // Initialize an array to store monthly sales data with 4 zeros
+  $total = 0;
+  if ($result) {
+    while ($row = mysqli_fetch_assoc($result)) {
+      $status = $row['oder_status']; // เก็บค่า status_performance ไว้ในตัวแปร
 
-    if ($status == 'รอชำระเงิน') {
-      $Data[0]++;
-    } else if ($status == 'รอตรวจสอบ') {
-      $Data[1]++;
-    } else if ($status == 'อนุมัติ') {
-      $Data[2]++;
+      if ($status == 'รอชำระเงิน') {
+        $Data[0]++;
+      } else if ($status == 'รอตรวจสอบ') {
+        $Data[1]++;
+      } else if ($status == 'อนุมัติ') {
+        $Data[2]++;
+      }
+      $total++;
     }
-    $total++;
+  } else {
+    echo "Error: " . mysqli_error($conn);
   }
-} else {
-  echo "Error: " . mysqli_error($conn);
-}
 }
 
 ?>
@@ -784,7 +784,7 @@ if ($result) {
               </div>
               <div class="row">
               <form action="status_order.php" method="post" onsubmit="return validateForm()">
-                <p>เลือก เดือน/ปี ที่ต้องการแสดงข้อมูล</p>
+                <p>เลือก เดือน/ปี ที่ต้องการแสดงข้อมูล สถานะการชำระเงิน และ สถานะการดำเนินงาน</p>
                 <div class="col-xl-2">
                 <select class="form-select mb-2" id="inputGroupSelectYear" name="year"required>
                     <option selected>ปี</option>
@@ -818,25 +818,27 @@ if ($result) {
   
                 <div class="col-xl-6">
                 <h5 class="card-header">กราฟแสดงจำนวนสถานะการชำระเงิน</h5>
-                <?php  if (count(array_filter($Data)) == 0) {
-                    // มีข้อมูล
-                    $no = "ไม่มีข้อมูล";
-                }else{ $no = "" ;
+                <?php if (count(array_filter($Data)) == 0) {
+                  // มีข้อมูล
+                  $no = "ไม่มีข้อมูล";
+                } else {
+                  $no = "";
                 ?> <canvas id="myPieChart" width="400" height="400"></canvas>
                 <?php } ?>
                
-                <h1 class="no text-center"><?php  echo $no; ?></h1>
+                <h1 class="no text-center"><?php echo $no; ?></h1>
                 </div>
                 <div class="col-xl-6">
                 <h5 class="card-header">กราฟแสดงจำนวนสถานะการดำเนินงาน</h5>
-              <?php  if (count(array_filter($monthlySalesData)) == 0) {
-                    // มีข้อมูล
-                    $no = "ไม่มีข้อมูล";
-                }else{ $no = "" ;
-                ?> <canvas id="myPieChart2" width="400" height="400"></canvas>
+              <?php if (count(array_filter($monthlySalesData)) == 0) {
+                // มีข้อมูล
+                $no = "ไม่มีข้อมูล";
+              } else {
+                $no = "";
+              ?> <canvas id="myPieChart2" width="400" height="400"></canvas>
                 <?php } ?>
                
-                <h1 class="no text-center"><?php  echo $no; ?></h1>
+                <h1 class="no text-center"><?php echo $no; ?></h1>
                 </div>
                 
                 </div>

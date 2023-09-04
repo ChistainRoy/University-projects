@@ -283,7 +283,7 @@ mark.orang {
 
             <!-- ลูกค้าใหม่ -->
             <li class="menu-item">
-              <a href="#" class="menu-link">
+              <a href="customer_new.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-user-plus"></i>
                 <div data-i18n="Basic">ลูกค้าใหม่รายเดือน</div>
               </a>
@@ -759,9 +759,9 @@ if (isset($_POST['year'])) {
                 <form action="information_coin.php" method="post">
                 <select class="form-select" id="inputGroupSelect01" name="year">
                     <option selected>เลือกปีของรายได้</option>
-                    <option value="2022">2022</option>
-                    <option value="2023">2023</option>
-                    <option value="2024">2024</option>
+                    <option value="2022"<?php if ($year == "2022") echo "selected"; ?>>2022</option>
+                    <option value="2023"<?php if ($year == "2023") echo "selected"; ?>>2023</option>
+                    <option value="2024"<?php if ($year == "2024") echo "selected"; ?>>2024</option>
                 </select>
       <button class="btn btn-primary mt-3 d-flex" type="submit" name="pass">แสดงข้อมูล</button>
   </form>
