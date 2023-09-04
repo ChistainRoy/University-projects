@@ -19,10 +19,10 @@ if (isset($_POST['registerlogin'])) {
     $row = mysqli_fetch_assoc($result);
     $rowem = mysqli_fetch_assoc($resultem);
 
-    if ($row['username'] === $username) {
-        header('location: auth-register-basic.php');
+    if ($row < 0 ) {
         $_SESSION['errors'] = "ชื่อผู้ใช้ซ้ำ!!!";
-    } elseif ($rowem['em_username'] === $username) {
+        header('location: auth-register-basic.php');
+    } elseif ($rowem < 0) {
         $_SESSION['errors'] = "ชื่อผู้ใช้ซ้ำ!!!";
         header('location: auth-register-basic.php');
     } else if (strlen($tel) > 10) {
@@ -36,8 +36,10 @@ if (isset($_POST['registerlogin'])) {
         $sql = "INSERT INTO `cumtomer` (`username`, `password`, `name`, `tel`, `address`, `date_regis`) VALUES ('$username', '$passwordect', '$name', '$tel', '$add','$currentDate')";
         if (mysqli_query($conn, $sql)) {
             $_SESSION['success'] = "ลงทะเบียนสำเร็จ โปรดเข้าสู่ระบบ";
+            header('location: auth-register-basic.php');
         } else {
             $_SESSION['errors'] = "ลงทะเบียนไม่สำเร็จ";
+            header('location: auth-register-basic.php');
         }
     }
 }

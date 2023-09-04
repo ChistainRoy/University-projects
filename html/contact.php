@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>Home - Page | Buddy-Aluminum</title>
 
@@ -15,7 +16,9 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
 
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
@@ -40,106 +43,106 @@
     <script src="../assets/js/config.js"></script>
 </head>
 <style>
-    .navbar {
-        background-color: #ffffff;
-        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    }
+.navbar {
+    background-color: #ffffff;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
 
-    a.navbar-brand {
-        color: white;
-    }
+a.navbar-brand {
+    color: white;
+}
 
-    .num {
-        font-family: 'Sigmar', cursive;
-        background-color: red;
-        position: absolute;
-        color: white;
-        font-size: 14px;
-        margin-left: 150px;
-        margin-bottom: 50px;
-        margin-top: -37px;
-        width: 30px;
-        text-align: center;
-        padding: 4px;
-        border-radius: 20px;
-    }
+.num {
+    font-family: 'Sigmar', cursive;
+    background-color: red;
+    position: absolute;
+    color: white;
+    font-size: 14px;
+    margin-left: 150px;
+    margin-bottom: 50px;
+    margin-top: -37px;
+    width: 30px;
+    text-align: center;
+    padding: 4px;
+    border-radius: 20px;
+}
 
-    .carousel-item {
-        width: 100%;
-        height: 700px;
-    }
+.carousel-item {
+    width: 100%;
+    height: 700px;
+}
 
+.slide {
+    width: 100%;
+    height: 700px;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 400px;
+}
+
+@media (max-width:767px) {
     .slide {
-        width: 100%;
-        height: 700px;
+        max-width: 100%;
+        height: 200px;
     }
+}
 
-    .card-img-top {
-        width: 100%;
-        height: 400px;
+@media (max-width:767px) {
+    .carousel-item {
+        max-width: 100%;
+        height: 200px;
     }
+}
 
-    @media (max-width:767px) {
-        .slide {
-            max-width: 100%;
-            height: 200px;
-        }
-    }
+.dropdown .dropdown-menU {
+    display: none;
+}
 
-    @media (max-width:767px) {
-        .carousel-item {
-            max-width: 100%;
-            height: 200px;
-        }
-    }
+.dropdown:hover>.dropdown-menu,
+.dropend:hover>.dropdown-menu {
+    display: block;
+    margin-top: .125em;
+    margin-left: .125em;
+}
 
-    .dropdown .dropdown-menU {
-        display: none;
-    }
-
-    .dropdown:hover>.dropdown-menu,
+@media screen and (min-width:769px) {
     .dropend:hover>.dropdown-menu {
-        display: block;
-        margin-top: .125em;
-        margin-left: .125em;
+        position: absolute;
+        top: 0;
+        left: 100%;
     }
+}
 
-    @media screen and (min-width:769px) {
-        .dropend:hover>.dropdown-menu {
-            position: absolute;
-            top: 0;
-            left: 100%;
-        }
-    }
+.about {
+    font-size: 80px;
+}
 
-    .about {
-        font-size: 80px;
-    }
+.icon-large {
+    font-size: 48px;
+    color: white;
+}
 
-    .icon-large {
-        font-size: 48px;
-        color: white;
-    }
+.icon-lar {
+    font-size: 28px;
+}
 
-    .icon-lar {
-        font-size: 28px;
-    }
+.detail {
+    font-size: 20px;
+}
 
-    .detail {
-        font-size: 20px;
-    }
+.bg2 {
+    background-color: #696cff;
+}
 
-    .bg2 {
-        background-color: #696cff;
-    }
+.detail2 {
+    color: white;
+}
 
-    .detail2 {
-        color: white;
-    }
-
-    .star.active {
-        color: gold;
-    }
+.star.active {
+    color: gold;
+}
 </style>
 
 <body>
@@ -157,19 +160,22 @@
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container-fluid">
             <img src="upload/b.png" width="50">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="javascript:void(0)">หน้าหลัก</a>
+                        <a class="nav-link" aria-current="page" href="index_user.php">หน้าหลัก</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="javascript:void(0)">เกี่ยวกับร้าน</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="javascript:void(0)" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link" href="javascript:void(0)" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             สินค้า
                         </a>
                         <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
@@ -192,12 +198,14 @@
                     <button class="btn btn-outline-primary" type="submit">Search</button>
                 </form>
                 <div class="btn-group mx-2">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
                         <?php echo $_SESSION['username_user'] ?>
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
-                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน&nbsp;&nbsp;<span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger">1</span></a>
+                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน&nbsp;&nbsp;<span
+                                    class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger">1</span></a>
                         </li>
                         <li>
                             <hr class="dropdown-divider" />
@@ -213,11 +221,29 @@
         <div class="container-fluid p-0 mt-5">
             <div class="row">
                 <div class="col-xl-8">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1977.6498252777114!2d99.63093608295377!3d7.542263634017997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x304d8e746c236bed%3A0x40223bc2c383da0!2z4LiV4Liz4Lia4LilIOC4muC5ieC4suC4meC4hOC4p-C4mSDguK3guLPguYDguKDguK3guYDguKHguLfguK3guIfguJXguKPguLHguIcg4LiV4Lij4Lix4LiH!5e0!3m2!1sth!2sth!4v1693788921052!5m2!1sth!2sth" width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <iframe class="mx-5"
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1977.6605635443982!2d99.63128555780496!3d7.539913585186428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sth!2sth!4v1693841726369!5m2!1sth!2sth"
+                        width="1200" height="600" style="border:0;" allowfullscreen="true" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
-                <div class="col-xl-2">
+                <div class="col-xl-3">
                     <div class="card p-3">
                         <h5 class="text-center">ช่องทางติดต่อทางร้าน</h5>
+                        <p>
+                            เจ้าของร้าน : นาย ทรงพล ชุมทอง
+                        </p>
+                        <p>
+                            ที่อยู่ : 44/19 ตำบล บ้านควน อำเภอ เมือง จังหวัด ตรัง
+                        </p>
+                        <p>
+                            โทร : 065-838-9715
+                        </p>
+                        <p>
+                            Email : redmeowx@gmail.com
+                        </p>
+                        <p>
+                            Facebook Fanpage : บัดดี้อลูมิเนียม-กระจก
+                        </p>
                     </div>
                 </div>
             </div>

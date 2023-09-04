@@ -101,62 +101,7 @@
                 <div data-i18n="Analytics">หน้าหลัก</div>
               </a>
             </li>
-            <!-- จัดการข้อมูล -->
-            <li class="menu-header small text-uppercase">
-              <span class="menu-header-text">จัดการข้อมูล</span>
-            </li>
-            <li class="menu-item">
-              <a href="shop.php" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-store"></i>
-                <div data-i18n="Basic">หน้าร้าน</div>
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="cm.php" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-user-circle"></i>
-                <div data-i18n="Basic">ลูกค้า</div>
-              </a>
-            </li>
-
-            <!-- DropDown -->
-            <li class="menu-item">
-              <a href="product.php" class="menu-link menu-toggle">
-              <i class='menu-icon tf-icons bx bx-package'></i>
-                <div data-i18n="Account Settings">สินค้า</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="category.php" class="menu-link">
-                    <div data-i18n="Account">ประเภทสินค้า</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="product.php" class="menu-link">
-                    <div data-i18n="Notifications">สินค้า</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <!-- DropDown -->
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-              <i class='menu-icon tf-icons bx bx-book'></i>
-                <div data-i18n="Account Settings">ออเดอร์</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="man_order.php" class="menu-link">
-                    <div data-i18n="Account">คำสั่งซื้อ</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="pages-account-settings-notifications.html" class="menu-link">
-                    <div data-i18n="Notifications">สถานะคำสั่งซื้อ</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <!-- END จัดการข้อมูล -->
+            
 
 
 
@@ -170,18 +115,18 @@
 
             <!-- จัดการข้อมูล -->
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="coin_boss" class="menu-link menu-toggle">
               <i class='menu-icon tf-icons bx bx-coin'></i>
                 <div data-i18n="Account Settings">รายได้</div>
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="information_coin.php" class="menu-link">
+                  <a href="information_boss.php" class="menu-link">
                     <div data-i18n="Account">รายเดือน</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="pages-account-settings-notifications.html" class="menu-link">
+                  <a href="type_boss" class="menu-link">
                     <div data-i18n="Notifications">ประเภทสินค้า</div>
                   </a>
                 </li>
@@ -193,7 +138,7 @@
 
             <!-- ลูกค้าใหม่ -->
             <li class="menu-item">
-              <a href="customer_new.php" class="menu-link">
+              <a href="customer_new_boss.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-user-plus"></i>
                 <div data-i18n="Basic">ลูกค้าใหม่รายเดือน</div>
               </a>
@@ -201,7 +146,7 @@
 
             <!-- รายงานสถานะการติดตั้งสินค้าตามวันและเวลา -->
             <li class="menu-item">
-              <a href="status_order.php" class="menu-link">
+              <a href="status_order_boss.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
                 <div data-i18n="Basic">สถานะการติดตั้ง</div>
               </a>
@@ -210,7 +155,7 @@
 
             <!-- ความคิดเห็นลูกค้า -->
             <li class="menu-item">
-              <a href="cards-basic.html" class="menu-link">
+              <a href="comment_boss.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-message-rounded"></i>
                 <div data-i18n="Basic">ความคิดเห็นลูกค้า</div>
               </a>
@@ -552,7 +497,7 @@
                     <div class="d-flex align-items-end row">
                       <div class="col-sm-7">
                         <div class="card-body">
-                          <h5 class="card-title text-primary mb-5">ยินดีต้อนรับ ผู้ดูแลระบบ <?php echo $_SESSION['username_admin']; ?>! 🎉</h5>
+                          <h5 class="card-title text-primary mb-5">ยินดีต้อนรับ ผู้จัดการร้าน <?php echo $_SESSION['username_admin']; ?>! 🎉</h5>
                           <!-- <p class="mb-4">
                             You have done <span class="fw-bold">72%</span> more sales today. Check your new badge in
                             your profile.

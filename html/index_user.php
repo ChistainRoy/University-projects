@@ -1,9 +1,21 @@
+<?php
+    session_start();
+    if (!isset($_SESSION['username_user'])) {
+        header("location: login.php");
+    }
+    if (isset($_GET['logout'])) {
+        session_destroy();
+        unset($_SESSION['username_user']);
+        header("location: login.php");
+    }
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>Home - Page | Buddy-Aluminum</title>
 
@@ -15,7 +27,9 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
 
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
@@ -40,124 +54,152 @@
     <script src="../assets/js/config.js"></script>
 </head>
 <style>
-    .navbar {
-        background-color: #ffffff;
-        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    }
+.navbar {
+    background-color: #ffffff;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
 
-    a.navbar-brand {
-        color: white;
-    }
+a.navbar-brand {
+    color: white;
+}
 
-    .num {
-        font-family: 'Sigmar', cursive;
-        background-color: red;
-        position: absolute;
-        color: white;
-        font-size: 14px;
-        margin-left: 150px;
-        margin-bottom: 50px;
-        margin-top: -37px;
-        width: 30px;
-        text-align: center;
-        padding: 4px;
-        border-radius: 20px;
-    }
+.num {
+    font-family: 'Sigmar', cursive;
+    background-color: red;
+    position: absolute;
+    color: white;
+    font-size: 14px;
+    margin-left: 150px;
+    margin-bottom: 50px;
+    margin-top: -37px;
+    width: 30px;
+    text-align: center;
+    padding: 4px;
+    border-radius: 20px;
+}
 
-    .carousel-item {
-        width: 100%;
-        height: 700px;
-    }
 
+.carousel-item {
+    width: 100%;
+    height: 700px;
+}
+
+.slide {
+    width: 100%;
+    height: 700px;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 400px;
+}
+
+@media (max-width:767px) {
     .slide {
-        width: 100%;
-        height: 700px;
+        max-width: 100%;
+        height: 200px;
     }
+}
 
-    .card-img-top {
-        width: 100%;
-        height: 400px;
+@media (max-width:767px) {
+    .carousel-item {
+        max-width: 100%;
+        height: 200px;
     }
+}
 
-    @media (max-width:767px) {
-        .slide {
-            max-width: 100%;
-            height: 200px;
-        }
-    }
+.dropdown .dropdown-menU {
+    display: none;
+}
 
-    @media (max-width:767px) {
-        .carousel-item {
-            max-width: 100%;
-            height: 200px;
-        }
-    }
+.dropdown:hover>.dropdown-menu,
+.dropend:hover>.dropdown-menu {
+    display: block;
+    margin-top: .125em;
+    margin-left: .125em;
+}
 
-    .dropdown .dropdown-menU {
-        display: none;
-    }
-
-    .dropdown:hover>.dropdown-menu,
+@media screen and (min-width:769px) {
     .dropend:hover>.dropdown-menu {
-        display: block;
-        margin-top: .125em;
-        margin-left: .125em;
+        position: absolute;
+        top: 0;
+        left: 100%;
+    }
+}
+
+.about {
+    font-size: 80px;
+}
+
+.icon-large {
+    font-size: 48px;
+    color: white;
+}
+
+.icon-lar {
+    font-size: 28px;
+}
+
+.detail {
+    font-size: 20px;
+}
+
+.bg2 {
+    background-color: #696cff;
+}
+
+.detail2 {
+    color: white;
+}
+
+.star {
+    font-size: 30px;
+}
+
+.star.active {
+    color: gold;
+}
+
+/* Initially hide additional products */
+.hidden-product {
+    display: none;
+}
+
+/* Add animation effect when showing additional products */
+.show-product {
+    display: block;
+    animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
     }
 
-    @media screen and (min-width:769px) {
-        .dropend:hover>.dropdown-menu {
-            position: absolute;
-            top: 0;
-            left: 100%;
-        }
+    100% {
+        opacity: 1;
     }
+}
 
-    .about {
-        font-size: 80px;
-    }
-
-    .icon-large {
-        font-size: 48px;
-        color: white;
-    }
-
-    .icon-lar {
-        font-size: 28px;
-    }
-
-    .detail {
-        font-size: 20px;
-    }
-
-    .bg2 {
-        background-color: #696cff;
-    }
-
-    .detail2 {
-        color: white;
-    }
-
-    .star.active {
-        color: gold;
-    }
+.fix {
+    width: 100%;
+    /* กำหนดความกว้างของรูปภาพให้เต็มความกว้างของบรรจุรูปภาพ */
+    height: 660px;
+    /* กำหนดความสูงที่คุณต้องการ */
+    object-fit: cover;
+    /* ให้รูปภาพปรับขนาดเพื่อครอบคลุมพื้นที่ในกรอบ */
+    object-position: center;
+    /* กำหนดตำแหน่งรูปภาพในกรอบ (center, top, bottom, left, right, เป็นต้น) */
+}
 </style>
 
 <body>
-    <?php
-    session_start();
-    if (!isset($_SESSION['username_user'])) {
-        header("location: login.php");
-    }
-    if (isset($_GET['logout'])) {
-        session_destroy();
-        unset($_SESSION['username_user']);
-        header("location: login.php");
-    }
-    ?>
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container-fluid">
             <img src="upload/b.png" width="50">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -169,7 +211,8 @@
                         <a class="nav-link" href="javascript:void(0)">เกี่ยวกับร้าน</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="javascript:void(0)" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link" href="javascript:void(0)" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             สินค้า
                         </a>
                         <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
@@ -192,12 +235,14 @@
                     <button class="btn btn-outline-primary" type="submit">Search</button>
                 </form>
                 <div class="btn-group mx-2">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
                         <?php echo $_SESSION['username_user'] ?>
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
-                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน&nbsp;&nbsp;<span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger">1</span></a>
+                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน&nbsp;&nbsp;<span
+                                    class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger">1</span></a>
                         </li>
                         <li>
                             <hr class="dropdown-divider" />
@@ -245,20 +290,44 @@
             </div>
         </div>
     </section>
+    <!-- สิ้นสุด Hero Section -->
 
+    <!-- เริ่มต้น Features Section -->
     <section class="bg-light py-5">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
                     <h2>ยินดีต้อนรับ</h2>
-                    <p class="detail">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
+                    <p class="detail">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.
+                        Praesent libero.
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
                     </p>
                 </div>
                 <div class="col-lg-6">
-                    <img src="https://cdn.pixabay.com/photo/2015/12/07/10/56/architect-1080589_1280.jpg" alt="Product Image" class="img-fluid">
+                    <img src="https://cdn.pixabay.com/photo/2015/12/07/10/56/architect-1080589_1280.jpg"
+                        alt="Product Image" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="bg-light py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <img class="fix" src="upload/IMG_5727.jpg" alt="Product Image">
+                </div>
+                <div class="col-lg-6">
+                    <h2>หลักฐานดำเนินกิจการ</h2>
+                    <p class="detail">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.
+                        Praesent libero.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
+                    </p>
                 </div>
             </div>
         </div>
@@ -296,63 +365,85 @@
 
         
     </section>
-    <section>
+    <section class="bg-white text-white py-5">
     <div class="container mt-5">
-    <h2 class="text-center">สินค้าภายในร้าน</h2>
-                <div class="row">
-                    <!-- Product 1 -->
-                    <div class="col-md-4">
-                    <div class="card">
-                                <img class="card-img-top" src="upload/b.png" alt="Card image cap" />
-                                <div class="card-body">
-                                    <h3 class="card-title">หน้าต่างบานพับ
-                                        50 X 160 ซม.
-                                    </h3>
-                                    <h2 class="card-text text-center p-0">
-                                        2000 ฿
-                                    </h2>
-                                </div>
-                            </div>
-                    </div>
-                    <!-- Product 2 -->
-                    <div class="col-md-4">
-                    <div class="card">
-                                <img class="card-img-top" src="upload/b.png" alt="Card image cap" />
-                                <div class="card-body">
-                                    <h3 class="card-title">หน้าต่างบานพับ
-                                        50 X 160 ซม.
-                                    </h3>
-                                    <h2 class="card-text text-center p-0">
-                                        2000 ฿
-                                    </h2>
-                                </div>
-                            </div>
-                    </div>
-                    <!-- Product 3 -->
-                    <div class="col-md-4">
-                    <div class="card">
-                                <img class="card-img-top" src="upload/b.png" alt="Card image cap" />
-                                <div class="card-body">
-                                    <h3 class="card-title">หน้าต่างบานพับ
-                                        50 X 160 ซม.
-                                    </h3>
-                                    <h2 class="card-text text-center p-0">
-                                        2000 ฿
-                                    </h2>
-                                </div>
-                            </div>
+        <h2 class="text-center">สินค้าภายในร้าน</h2>
+        <div class="row" id="productRow">
+            <!-- Product 1 -->
+            <div class="col-md-4">
+                <div class="card">
+                    <img class="card-img-top" src="upload/IMG_4578-removebg-preview.png" alt="Card image cap" />
+                    <div class="card-body">
+                        <h3 class="card-title">หน้าต่างบานพับ 50 X 160 ซม.</h3>
+                        <h2 class="card-text text-center p-0">2000 ฿</h2>
                     </div>
                 </div>
-                <div class="d-flex justify-content-center mt-5">
-                <a href="allproduct.php" class="btn btn-primary btn-lg">สินค้าทั้งหมด<i class=' bx bxs-chevron-down'></i></a>
+            </div>
+            <!-- Product 2 -->
+            <div class="col-md-4">
+                <div class="card">
+                    <img class="card-img-top" src="upload/b.png" alt="Card image cap" />
+                    <div class="card-body">
+                        <h3 class="card-title">หน้าต่างบานพับ 50 X 160 ซม.</h3>
+                        <h2 class="card-text text-center p-0">2000 ฿</h2>
+                    </div>
+                </div>
+            </div>
+            <!-- Product 3 -->
+            <div class="col-md-4">
+                <div class="card">
+                    <img class="card-img-top" src="upload/b.png" alt="Card image cap" />
+                    <div class="card-body">
+                        <h3 class="card-title">หน้าต่างบานพับ 50 X 160 ซม.</h3>
+                        <h2 class="card-text text-center p-0">2000 ฿</h2>
+                    </div>
+                </div>
+            </div>
+            <!-- Additional Products (Initially Hidden) -->
+            <div class="col-md-4 hidden-product mt-3">
+                <div class="card">
+                    <img class="card-img-top" src="upload/b.png" alt="Card image cap" />
+                    <div class="card-body">
+                        <h3 class="card-title">สินค้าเพิ่มเติม 1</h3>
+                        <h2 class="card-text text-center p-0">2500 ฿</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 hidden-product mt-3">
+                <div class="card">
+                    <img class="card-img-top" src="upload/b.png" alt="Card image cap" />
+                    <div class="card-body">
+                        <h3 class="card-title">สินค้าเพิ่มเติม 2</h3>
+                        <h2 class="card-text text-center p-0">3000 ฿</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 hidden-product mt-3">
+                <div class="card">
+                    <img class="card-img-top" src="upload/b.png" alt="Card image cap" />
+                    <div class="card-body">
+                        <h3 class="card-title">สินค้าเพิ่มเติม 3</h3>
+                        <h2 class="card-text text-center p-0">3500 ฿</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mt-5">
+            <button class="btn btn-primary btn-lg" id="showMoreBtn">สินค้าเพิ่มเติม<i class=' bx
+                            bxs-chevron-down'></i></button>
+                    </div>
+                    <div class="d-flex justify-content-center mt-5">
+                        <a href="allproduct.php" class="btn btn-primary btn-lg hidden-product">สินค้าทั้งหมด<i
+                                class=' bx bxs-chevron-down'></i></a>
                     </div>
                 </div>
     </section>
+
     <!-- สิ้นสุด Features Section -->
 
 
     <!-- เริ่มต้น Contact Section -->
-    <section class="bg-primary text-white py-5 mt-5">
+    <section class="bg-primary text-white py-5">
         <div class="container">
             <h2 class="text-white">ความคิดเห็นจากผู้ที่ใช้บริการ</h2>
 
@@ -398,10 +489,21 @@
     <footer class="bg-dark text-white text-center py-3">
         &copy; 2023 บัดดี้อลูมิเนียม-กระจก
     </footer>
-    <!-- สิ้นสุด Footer Section -->
 
 
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const showMoreBtn = document.getElementById('showMoreBtn');
+        const hiddenProducts = document.querySelectorAll('.hidden-product');
 
+        showMoreBtn.addEventListener('click', function() {
+            hiddenProducts.forEach(function(product) {
+                product.classList.add('show-product');
+            });
+            showMoreBtn.style.display = 'none'; // ซ่อนปุ่ม "สินค้าทั้งหมด" เมื่อแสดงสินค้าเพิ่มเติม
+        });
+    });
+    </script>
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="../assets/vendor/libs/jquery/jquery.js"></script>
