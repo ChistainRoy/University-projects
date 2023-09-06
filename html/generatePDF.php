@@ -57,6 +57,15 @@ $columnWidth = ($paperWidth - 40) / $columns;
 $column = 5.5; // Number of columns
 $columnWidths = ($paperWidth - 40) / $column;
 // ส่วนหัว
+
+$sql_shop = "SELECT * FROM `shop`";
+$shop = mysqli_query($conn, $sql_shop);
+while ($row = mysqli_fetch_assoc($shop)) {
+    // นำผลลัพธ์ที่ได้มาใช้งานตามต้องการ
+    $boss_name = $row['boss_name'];
+    $shop_address = $row['address'];
+    $shop_phone = $row['phone'];
+}
 $text = 'ใบเสร็จรับเงิน';
 $text_tis620 = iconv('UTF-8', 'TIS-620', $text);
 $head_name = iconv('UTF-8', 'TIS-620', 'ชื่อลูกค้า :');
@@ -64,9 +73,10 @@ $detail = iconv('UTF-8', 'TIS-620', 'รายละเอียดลูกค�
 $name = iconv('UTF-8', 'TIS-620', 'นาย ทรงพล ชุมทอง');
 $head_address = iconv('UTF-8', 'TIS-620', 'ที่อยู่จัดส่ง :');
 $head_addressshop = iconv('UTF-8', 'TIS-620', 'ที่อยู่ร้าน :');
-$addressshop = iconv('UTF-8', 'TIS-620', '44/19 อ.เมือง ต.บ้านควน จ.ตรัง');
+$addressshop = iconv('UTF-8', 'TIS-620', $shop_address);
 $head_call = iconv('UTF-8', 'TIS-620', 'ติดต่อ :');
-$call = iconv('UTF-8', 'TIS-620', '089-592-7037 (พี่หญิง)');
+$formattedPhoneNumber = substr($shop_phone, 0, 3) . "-" . substr($shop_phone, 3, 3) . "-" . substr($shop_phone, 6);
+$call = iconv('UTF-8', 'TIS-620', $formattedPhoneNumber);
 $shop = iconv('UTF-8', 'TIS-620', 'ร้านบัดดี้อลูมิเนียม-กระจก');
 $order = iconv('UTF-8', 'TIS-620', 'ประตูบานเลื่อน');
 $quy = iconv('UTF-8', 'TIS-620', '2');

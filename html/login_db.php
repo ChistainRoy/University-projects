@@ -18,6 +18,8 @@ if (!$username) {
     echo json_encode(array("status" => "success", "msg" => "เข้าสู่ระบบสำเร็จ"));
     // header('location: index_user.php');
 } else if (mysqli_num_rows($result) == 1) {
+    $row = mysqli_fetch_assoc($result);
+    $_SESSION['id_em'] = $row['em_id'];
     $_SESSION['username_admin'] = $username;
     echo json_encode(array("status" => "info", "msg" => "เข้าสู่ระบบสำเร็จ"));
     // header('location: index.php');
