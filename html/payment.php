@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($result) {
                 // Update the status in the 'order' table
-                $sqli = "UPDATE `order` SET `order_status` = 'รอการตรวจสอบ' WHERE `order_id` = $id";
+                $sqli = "UPDATE `order` SET `oder_status` = 'รอการตรวจสอบ' WHERE `order_id` = $id";
                 $resultli = mysqli_query($conn, $sqli);
 
                 if ($resultli) {

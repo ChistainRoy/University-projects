@@ -262,6 +262,8 @@ if (isset($_GET['logout'])) {
         header("location: login.php");
     }
 
+
+
     include('connect.php');
     $user = $_SESSION['username_user'];
     $sql = "SELECT cm_id,name FROM cumtomer WHERE username = '$user'";
@@ -389,52 +391,13 @@ if (isset($_GET['logout'])) {
     <!-- สินค้า -->
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <!-- <nav class="navbar navbar-light bg-primary mb-3">
-                <div class="container-fluid">
-                    <form action="Search.php">
-                        <label for="type">ประเภทสินค้า:</label>
-                        <select name="cars" class="py-1 px-1">
-                            <option value="volvo">ประตูบานเลื่อน</option>
-                            <option value="saab">ประตูบานพับ</option>
-                            <option value="audi">หน้าต่างบานเลื่อน</option>
-                            <option value="audi">หน้าต่างบานพับ</option>
-                            <option value="fiat">หน้าต่างห้องน้ำ</option>
-                        </select>
-                        <label for="type">ขนาด:</label>
-                        <select name="cars" class="py-1 px-1">
-                            <option value="volvo">ประตูบานเลื่อน</option>
-                            <option value="saab">ประตูบานพับ</option>
-                            <option value="audi">หน้าต่างบานเลื่อน</option>
-                            <option value="audi">หน้าต่างบานพับ</option>
-                            <option value="fiat">หน้าต่างห้องน้ำ</option>
-                        </select>
-                        <label for="type">สีกรอบ:</label>
-                        <select name="cars" class="py-1 px-1">
-                            <option value="volvo">ประตูบานเลื่อน</option>
-                            <option value="saab">ประตูบานพับ</option>
-                            <option value="audi">หน้าต่างบานเลื่อน</option>
-                            <option value="audi">หน้าต่างบานพับ</option>
-                            <option value="fiat">หน้าต่างห้องน้ำ</option>
-                        </select>
-                        <label for="type">สีกระจก:</label>
-                        <select name="cars" class="py-1 px-1">
-                            <option value="volvo">ประตูบานเลื่อน</option>
-                            <option value="saab">ประตูบานพับ</option>
-                            <option value="audi">หน้าต่างบานเลื่อน</option>
-                            <option value="audi">หน้าต่างบานพับ</option>
-                            <option value="fiat">หน้าต่างห้องน้ำ</option>
-                        </select>
-                        <button class="submit mx-2" type="submit">ค้นหา</button>
-                    </form>
-                </div>
-            </nav> -->
-            <h3><a href="allproduct.php">สินค้า</a> / หน้าต่างบานเลื่อน</h3>
+            <h3><a href="allproduct.php">สินค้า</a> / หน้าต่างบานพับ</h3>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-3">
                 <?php
                 include('connect.php');
                 $products = []; // สร้างอาร์เรย์เพื่อเก็บข้อมูลสินค้า
 
-                $query = mysqli_query($conn, "SELECT * FROM `product` WHERE `category_id` = 1");
+                $query = mysqli_query($conn, "SELECT * FROM `product` WHERE `category_id` = 2");
                 while ($row = mysqli_fetch_assoc($query)) {
                     $products[] = $row; // เพิ่มข้อมูลลงในอาร์เรย์
                 }

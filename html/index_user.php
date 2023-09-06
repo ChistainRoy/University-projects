@@ -161,6 +161,7 @@ if (isset($_GET['logout'])) {
     /* Add animation effect when showing additional products */
     .show-product {
         display: block;
+        margin-top: 30px;
         animation: fadeIn 1s;
     }
 
@@ -185,6 +186,27 @@ if (isset($_GET['logout'])) {
         /* กำหนดตำแหน่งรูปภาพในกรอบ (center, top, bottom, left, right, เป็นต้น) */
     }
 </style>
+<?php
+include('connect.php');
+$user = $_SESSION['username_user'];
+$sql = "SELECT cm_id,name FROM cumtomer WHERE username = '$user'";
+$query = mysqli_query($conn, $sql);
+if (mysqli_num_rows($query) > 0) {
+    // output data of each row
+    while ($row = mysqli_fetch_assoc($query)) {
+        $numberuser = $row['cm_id'];
+        $_SESSION['fullname'] = $row['name'];
+    }
+} else {
+    //   echo "0 results";
+}
+$sql = "SELECT COUNT(cm_id) AS test FROM `order` WHERE cm_id = $numberuser";
+$result = mysqli_query($conn, $sql);
+while ($row = mysqli_fetch_assoc($result)) {
+    // echo $row['test'];
+    $numorder = $row['test'];
+}
+?>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
@@ -199,10 +221,10 @@ if (isset($_GET['logout'])) {
                         <a class="nav-link active" aria-current="page" href="javascript:void(0)">หน้าหลัก</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0)">เกี่ยวกับร้าน</a>
+                        <a class="nav-link" href="contact.php">เกี่ยวกับร้าน</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="javascript:void(0)" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link" href="allproduct.php" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             สินค้า
                         </a>
                         <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
@@ -220,17 +242,13 @@ if (isset($_GET['logout'])) {
                         </ul>
                     </li>
                 </ul>
-                <form class="d-flex" onsubmit="return false">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                    <button class="btn btn-outline-primary" type="submit">Search</button>
-                </form>
                 <div class="btn-group mx-2">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <?php echo $_SESSION['username_user'] ?>
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
-                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน&nbsp;&nbsp;<span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger">1</span></a>
+                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน&nbsp;&nbsp;<span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $numorder ?></span></a>
                         </li>
                         <li>
                             <hr class="dropdown-divider" />
@@ -299,7 +317,7 @@ if (isset($_GET['logout'])) {
                     </p>
                 </div>
                 <div class="col-lg-6">
-                    <img src="https://cdn.pixabay.com/photo/2015/12/07/10/56/architect-1080589_1280.jpg" alt="Product Image" class="img-fluid">
+                    <img src="upload/2.png" alt="Product Image" class="img-fluid">
                 </div>
             </div>
         </div>
@@ -360,66 +378,55 @@ if (isset($_GET['logout'])) {
     <section class="bg-white text-white py-5">
     <div class="container mt-5">
         <h2 class="text-center">สินค้าภายในร้าน</h2>
+        <?php
+        $product = array();
+        $sql = "SELECT * FROM product
+        LIMIT 6;";
+        $product_data = mysqli_query($conn, $sql);
+        while ($row = mysqli_fetch_assoc($product_data)) {
+            $product[] = $row;
+        } ?>
         <div class="row" id="productRow">
-            <!-- Product 1 -->
-            <div class="col-md-4">
-                <div class="card">
-                    <img class="card-img-top" src="upload/IMG_4578-removebg-preview.png" alt="Card image cap" />
-                    <div class="card-body">
-                        <h3 class="card-title">หน้าต่างบานพับ 50 X 160 ซม.</h3>
-                        <h2 class="card-text text-center p-0">2000 ฿</h2>
-                    </div>
-                </div>
-            </div>
-            <!-- Product 2 -->
-            <div class="col-md-4">
-                <div class="card">
-                    <img class="card-img-top" src="upload/b.png" alt="Card image cap" />
-                    <div class="card-body">
-                        <h3 class="card-title">หน้าต่างบานพับ 50 X 160 ซม.</h3>
-                        <h2 class="card-text text-center p-0">2000 ฿</h2>
-                    </div>
-                </div>
-            </div>
-            <!-- Product 3 -->
-            <div class="col-md-4">
-                <div class="card">
-                    <img class="card-img-top" src="upload/b.png" alt="Card image cap" />
-                    <div class="card-body">
-                        <h3 class="card-title">หน้าต่างบานพับ 50 X 160 ซม.</h3>
-                        <h2 class="card-text text-center p-0">2000 ฿</h2>
-                    </div>
-                </div>
-            </div>
-            <!-- Additional Products (Initially Hidden) -->
-            <div class="col-md-4 hidden-product mt-3">
-                <div class="card">
-                    <img class="card-img-top" src="upload/b.png" alt="Card image cap" />
-                    <div class="card-body">
-                        <h3 class="card-title">สินค้าเพิ่มเติม 1</h3>
-                        <h2 class="card-text text-center p-0">2500 ฿</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 hidden-product mt-3">
-                <div class="card">
-                    <img class="card-img-top" src="upload/b.png" alt="Card image cap" />
-                    <div class="card-body">
-                        <h3 class="card-title">สินค้าเพิ่มเติม 2</h3>
-                        <h2 class="card-text text-center p-0">3000 ฿</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 hidden-product mt-3">
-                <div class="card">
-                    <img class="card-img-top" src="upload/b.png" alt="Card image cap" />
-                    <div class="card-body">
-                        <h3 class="card-title">สินค้าเพิ่มเติม 3</h3>
-                        <h2 class="card-text text-center p-0">3500 ฿</h2>
-                    </div>
+            <!-- Product 1 -->  
+            <?php foreach ($product as $index => $product_data) { ?>
+        <div class="col-md-4 <?php echo ($index >= 3) ? 'hidden-product' : ''; ?>">
+            <div class="card">
+                <img class="card-img-top" src="<?php echo $product_data['product_img']; ?>" alt="Card image cap" />
+                <div class="card-body">
+                    <h3 class="card-title"><?php echo $product_data['product_name']; ?> ขนาด <?php echo $product_data['product_width']; ?> X <?php echo $product_data['product_length']; ?></h3>
+                    <h4 class="card-text p-0">สีกระจก &nbsp; <?php
+                                                                if ($product_data['colorglass'] === "1") {
+                                                                    $color = "เขียว";
+                                                                    echo $color;
+                                                                } else if ($product_data['colorglass'] === "2") {
+                                                                    echo $color = "ดำ";
+                                                                } else if ($product_data['colorglass'] === "3")
+                                                                    echo $color = "กันยูวี";
+                                                                ?></h4>
+                                                        <h4 class="card-text p-0">สีกรอบ &nbsp; &nbsp;
+                                                        <?php if ($product_data['colorframe'] === "1") {
+                                                            $frame = "ชา";
+                                                            echo $frame;
+                                                        } elseif ($product_data['colorframe'] === "2") {
+                                                            $frame = "นม";
+                                                            echo $frame;
+                                                        } elseif ($product_data['colorframe'] === "3") {
+                                                            $frame = "ดำ";
+                                                            echo $frame;
+                                                        } else if ($product_data['colorframe'] === "4") {
+                                                            $frame = "ไม้";
+                                                            echo $frame;
+                                                        } else
+                                                        ?>
+
+                                                        </h4>
+                    <h2 class="card-text text-center p-0"><?php
+                                                        $formatted_price = number_format($product_data['product_price'], 0);
+                                                        echo $formatted_price ?> ฿</h2>
                 </div>
             </div>
         </div>
+    <?php } ?>
         <div class="d-flex justify-content-center mt-5">
             <button class="btn btn-primary btn-lg" id="showMoreBtn">สินค้าเพิ่มเติม<i class=' bx bxs-chevron-down'></i></button>
                     </div>
@@ -434,33 +441,59 @@ if (isset($_GET['logout'])) {
 
     <!-- เริ่มต้น Contact Section -->
     <section class="bg-primary text-white py-5">
-        <div class="container">
-            <h2 class="text-white">ความคิดเห็นจากผู้ที่ใช้บริการ</h2>
+        <div class="container mt-2">
+            <h2 class="text-white mb-5">ความคิดเห็นจากผู้ที่ใช้บริการล่าสุด</h2>
 
             <!-- แสดงความคิดเห็นที่โพสต์แล้ว -->
-            <div class="comment">
-                <h3 class="text-white">John</h3>
-                <p>ความคิดเห็นที่น่าสนใจ! รายละเอียดเพิ่มเติมเกี่ยวกับความคิดเห็นของ John อาจปรากฎที่นี่...</p>
-                <div class="rating">
-                    <!-- 5 ดาว, 4 ดาวเต็ม และ 1/2 ดาว -->
-                    <span class="star active">&#9733;</span>
-                    <span class="star active">&#9733;</span>
-                    <span class="star active">&#9733;</span>
-                    <span class="star active">&#9733;</span>
-                </div>
-            </div>
+            <?php
+            $comment = array();
+            $sql = "SELECT  comment.comment_detail,comment.comment_img,comment.comment_date,`order`.`cm_id`,cumtomer.name
+            FROM comment
+            INNER JOIN `order` ON comment.order_id = `order`.`order_id`
+            INNER JOIN cumtomer ON `order`.`cm_id` = cumtomer.cm_id
+                        ORDER BY comment_date DESC
+                        LIMIT 2;";
+            $comment = mysqli_query($conn, $sql);
+            while ($row = mysqli_fetch_assoc($comment)) {
+                $comment_data[] = $row;
+            } ?>
+            <?php foreach ($comment_data as $comment) { ?>
+                <div class="comment mt-2">
+                    <h3 class="text-white mt-3"><?php echo $comment['name']; ?></h3>
+                    <?php
+                    $date = $comment['comment_date'];
+                    $thaiMonths = array(
+                        1 => 'มกราคม',
+                        2 => 'กุมภาพันธ์',
+                        3 => 'มีนาคม',
+                        4 => 'เมษายน',
+                        5 => 'พฤษภาคม',
+                        6 => 'มิถุนายน',
+                        7 => 'กรกฎาคม',
+                        8 => 'สิงหาคม',
+                        9 => 'กันยายน',
+                        10 => 'ตุลาคม',
+                        11 => 'พฤศจิกายน',
+                        12 => 'ธันวาคม'
+                    );
+                    $timestamp = strtotime($date);
+                    $buddhistYear = date("Y", $timestamp) + 543;
+                    $monthNumber = date("n", $timestamp); // Get the month number (1-12)
+                    $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
+                    $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
 
-            <div class="comment">
-                <h3 class="text-white">Jane</h3>
-                <p>ขอบคุณสำหรับข้อมูล! รายละเอียดเพิ่มเติมเกี่ยวกับความคิดเห็นของ Jane อาจปรากฎที่นี่...</p>
-                <div class="rating">
-                    <!-- 4 ดาวเต็ม และ 1/2 ดาว -->
-                    <span class="star active">&#9733;</span>
-                    <span class="star active">&#9733;</span>
-                    <span class="star">&#9733;</span>
-                    <span class="star">&#9733;</span>
+                    ?>
+                    <p><?php echo $thaiFormattedDate; ?></p>
+                    <p><?php echo $comment['comment_detail']; ?></p>
+                    <div class="rating">
+                        <!-- ตรวจสอบและแสดงจำนวนดาวตามคะแนน -->
+                        <?php for ($i = 1; $i <= 4; $i++) { ?>
+                            <?php $class = ($i <= $comment['comment_img']) ? 'active' : ''; ?>
+                            <span class="star <?php echo $class; ?>">&#9733;</span>
+                        <?php } ?>
+                    </div>
                 </div>
-            </div>
+            <?php } ?>
         </div>
     </section>
     <!-- สิ้นสุด Contact Section -->

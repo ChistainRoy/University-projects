@@ -261,26 +261,6 @@ if (isset($_GET['logout'])) {
         unset($_SESSION['username_user']);
         header("location: login.php");
     }
-
-    include('connect.php');
-    $user = $_SESSION['username_user'];
-    $sql = "SELECT cm_id,name FROM cumtomer WHERE username = '$user'";
-    $query = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($query) > 0) {
-        // output data of each row
-        while ($row = mysqli_fetch_assoc($query)) {
-            $numberuser = $row['cm_id'];
-            $_SESSION['fullname'] = $row['name'];
-        }
-    } else {
-        //   echo "0 results";
-    }
-    $sql = "SELECT COUNT(cm_id) AS test FROM `order` WHERE cm_id = $numberuser";
-    $result = mysqli_query($conn, $sql);
-    while ($row = mysqli_fetch_assoc($result)) {
-        //   echo $row['test'];
-        $numorder = $row['test'];
-    }
     ?>
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container-fluid">
@@ -325,7 +305,7 @@ if (isset($_GET['logout'])) {
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
-                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน&nbsp;&nbsp;<span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $numorder ?></span></a>
+                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน</a>
                             <?php
                             echo "<span id='cart_count'></span>";
                             ?></li>
@@ -428,13 +408,13 @@ if (isset($_GET['logout'])) {
                     </form>
                 </div>
             </nav> -->
-            <h3><a href="allproduct.php">สินค้า</a> / หน้าต่างบานเลื่อน</h3>
+            <h3><a href="allproduct.php">สินค้า</a> / ประตูบานพับ</h3>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-3">
                 <?php
                 include('connect.php');
                 $products = []; // สร้างอาร์เรย์เพื่อเก็บข้อมูลสินค้า
 
-                $query = mysqli_query($conn, "SELECT * FROM `product` WHERE `category_id` = 1");
+                $query = mysqli_query($conn, "SELECT * FROM `product` WHERE `category_id` = 5");
                 while ($row = mysqli_fetch_assoc($query)) {
                     $products[] = $row; // เพิ่มข้อมูลลงในอาร์เรย์
                 }

@@ -632,13 +632,13 @@
                       $join = "SELECT product.category_id, category.cat_name FROM product INNER JOIN category ON product.category_id = category.id_cat WHERE category_id = $catid";
                       $inner = mysqli_query($conn, $join);
                       $type = mysqli_fetch_array($inner);
-                          echo $type['cat_name'];
+                      echo $type['cat_name'];
                         ?>
                       <div class="col-12 mt-3 mb-auto">
                       <?php echo "<a class='btn btn-outline-primary' href='edit_product.php?id=" . $fetch['product_id'] . "'>แก้ไขข้อมูล</a>"; ?>
                       <?php echo "<a class='btn btn-primary' href='edit_product_img.php?idimg=" . $fetch['product_id'] . "'>แก้ไขรูปภาพ</a>"; ?>
                       <?php echo "<a class='btn btn-danger mt-2' href='del_product.php?did=" . $fetch['product_id'] . "' onclick=\"return confirm('ต้องการลบผู้ใช้แน่หรือไม่? ข้อมูลนี้ไม่สามารถกู้คืนได้.')\">ลบข้อมูล</a>"; ?>
-                  </div>
+                  </div>  
                  
                 </div>
               </div>

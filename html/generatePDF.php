@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('./fpdf186/fpdf.php');
 include('connect.php');
 if (isset($_GET['ids'])) {
@@ -8,7 +9,7 @@ $sql = "SELECT `order`.order_id,`order`.`oder_total`,`order`.`order_address`,ode
 FROM `order` 
 INNER JOIN oderdetail ON oderdetail.oder_id = `order`.`order_id` 
 INNER JOIN product ON product.product_id = oderdetail.product_id 
-WHERE `order`.order_id = 3;";
+WHERE `order`.order_id = $id;";
 $currentDate = date("Y-m-d");
 $thaiMonths = array(
     1 => 'มกราคม',
@@ -32,11 +33,11 @@ $thaiFormattedDate = date("j $thaiMonth  ", $timestamp) . $buddhistYear;
 
 $data = array();
 $end = mysqli_query($conn, $sql);
-$username = "darknight7577";
+$username = $_SESSION['username_user'];
 $sqli = "SELECT `cumtomer`.`name`,`cumtomer`.`tel`,`order`.`order_address`
     FROM `cumtomer`
     INNER JOIN `order` ON `cumtomer`.`cm_id` = `order`.`cm_id`
-    WHERE `cumtomer`.`username` = 'darknight7577'
+    WHERE `cumtomer`.`username` = '$username'
     AND `order`.`order_id` = $id;";
 $uername_data = mysqli_query($conn, $sqli);
 while ($row = mysqli_fetch_assoc($uername_data)) {

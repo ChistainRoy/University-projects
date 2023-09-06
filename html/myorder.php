@@ -235,10 +235,6 @@ while ($row = mysqli_fetch_assoc($querywait)) {
                         </ul>
                     </li>
                 </ul>
-                <form class="d-flex justify-content-between" onsubmit="return false">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                    <button class="btn btn-outline-primary me-2" type="submit">Search</button>
-                </form>
                 <div class="btn-group dropstart">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <?php echo $_SESSION['username_user'] ?>
@@ -474,7 +470,7 @@ while ($row = mysqli_fetch_assoc($querywait)) {
                                                 <h4><?php
                                                     echo $data['oder_total'] ?>&nbsp;฿</h4>
                                                 <hr>
-                                                <?php echo "<a class='btn btn-primary' href='generatePDF.php?ids=" . $row['order_id'] . "'>พิมพ์ใบเสร็จชำระเงิน</a>"; ?>
+                                                <?php echo "<a class='btn btn-primary' href='generatePDF.php?ids=" . $data['order_id'] . "'>พิมพ์ใบเสร็จชำระเงิน</a>"; ?>
                                             </div>
                                         </div>
                                     </div>
