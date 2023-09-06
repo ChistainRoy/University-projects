@@ -261,6 +261,27 @@ if (isset($_GET['logout'])) {
         unset($_SESSION['username_user']);
         header("location: login.php");
     }
+
+
+    include('connect.php');
+    $user = $_SESSION['username_user'];
+    $sql = "SELECT cm_id,name FROM cumtomer WHERE username = '$user'";
+    $query = mysqli_query($conn, $sql);
+    if (mysqli_num_rows($query) > 0) {
+        // output data of each row
+        while ($row = mysqli_fetch_assoc($query)) {
+            $numberuser = $row['cm_id'];
+            $_SESSION['fullname'] = $row['name'];
+        }
+    } else {
+        //   echo "0 results";
+    }
+    $sql = "SELECT COUNT(cm_id) AS test FROM `order` WHERE cm_id = $numberuser";
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_assoc($result)) {
+        //   echo $row['test'];
+        $numorder = $row['test'];
+    }
     ?>
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container-fluid">
@@ -304,8 +325,8 @@ if (isset($_GET['logout'])) {
                         <?php echo $_SESSION['username_user'] ?>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
-                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน</a>
+                        <li><a class="dropdown-item" href="profile.php">แก้ไขข้อมูลส่วนตัว</a></li>
+                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน&nbsp;&nbsp;<span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $numorder ?></span></a>
                             <?php
                             echo "<span id='cart_count'></span>";
                             ?></li>

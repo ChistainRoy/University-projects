@@ -14,6 +14,8 @@ if (!$username) {
 } else if (!$passwod_em) {
     echo json_encode(array("status" => "error", "msg" => "กรุณากรอกให้ครบถ้วน"));
 } else if (mysqli_num_rows($resultuser) == 1) {
+    $row = mysqli_fetch_assoc($resultuser);
+    $_SESSION['id_cm'] = $row['cm_id'];
     $_SESSION['username_user'] = $username;
     echo json_encode(array("status" => "success", "msg" => "เข้าสู่ระบบสำเร็จ"));
     // header('location: index_user.php');

@@ -7,7 +7,7 @@ $order = $_POST['idorder'];
 $date = $_POST['date'];
 
 // ทำการอัปเดตสถานะในตาราง order
-$sql = "UPDATE `order` SET `oder_status` = 'อนุมัติ', `em_id` = '20' WHERE `order_id` = $order";
+$sql = "UPDATE `order` SET `oder_status` = 'ชำระเงินแล้ว', `em_id` = '20' WHERE `order_id` = $order";
 
 if (mysqli_query($conn, $sql)) {
     // เมื่ออัปเดตสถานะในตาราง order เสร็จสิ้น
@@ -17,7 +17,7 @@ if (mysqli_query($conn, $sql)) {
 
     if (mysqli_query($conn, $sql2)) {
         // เมื่อเพิ่มข้อมูลในตารางอื่นๆ เสร็จสิ้น
-        echo json_encode(array("status" => "success", "msg" => "อนุมัติเรียบร้อยและเพิ่มข้อมูลในตารางอื่นๆ เรียบร้อย"));
+        echo json_encode(array("status" => "success", "msg" => "อนุมัติเรียบร้อยและเพิ่มข้อมูลในตารางสถานะคำสั่งซื้อเรียบร้อย"));
     } else {
         // เกิดข้อผิดพลาดในการเพิ่มข้อมูลในตารางอื่นๆ
         echo json_encode(array("status" => "error", "msg" => "เกิดข้อผิดพลาดในการเพิ่มข้อมูลในตารางอื่นๆ"));

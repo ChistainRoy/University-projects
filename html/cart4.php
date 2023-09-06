@@ -261,6 +261,27 @@ if (isset($_GET['logout'])) {
         unset($_SESSION['username_user']);
         header("location: login.php");
     }
+
+
+    include('connect.php');
+    $user = $_SESSION['username_user'];
+    $sql = "SELECT cm_id,name FROM cumtomer WHERE username = '$user'";
+    $query = mysqli_query($conn, $sql);
+    if (mysqli_num_rows($query) > 0) {
+        // output data of each row
+        while ($row = mysqli_fetch_assoc($query)) {
+            $numberuser = $row['cm_id'];
+            $_SESSION['fullname'] = $row['name'];
+        }
+    } else {
+        //   echo "0 results";
+    }
+    $sql = "SELECT COUNT(cm_id) AS test FROM `order` WHERE cm_id = $numberuser";
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_assoc($result)) {
+        //   echo $row['test'];
+        $numorder = $row['test'];
+    }
     ?>
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container-fluid">
@@ -304,8 +325,8 @@ if (isset($_GET['logout'])) {
                         <?php echo $_SESSION['username_user'] ?>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
-                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน</a>
+                        <li><a class="dropdown-item" href="profile.php">แก้ไขข้อมูลส่วนตัว</a></li>
+                        <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน&nbsp;&nbsp;<span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $numorder ?></span></a>
                             <?php
                             echo "<span id='cart_count'></span>";
                             ?></li>
@@ -369,45 +390,6 @@ if (isset($_GET['logout'])) {
     <!-- สินค้า -->
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <!-- <nav class="navbar navbar-light bg-primary mb-3">
-                <div class="container-fluid">
-                    <form action="Search.php">
-                        <label for="type">ประเภทสินค้า:</label>
-                        <select name="cars" class="py-1 px-1">
-                            <option value="volvo">ประตูบานเลื่อน</option>
-                            <option value="saab">ประตูบานพับ</option>
-                            <option value="audi">หน้าต่างบานเลื่อน</option>
-                            <option value="audi">หน้าต่างบานพับ</option>
-                            <option value="fiat">หน้าต่างห้องน้ำ</option>
-                        </select>
-                        <label for="type">ขนาด:</label>
-                        <select name="cars" class="py-1 px-1">
-                            <option value="volvo">ประตูบานเลื่อน</option>
-                            <option value="saab">ประตูบานพับ</option>
-                            <option value="audi">หน้าต่างบานเลื่อน</option>
-                            <option value="audi">หน้าต่างบานพับ</option>
-                            <option value="fiat">หน้าต่างห้องน้ำ</option>
-                        </select>
-                        <label for="type">สีกรอบ:</label>
-                        <select name="cars" class="py-1 px-1">
-                            <option value="volvo">ประตูบานเลื่อน</option>
-                            <option value="saab">ประตูบานพับ</option>
-                            <option value="audi">หน้าต่างบานเลื่อน</option>
-                            <option value="audi">หน้าต่างบานพับ</option>
-                            <option value="fiat">หน้าต่างห้องน้ำ</option>
-                        </select>
-                        <label for="type">สีกระจก:</label>
-                        <select name="cars" class="py-1 px-1">
-                            <option value="volvo">ประตูบานเลื่อน</option>
-                            <option value="saab">ประตูบานพับ</option>
-                            <option value="audi">หน้าต่างบานเลื่อน</option>
-                            <option value="audi">หน้าต่างบานพับ</option>
-                            <option value="fiat">หน้าต่างห้องน้ำ</option>
-                        </select>
-                        <button class="submit mx-2" type="submit">ค้นหา</button>
-                    </form>
-                </div>
-            </nav> -->
             <h3><a href="allproduct.php">สินค้า</a> / หน้าต่างห้องน้ำ</h3>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-3">
                 <?php

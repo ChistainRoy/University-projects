@@ -294,10 +294,10 @@ if (isset($_GET['logout'])) {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="index_user">หน้าหลัก</a>
+                        <a class="nav-link" aria-current="page" href="index_user.php">หน้าหลัก</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">เกี่ยวกับร้าน</a>
+                        <a class="nav-link" href="contact.php">เกี่ยวกับร้าน</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

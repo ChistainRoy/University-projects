@@ -247,7 +247,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                         <?php echo $_SESSION['username_user'] ?>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
+                        <li><a class="dropdown-item" href="profile.php">ข้อมูลส่วนตัว</a></li>
                         <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน&nbsp;&nbsp;<span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $numorder ?></span></a>
                         </li>
                         <li>
@@ -309,11 +309,9 @@ while ($row = mysqli_fetch_assoc($result)) {
             <div class="row">
                 <div class="col-lg-6">
                     <h2>ยินดีต้อนรับ</h2>
-                    <p class="detail">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.
-                        Praesent libero.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
+                    <p class="detail">ร้านบัดดี้ อลูมิเนียม-กระจก
+                        เรามีประสบการณ์ทำงานมนี้มามากกว่า 17 ปี <br>
+                        และยังร่วมจัดทำโครงการหมู่บ้านจัดสรรต่างๆมากมาย เราพร้อมดูแลและ<br>ให้คำปรึษาษากับทุกท่าน โดยทางร้านยึดถือคติประจำใจว่า<br> "ความพึงพอใจของลูกค้าคือความสำเร็จของพวกเรา"
                     </p>
                 </div>
                 <div class="col-lg-6">
@@ -331,12 +329,8 @@ while ($row = mysqli_fetch_assoc($result)) {
                     <img class="fix" src="upload/IMG_5727.jpg" alt="Product Image">
                 </div>
                 <div class="col-lg-6">
-                    <h2>หลักฐานดำเนินกิจการ</h2>
-                    <p class="detail">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.
-                        Praesent libero.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
+                    <h2>หลักฐานทางการค้า</h2>
+                    <p class="detail">ร้านบัดดี้ อลูมิเนียม-กระจก จดทะเบียนพาณิชย์ถูกต้องตามกฎหมาย<br>การจดทะเบียนพาณิชย์ คือ หลักฐานสำคัญทางการค้า ที่จะช่วยสร้างความน่าเชื่อถือให้กับร้านค้า และสร้างความมั่นใจได้ว่าร้านค้านั้นมีตัวตนและมีสถานประกอบการเป็นหลักแหล่ง ทำให้ลูกค้าสามารถรับ-คืน-เปลี่ยนสินค้าได้ หรือหากสินค้าชำรุดหรือใช้งานไม่ได้ภายในระยะเวลารับประกัน
                     </p>
                 </div>
             </div>
@@ -352,21 +346,21 @@ while ($row = mysqli_fetch_assoc($result)) {
                     <div class="text-center">
                         <i class='bx bx-cart icon-large'></i>
                         <h5 class="card-title mt-4 detail2">สั่งซื้อง่าย</h5>
-                        <p class="card-text detail2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <p class="card-text detail2">สามารถค้นหาและเพิ่มสินค้าลงตระกร้า</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="text-center">
                         <i class='bx bxs-calendar icon-large'></i>
                         <h5 class="card-title mt-4 detail2">จองสบาย</h5>
-                        <p class="card-text detail2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <p class="card-text detail2">มีปฎิทินการจองที่สะดวกดูได้ง่าย</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="text-center">
                         <i class='bx bxs-cog icon-large''></i>
                             <h5 class="card-title mt-4 detail2">ติดตั้งรวดเร็ว</h5>
-                            <p class="card-text detail2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <p class="card-text detail2">บริการติดตั้งไวพนักงานพร้อมให้บริการด้วยความสุภาพ</p>
                     </div>
                 </div>
             </div>
@@ -377,7 +371,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     </section>
     <section class="bg-white text-white py-5">
     <div class="container mt-5">
-        <h2 class="text-center">สินค้าภายในร้าน</h2>
+        <h2 class="text-center">ตัวอย่างสินค้าภายในร้าน</h2>
         <?php
         $product = array();
         $sql = "SELECT * FROM product
@@ -428,7 +422,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         </div>
     <?php } ?>
         <div class="d-flex justify-content-center mt-5">
-            <button class="btn btn-primary btn-lg" id="showMoreBtn">สินค้าเพิ่มเติม<i class=' bx bxs-chevron-down'></i></button>
+            <button class="btn btn-primary btn-lg" id="showMoreBtn">สั่งซื้อ/สินค้าเพิ่มเติม<i class=' bx bxs-chevron-down'></i></button>
                     </div>
                     <div class="d-flex justify-content-center mt-5">
                         <a href="allproduct.php" class="btn btn-primary btn-lg hidden-product">สินค้าทั้งหมด<i class=' bx bxs-chevron-down'></i></a>

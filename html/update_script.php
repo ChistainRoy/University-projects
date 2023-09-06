@@ -10,13 +10,13 @@ if (isset($_POST['orderId'])) {
     ORDER BY performance_id DESC
     LIMIT 1";
     if (mysqli_query($conn, $sql)) {
-        $response = array("status" => "success", "msg" => "Database updated successfully");
+        $response = array("status" => "success", "msg" => "บันทึกข้อมูลเรียบร้อย");
     } else {
-        $response = array("status" => "erroe", "msg" => "Invalid request");
+        $response = array("status" => "erroe", "msg" => "เกิดข้อผิดพลาดในการบันทึกข้อมูล");
     }
     echo json_encode($response);
     mysqli_close($conn);
 } else {
-    $response = array("status" => "error", "msg" => "Invalid request");
+    $response = array("status" => "error", "msg" => "ไม่มีการส่งข้อมูลเข้ามา");
     echo json_encode($response);
 }

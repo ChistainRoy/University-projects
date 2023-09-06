@@ -212,10 +212,10 @@ while ($row = mysqli_fetch_assoc($querywait)) {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">หน้าหลัก</a>
+                        <a class="nav-link" aria-current="page" href="index_user.php">หน้าหลัก</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">เกี่ยวกับร้าน</a>
+                        <a class="nav-link" href="contact.php">เกี่ยวกับร้าน</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -240,7 +240,7 @@ while ($row = mysqli_fetch_assoc($querywait)) {
                         <?php echo $_SESSION['username_user'] ?>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="javascript:void(0);">แก้ไขข้อมูลส่วนตัว</a></li>
+                        <li><a class="dropdown-item" href="profile.php">แก้ไขข้อมูลส่วนตัว</a></li>
                         <li><a class="dropdown-item" href="myorder.php">ออเดอร์ของฉัน&nbsp;&nbsp;<span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger"><?php echo $numorder ?></span></a>
 
                         <li>
@@ -348,7 +348,7 @@ while ($row = mysqli_fetch_assoc($querywait)) {
                                                     echo $row['oder_total'] ?>&nbsp;฿</h4>
                                                 <hr>
                                                 <?php echo "<a class='btn btn-primary' href='detail.php?ids=" . $row['order_id'] . "'>ดูรายละเอียด / ชำระเงิน</a>"; ?>
-                                                <?php echo "<a class='btn btn-danger' href='detail.php?idd=" . $row['order_id'] . "'>ยกเลิกคำสั่งซื้อ</a>"; ?>
+                                                <?php echo "<a class='btn btn-danger' href='cancleorder.php?idd=" . $row['order_id'] . "' onclick=\"return confirm('ต้องการลบคำสั่งซื้อแน่หรือไม่? ข้อมูลนี้ไม่สามารถกู้คืนได้.')\">ยกเลิกคำสั่งซื้อ</a>"; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -643,6 +643,16 @@ while ($row = mysqli_fetch_assoc($querywait)) {
     <!-- build:js assets/vendor/js/core.js -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <?php if (isset($_SESSION['errors'])) : ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'สำเร็จ',
+                text: '<?php echo $_SESSION['errors']; ?>',
+            });
+        </script>
+    <?php unset($_SESSION['errors']);
+    endif; ?>
     <script>
         // Get the URL query parameters
         const urlParams = new URLSearchParams(window.location.search);

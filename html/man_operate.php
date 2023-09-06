@@ -672,7 +672,7 @@ $query = "SELECT `order`.order_id, `order`.order_address, cumtomer.tel, cumtomer
 FROM `order`
 INNER JOIN cumtomer ON `order`.`cm_id` = cumtomer.cm_id
 INNER JOIN performance ON `order`.`order_id` = performance.order_id
-WHERE `order`.oder_status = 'อนุมัติ'
+WHERE `order`.oder_status = 'ชำระเงินแล้ว'
 AND performance.`date_ operate` = (
     SELECT MAX(`date_ operate`)
     FROM performance
@@ -708,7 +708,8 @@ if ($result) {
               $elseConditionEntered = false;
               foreach ($data as $fetch) {
                 if ($fetch['date_ operate'] == $currentDate) {
-              ?>
+                }
+              } ?>
                   <div class="card">
                     <div class="card-body">
                     <div class="row mb-5">
@@ -739,11 +740,6 @@ if ($result) {
                 <?php echo "<a class='btn rounded-pill btn-icon btn-primary bx bx-calendar-edit' href='test_calendar.php?id=" . $fetch['order_id'] . "'></a>"; ?>               
                     </div>
                   </div>
-                  <?php
-                } else {
-                  if (!$elseConditionEntered) {
-                    $elseConditionEntered = true;
-                  ?>
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
@@ -781,9 +777,9 @@ if ($result) {
                         </div>
                     </div>
                     <?php
-                  }
-                }
-              }
+
+
+
                     ?>
                 </div>
                 <div class="col-md-6 col-lg-7 mb-3">
@@ -795,7 +791,7 @@ if ($result) {
                       </p>
                       <button type="button"class="btn btn-primary" onclick=setSearchValueall()>ทั้งหมด</button>
                       <button type="button"class="btn btn-primary mx-3" onclick=setSearchValue()>รอตรวจสอบสถานที่ติดตั้ง</button>
-                      <button type="button"class="btn btn-primary mx-3" onclick=setSearchValuepayment()>รอดำเนินการแก้ไข</button>
+                      <button type="button"class="btn btn-primary mx-3" onclick=setSearchValuepayment()>ดำเนินการแก้ไข</button>
                       <button type="button"class="btn btn-primary mx-3" onclick=setSearchValuepass()>รอดำเนินการติดตั้งสินค้า</button>
                     </div>
                   </div>
@@ -914,12 +910,12 @@ if ($result) {
     <script>
    function confirmUpdate(orderId, dateOperate) {
     Swal.fire({
-        title: "Confirmation",
-        text: `Are you sure you want to update the order with ID ${orderId} and date ${dateOperate}?`,
+        title: "ยืนยันดำเนินงานเสร็จสิ้น",
+        text: `ดำเนินงานเสร็จสิ้นและเก็บเงินส่วนที่เหลือเรียบร้อยแล้ว ?`,
         icon: "warning",
         showCancelButton: true,
-        confirmButtonText: "Yes, update it!",
-        cancelButtonText: "No, cancel",
+        confirmButtonText: "ยืนยัน",
+        cancelButtonText: "ยกเลิก",
         reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
@@ -936,20 +932,20 @@ if ($result) {
                     
                     if (parsedResponse.status === "success") {
                         Swal.fire({
-                            title: "Success",
+                            title: "สำเร็จ",
                             text: parsedResponse.msg,
                             icon: "success",
-                            confirmButtonText: "OK"
+                            confirmButtonText: "ตกลง"
                         }).then(() => {
                             // Reload the page or perform other actions
                             location.reload();
                         });
                     } else if (parsedResponse.status === "error") {
                         Swal.fire({
-                            title: "Error",
+                            title: "ผิดพลาด",
                             text: parsedResponse.msg,
                             icon: "error",
-                            confirmButtonText: "OK"
+                            confirmButtonText: "ตกลง"
                         });
                     }
                 },
@@ -959,7 +955,7 @@ if ($result) {
             });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             // User canceled
-            Swal.fire("Cancelled", "The update has been cancelled.", "info");
+            Swal.fire("ยกเลิก", "ยกเลิกการเปลี่ยนสถานะ", "info");
         }
     });
 }
@@ -1012,21 +1008,21 @@ if ($result) {
     <script>
         function setSearchValue() {
           var searchInput = document.getElementById("searchInput");
-          searchInput.value = "รอชำระเงิน";
+          searchInput.value = "รอตรวจสอบสถานที่ติดตั้ง";
 
           var dataTable = $('#table1').DataTable();
           dataTable.search(searchInput.value).draw();
         }
         function setSearchValuepayment(){
           var searchInput = document.getElementById("searchInput");
-          searchInput.value = "รอการตรวจสอบ";
+          searchInput.value = "ดำเนินการแก้ไข";
 
           var dataTable = $('#table1').DataTable();
           dataTable.search(searchInput.value).draw();
         }
         function setSearchValuepass(){
           var searchInput = document.getElementById("searchInput");
-          searchInput.value = "อนุมัติ";
+          searchInput.value = "รอดำเนินการติดตั้งสินค้า";
 
           var dataTable = $('#table1').DataTable();
           dataTable.search(searchInput.value).draw();

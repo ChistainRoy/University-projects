@@ -723,18 +723,6 @@ foreach ($Star as $Stars) {
                 </div>
               </div>
               </div>
-              <div class="col-xl-4">
-              <div class="card">
-              <div class="card-body d-flex justify-content-center align-items-center">
-              
-                <div class="center" style="width: 300px;">
-                <p class="text-center">ความคิดเห็นที่แสดงแล้วและยังไม่แสดงโดยเฉลี่ย</p>
-                    <canvas id="myPieChart2"></canvas>
-                    <script src="line-chart.js"></script>
-                </div>
-                </div>
-              </div>
-              </div>
               </div>
           </div>
 <?php
@@ -890,48 +878,6 @@ var myPieChart = new Chart(ctx, {
 });
 
 </script>
-
-
-
-
-
-
-
-
-
-    <script>
-var data = {
-    labels: ["แสดงความคิดเห็นแล้ว", "ยังไม่แสดงความคิดเห็น"],
-    datasets: [{
-        data: <?php echo json_encode($percentages); ?>,
-        backgroundColor: ["#FF5F5F", "#FFF55F"]
-    }]
-};
-
-// สร้าง Pie Chart
-var ctx = document.getElementById('myPieChart2').getContext('2d');
-var myPieChart = new Chart(ctx, {
-    type: 'pie',
-    data: data,
-    options: {
-        plugins: {
-            tooltip: {
-                callbacks: {
-                    label: function(context) {
-                        var label = context.dataset.label || '';
-                        if (label) {
-                            label += ': ';
-                        }
-                        label += context.formattedValue + ' %'; // เพิ่ม % ตามหลังค่าเปอร์เซ็นต์
-                        return label;
-                    }
-                }
-            }
-        }
-    }
-});
-
-    </script>
     <!-- / Layout wrapper -->
                     
     <!-- Core JS -->

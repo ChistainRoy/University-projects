@@ -44,7 +44,7 @@ VALUES ('$lastId', '$date', '$datereserve', '$total', '$id', 'รอชำระ
         $sqlinsert = "INSERT INTO `oderdetail` (`oder_id`, `product_id`, `oder_price`, `oder_qty`) VALUES ('$lastId', '$productID', '$price', '$value')";
         $resultinsert = mysqli_query($conn, $sqlinsert);
     }
-    $sqldate = "INSERT INTO `events` (`id`, `start`, `end`, `color`) VALUES ('', '$datereserve', '$datereserve', '#696cff')";
+    $sqldate = "INSERT INTO `events` (`id`,`order_id`, `start`, `end`, `color`) VALUES ('','$lastId', '$datereserve', '$datereserve', '#696cff')";
     $resuldate = mysqli_query($conn, $sqldate);
 }
 unset($_SESSION['cart']);
