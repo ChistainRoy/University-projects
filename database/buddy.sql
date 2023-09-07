@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 11, 2023 at 01:38 AM
+-- Generation Time: Sep 07, 2023 at 05:05 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
 
@@ -46,6 +46,27 @@ INSERT INTO `category` (`id_cat`, `cat_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `comment`
+--
+
+CREATE TABLE `comment` (
+  `order_id` int(6) NOT NULL,
+  `comment_id` int(6) NOT NULL,
+  `comment_detail` text NOT NULL,
+  `comment_img` varchar(300) NOT NULL,
+  `comment_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `comment`
+--
+
+INSERT INTO `comment` (`order_id`, `comment_id`, `comment_detail`, `comment_img`, `comment_date`) VALUES
+(2, 11, 'ทางร้านใจดีมากครับ', '4', '2023-09-07');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `cumtomer`
 --
 
@@ -55,16 +76,19 @@ CREATE TABLE `cumtomer` (
   `password` varchar(35) NOT NULL,
   `name` varchar(50) NOT NULL,
   `tel` varchar(20) NOT NULL,
-  `address` text NOT NULL
+  `address` text NOT NULL,
+  `date_regis` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `cumtomer`
 --
 
-INSERT INTO `cumtomer` (`cm_id`, `username`, `password`, `name`, `tel`, `address`) VALUES
-(20, 'darknight7577', 'e10adc3949ba59abbe56e057f20f883e', 'ทรงพล ชุมทอง', '0658389715', '44/19 ต.บ้านควน อ.เมือง จ.ตรัง'),
-(30, 'test', 'e10adc3949ba59abbe56e057f20f883e', 'ทรงพล ชุมทอง', '0954431596', '75/12');
+INSERT INTO `cumtomer` (`cm_id`, `username`, `password`, `name`, `tel`, `address`, `date_regis`) VALUES
+(20, 'darknight7577', 'e10adc3949ba59abbe56e057f20f883e', 'ทรงพล ชุมทอง', '0954431596', '44/19 ต.บ้านควน อ.เมือง จ.ตรัง', '2023-07-25'),
+(30, 'test', '14e1b600b1fd579f47433b88e8d85291', 'กษิดิ์เดช ซุ่นสั้น', '0954431596', '126/12 ตำบล โคกหล่อ อำเภอเมือง จังหวัด ตรัง ', '2023-07-26'),
+(46, 'duan230844', 'a394b68d0a2d9cf953b315989e3e2157', 'ภารณี ศรีนวลปาน', '0658049814', '14 หมู่5 ตำบลกะลาเส อำเภอสิเกา จังหวัดตรัง', '2023-09-07'),
+(47, 'Yellow', 'a013924e6cc3e77c295c70ebc1d571bf', 'กษิดิ์เดช ซุ่นสั้น', '0878840694', '34/12 หมู่ 2 ตำบลวัดครองน้ำเจ็ด อำเภอเมืองตรัง จังหวัดตรัง', '2023-09-07');
 
 -- --------------------------------------------------------
 
@@ -75,15 +99,19 @@ INSERT INTO `cumtomer` (`cm_id`, `username`, `password`, `name`, `tel`, `address
 CREATE TABLE `employee` (
   `em_id` int(11) NOT NULL,
   `em_username` varchar(20) NOT NULL,
-  `em_password` varchar(15) NOT NULL
+  `em_password` varchar(15) NOT NULL,
+  `name` varchar(60) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `address_em` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`em_id`, `em_username`, `em_password`) VALUES
-(1, 'paranee', '123456');
+INSERT INTO `employee` (`em_id`, `em_username`, `em_password`, `name`, `phone`, `address_em`) VALUES
+(1, 'paranee', '123456', 'ไฟซอล หมาดสุวรรณ', '0954431596', ''),
+(2, 'sos', '147852', 'บุริศน์ ทองอยู่คง', '0658389715', '');
 
 -- --------------------------------------------------------
 
@@ -93,6 +121,7 @@ INSERT INTO `employee` (`em_id`, `em_username`, `em_password`) VALUES
 
 CREATE TABLE `events` (
   `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
   `start` date NOT NULL,
   `end` date NOT NULL,
   `color` varchar(20) NOT NULL
@@ -102,14 +131,15 @@ CREATE TABLE `events` (
 -- Dumping data for table `events`
 --
 
-INSERT INTO `events` (`id`, `start`, `end`, `color`) VALUES
-(1, '2023-08-25', '2023-08-25', '#696cff'),
-(2, '2023-08-26', '2023-08-26', '#696cff'),
-(3, '2023-08-30', '2023-08-30', '#696cff'),
-(9, '2023-08-15', '2023-08-15', '#696cff'),
-(10, '2023-09-01', '2023-09-01', '#696cff'),
-(11, '2023-08-09', '2023-08-09', '#696cff'),
-(12, '2023-08-31', '2023-08-31', '#696cff');
+INSERT INTO `events` (`id`, `order_id`, `start`, `end`, `color`) VALUES
+(41, 2, '2023-09-08', '2023-09-08', '#696cff'),
+(42, 3, '2023-09-07', '2023-09-07', '#696cff'),
+(43, 0, '2023-09-11', '2023-09-11', '#696cff'),
+(44, 0, '2023-09-13', '2023-09-13', '#696cff'),
+(45, 0, '2023-09-14', '2023-09-14', '#696cff'),
+(46, 4, '2023-09-15', '2023-09-15', '#696cff'),
+(47, 0, '2023-09-17', '2023-09-17', '#696cff'),
+(48, 5, '2023-09-20', '2023-09-20', '#696cff');
 
 -- --------------------------------------------------------
 
@@ -129,11 +159,11 @@ CREATE TABLE `oderdetail` (
 --
 
 INSERT INTO `oderdetail` (`oder_id`, `product_id`, `oder_price`, `oder_qty`) VALUES
-('1', '9', 1500, 1),
 ('2', '11', 300, 3),
-('2', '8', 3000, 2),
-('3', '8', 3000, 2),
-('3', '9', 1500, 5);
+('2', '9', 1500, 1),
+('3', '9', 1500, 1),
+('4', '9', 1500, 1),
+('5', '9', 1500, 1);
 
 -- --------------------------------------------------------
 
@@ -158,9 +188,10 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`order_id`, `order_date`, `order_reserve`, `oder_total`, `cm_id`, `oder_status`, `em_id`, `order_address`, `payment`) VALUES
-(1, '2023-08-10', '2023-08-25', 1500, 20, 'อนุมัติ', '20', '44/19 ต.บ้านควน อ.เมือง จ.ตรัง', ''),
-(2, '2023-08-10', '2023-08-26', 6900, 20, 'อนุมัติ', '20', '44/19 ต.บ้านควน อ.เมือง จ.ตรัง', 'upload/payment/pbx1ip7pkYZNFHqbg1B-o.jpg'),
-(3, '2023-08-10', '2023-08-30', 13500, 20, 'รอชำระเงิน', '', '44/19 ต.บ้านควน อ.เมือง จ.ตรัง', '');
+(2, '2023-09-06', '2023-09-08', 2400, 20, 'ชำระเงินแล้ว', '1', '44/19 ต.บ้านควน อ.เมือง จ.ตรัง', 'upload/payment/64f90063c4b91_64f8d9cfcfed2_IMG_5791.png'),
+(3, '2023-09-06', '2023-09-07', 1500, 20, 'ชำระเงินแล้ว', '1', '44/19 ต.บ้านควน อ.เมือง จ.ตรัง', 'upload/payment/64f9071d03ccd_Slip.jpg'),
+(4, '2023-09-07', '2023-09-15', 1500, 20, 'ชำระเงินแล้ว', '1', '44/19 ต.บ้านควน อ.เมือง จ.ตรัง', 'upload/payment/64f90e9e0d0c7_64f90063c499d_64f8d9cfcfed2_IMG_5791.png'),
+(5, '2023-09-07', '2023-09-20', 1500, 20, 'รอชำระเงิน', '', '44/19 ต.บ้านควน อ.เมือง จ.ตรัง', '');
 
 -- --------------------------------------------------------
 
@@ -194,12 +225,9 @@ CREATE TABLE `performance` (
 --
 
 INSERT INTO `performance` (`order_id`, `performance_id`, `date_ operate`, `detail_ correction`, `img_correction`, `status_performance`) VALUES
-(2, 5, '2023-08-26', '', '', 'รอตรวจสอบสถานที่ติดตั้ง'),
-(1, 6, '2023-08-25', '', '', 'รอตรวจสอบสถานที่ติดตั้ง'),
-(2, 13, '2023-08-15', 'asdasd', 'upload/operate/365321290_810708183881816_2069100453224329101_n.jpg', 'รอดำเนินการติดตั้งสินค้า'),
-(2, 14, '2023-09-01', 'asdasdasd', 'upload/operate/365321290_810708183881816_2069100453224329101_n.jpg', 'ดำเนินการแก้ไข'),
-(2, 15, '2023-08-09', 'asdasdsd', 'upload/operate/358332070_312039524513421_3092975767706194653_n.jpg', 'รอดำเนินการติดตั้งสินค้า'),
-(2, 16, '2023-08-31', 'asdasd', 'upload/operate/365321290_810708183881816_2069100453224329101_n.jpg', 'รอดำเนินการติดตั้งสินค้า');
+(3, 65, '2023-09-14', '', '', 'ดำเนินการเสร็จสิ้น'),
+(4, 66, '2023-09-15', '', '', 'รอตรวจสอบสถานที่ติดตั้ง'),
+(4, 67, '2023-09-17', 'แก้วงกบ 2 เซน', '', 'ดำเนินการแก้ไข');
 
 -- --------------------------------------------------------
 
@@ -226,8 +254,37 @@ CREATE TABLE `product` (
 
 INSERT INTO `product` (`product_id`, `product_name`, `product_price`, `product_detail`, `product_width`, `product_length`, `colorglass`, `colorframe`, `product_img`, `category_id`) VALUES
 (8, 'หน้าต่างบานเลื่อน', 3000, '', '130', '120', 1, 3, 'upload/IMG_4578-removebg-preview.png', 1),
-(9, 'หน้าต่างห้องน้ำ', 1500, '', '50', '80', 1, 1, 'upload/021-removebg-preview.png', 4),
-(11, 'หน้าต่างบานพับ', 300, '', '60', '120', 1, 3, 'upload/IMG_4580-removebg-preview.png', 2);
+(9, 'หน้าต่างห้องน้ำ', 1500, '', '50', '80', 1, 1, 'upload/021-removebg-preview.png', 3),
+(11, 'หน้าต่างบานพับ', 300, '', '60', '120', 1, 3, 'upload/IMG_4580-removebg-preview.png', 2),
+(14, 'หน้าต่างห้องน้ำ', 2500, '', '60', '40', 1, 3, 'upload/image-removebg-preview.png', 3),
+(15, 'หน้าต่างห้องน้ำ', 2600, '', '60', '40', 1, 2, 'upload/20191127_083431_product_2106512_800_600-removebg-preview.png', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shop`
+--
+
+CREATE TABLE `shop` (
+  `Shop_id` int(1) NOT NULL,
+  `em_id` int(11) NOT NULL,
+  `img_1` varchar(300) NOT NULL,
+  `img_2` varchar(300) NOT NULL,
+  `img_3` varchar(300) NOT NULL,
+  `boss_name` varchar(100) NOT NULL,
+  `address` text NOT NULL,
+  `phone` varchar(10) NOT NULL,
+  `email` text NOT NULL,
+  `facebook` text NOT NULL,
+  `google` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `shop`
+--
+
+INSERT INTO `shop` (`Shop_id`, `em_id`, `img_1`, `img_2`, `img_3`, `boss_name`, `address`, `phone`, `email`, `facebook`, `google`) VALUES
+(1, 1, 'upload/ex.jpg', 'upload/ex.jpg', 'upload/ex.jpg', 'ทรงพล ชุมทอง', '17/5 ', '0658389715', 'sapa27577@gmail.com', 'https://www.facebook.com/profile.php?id=61550913933982', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3955.148166388064!2d99.60200807576531!3d7.558819010265493!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x304d8c4f660881c9%3A0x688833c77e5d1f7c!2z4LmC4Lij4LiH4Lie4Lii4Liy4Lia4Liy4Lil4LiV4Lij4Lix4LiHIOC4leC4s-C4muC4pSDguJfguLHguJrguYDguJfguLXguYjguKLguIcg4Lit4Liz4LmA4Lig4Lit4LmA4Lih4Li34Lit4LiH4LiV4Lij4Lix4LiHIOC4leC4o-C4seC4hyA5MjAwMA!5e0!3m2!1sth!2sth!4v1693981665124!5m2!1sth!2sth\" width=\"800\" height=\"600\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>');
 
 --
 -- Indexes for dumped tables
@@ -238,6 +295,12 @@ INSERT INTO `product` (`product_id`, `product_name`, `product_price`, `product_d
 --
 ALTER TABLE `category`
   ADD PRIMARY KEY (`id_cat`);
+
+--
+-- Indexes for table `comment`
+--
+ALTER TABLE `comment`
+  ADD PRIMARY KEY (`comment_id`,`order_id`);
 
 --
 -- Indexes for table `cumtomer`
@@ -255,7 +318,7 @@ ALTER TABLE `employee`
 -- Indexes for table `events`
 --
 ALTER TABLE `events`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`,`order_id`);
 
 --
 -- Indexes for table `oderdetail`
@@ -282,6 +345,12 @@ ALTER TABLE `product`
   ADD PRIMARY KEY (`product_id`);
 
 --
+-- Indexes for table `shop`
+--
+ALTER TABLE `shop`
+  ADD PRIMARY KEY (`Shop_id`,`em_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -292,40 +361,52 @@ ALTER TABLE `category`
   MODIFY `id_cat` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `comment`
+--
+ALTER TABLE `comment`
+  MODIFY `comment_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT for table `cumtomer`
 --
 ALTER TABLE `cumtomer`
-  MODIFY `cm_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `cm_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `em_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `em_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `order_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `order_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `performance`
 --
 ALTER TABLE `performance`
-  MODIFY `performance_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `performance_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `product_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `shop`
+--
+ALTER TABLE `shop`
+  MODIFY `Shop_id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
