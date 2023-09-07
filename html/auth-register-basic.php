@@ -191,6 +191,7 @@ endif; ?>
                     </div>
                   </div>
                   <button type="submit" class="btn btn-primary"name="registerlogin">สมัครสมาชิก</button>
+                  <a href="login.php" class="btn btn-secondary"name="registerlogin">ย้อนกลับ</a>
                 </form>
               </div>
             </div>

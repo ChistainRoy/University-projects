@@ -19,10 +19,10 @@ if (isset($_POST['registerlogin'])) {
     $row = mysqli_fetch_assoc($result);
     $rowem = mysqli_fetch_assoc($resultem);
 
-    if ($row < 0 ) {
+    if ($row > 0) {
         $_SESSION['errors'] = "ชื่อผู้ใช้ซ้ำ!!!";
         header('location: auth-register-basic.php');
-    } elseif ($rowem < 0) {
+    } elseif ($rowem > 0) {
         $_SESSION['errors'] = "ชื่อผู้ใช้ซ้ำ!!!";
         header('location: auth-register-basic.php');
     } else if (strlen($tel) > 10) {

@@ -9,6 +9,8 @@ $sqluser = "SELECT * FROM cumtomer WHERE username = '$username' AND password = '
 $result = mysqli_query($conn, $sql);
 $resultuser = mysqli_query($conn, $sqluser);
 
+
+
 if (!$username) {
     echo json_encode(array("status" => "error", "msg" => "กรุณากรอกให้ครบถ้วน"));
 } else if (!$passwod_em) {
