@@ -4,11 +4,17 @@ session_start();
 
 if (isset($_GET['did'])) {
     $id = $_GET['did'];
-    $sql = "DELETE FROM product WHERE product_id = '$id'";
-    if (mysqli_query($conn, $sql)) {
-        $_SESSION['success'] = "ลบผู้ใช้สำเร็จ";
+    $sqli = "SELECT * FROM `oderdetail` WHERE `oderdetail`.`product_id` = $id;";
+    $row = mysqli_query($conn, $sqli);
+    if (mysqli_num_rows($row) >= 1) {
+        $_SESSION['errors'] = "ไม่สามารถลบสินค้าตัวนี้ได้";
     } else {
-        $_SESSION['errors'] = "ลบผู้ใช้ไม่สำเร็จ";
+        $sql = "DELETE FROM product WHERE product_id = '$id'";
+        if (mysqli_query($conn, $sql)) {
+            $_SESSION['success'] = "ลบสินค้าสำเร็จ";
+        } else {
+            $_SESSION['errors'] = "ลบสินค้าไม่สำเร็จ";
+        }
     }
 }
 header('location: product.php');

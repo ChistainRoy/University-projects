@@ -140,7 +140,7 @@
               <span class="menu-header-text">จัดการข้อมูล</span>
             </li>
             <li class="menu-item">
-              <a href="cards-basic.html" class="menu-link">
+              <a href="shop.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-store"></i>
                 <div data-i18n="Basic">หน้าร้าน</div>
               </a>
@@ -184,7 +184,7 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="pages-account-settings-notifications.html" class="menu-link">
+                  <a href="man_operate.php" class="menu-link">
                     <div data-i18n="Notifications">สถานะคำสั่งซื้อ</div>
                   </a>
                 </li>
@@ -204,18 +204,18 @@
 
             <!-- จัดการข้อมูล -->
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="information_coin.php" class="menu-link menu-toggle">
               <i class='menu-icon tf-icons bx bx-coin'></i>
                 <div data-i18n="Account Settings">รายได้</div>
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="#" class="menu-link">
+                  <a href="information_coin.php" class="menu-link">
                     <div data-i18n="Account">รายเดือน</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="#" class="menu-link">
+                  <a href="category_chart.php" class="menu-link">
                     <div data-i18n="Notifications">ประเภทสินค้า</div>
                   </a>
                 </li>
@@ -227,7 +227,7 @@
 
             <!-- ลูกค้าใหม่ -->
             <li class="menu-item">
-              <a href="#" class="menu-link">
+              <a href="customer_new.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-user-plus"></i>
                 <div data-i18n="Basic">ลูกค้าใหม่รายเดือน</div>
               </a>
@@ -235,7 +235,7 @@
 
             <!-- รายงานสถานะการติดตั้งสินค้าตามวันและเวลา -->
             <li class="menu-item">
-              <a href="#" class="menu-link">
+              <a href="status_order.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
                 <div data-i18n="Basic">สถานะการติดตั้ง</div>
               </a>
@@ -244,7 +244,7 @@
 
             <!-- ความคิดเห็นลูกค้า -->
             <li class="menu-item">
-              <a href="#" class="menu-link">
+              <a href="comment_chart.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-message-rounded"></i>
                 <div data-i18n="Basic">ความคิดเห็นลูกค้า</div>
               </a>
@@ -479,7 +479,28 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
     <!-- / Layout wrapper -->
     <?php include 'modal_product.php'; ?>
-          
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <?php if (isset($_SESSION['success'])) : ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'สำเร็จ',
+                text: '<?php echo $_SESSION['success']; ?>',
+            });
+        </script>
+    <?php unset($_SESSION['success']);
+    endif; ?>
+      <?php if (isset($_SESSION['errors'])) : ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: '<?php echo $_SESSION['errors']; ?>',
+            });
+        </script>
+    <?php unset($_SESSION['errors']);
+      endif; ?>    
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="../assets/vendor/libs/jquery/jquery.js"></script>

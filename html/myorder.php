@@ -158,15 +158,13 @@ while ($fetch = mysqli_fetch_assoc($resulti)) {
 $status_all = 0;
 $success = 0;
 $orderpass = array();
-$sqlstatus = "SELECT `order`.order_id, `order`.`cm_id`, performance.`date_ operate`, performance.status_performance
-FROM `order`
-INNER JOIN performance ON `order`.`order_id` = performance.order_id
-WHERE `order`.`cm_id` = $numberuser
-AND performance.`date_ operate` = (
-    SELECT MAX(`date_ operate`)
-    FROM performance
-    WHERE performance.order_id = `order`.order_id
-)
+$sqlstatus = "SELECT `order`.order_id, `order`.`cm_id`, performance.`date_ operate`, performance.status_performance,comment.comment_detail 
+FROM `order` 
+INNER JOIN performance ON `order`.`order_id` = performance.order_id 
+LEFT JOIN comment ON performance.order_id = comment.order_id WHERE `order`.`cm_id` = $numberuser 
+AND performance.`date_ operate` = ( SELECT MAX(`date_ operate`) 
+FROM performance 
+WHERE performance.order_id = `order`.order_id );
 ";
 $resultstatus = mysqli_query($conn, $sqlstatus);
 // ตรวจสอบการคิวรีและนำผลลัพธ์ไปเก็บในตัวแปร
@@ -505,7 +503,7 @@ while ($row = mysqli_fetch_assoc($querywait)) {
                             if (mysqli_num_rows($querywait) > 0) {
                                 // output data of each row
                                 while ($fetch = mysqli_fetch_assoc($querywait)) {
-                                    if ($fetch['status_performance'] == 'ดำเนินเสร็จสิ้น') {
+                                    if ($fetch['status_performance'] == 'ดำเนินการเสร็จสิ้น') {
                                     } else {
                                         $count_card++ ?>
                                         <div class="col-xl-4">
@@ -599,7 +597,11 @@ while ($row = mysqli_fetch_assoc($querywait)) {
                                                     ?>
                                                 </h4>
                                                 <hr>
-                                                <?php echo "<a class='btn btn-primary' href='comment.php?ids=" . $pass['order_id'] . "'>แสดงความคิดเห็น</a>"; ?>
+                                                <?php if ($pass['comment_detail'] == "") {
+                                                    echo '<button class="btn btn-secondary" disabled>แสดงความคิดเห็นแล้ว</button>';
+                                                } else {
+                                                    echo "<a class='btn btn-primary' href='comment.php?ids=" . $pass['order_id'] . "'>แสดงความคิดเห็น</a>";
+                                                } ?>
                                                 <br>
                                             </div>
                                         </div>

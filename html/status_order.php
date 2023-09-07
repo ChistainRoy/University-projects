@@ -162,6 +162,54 @@ mark.orang {
     margin-top: 20%;
     
   }
+  .timeline-with-icons {
+  border-left: 1px solid hsl(0, 0%, 90%);
+  position: relative;
+  list-style: none;
+}
+
+.timeline-with-icons .timeline-item {
+  position: relative;
+}
+
+.timeline-with-icons .timeline-item:after {
+  position: absolute;
+  display: block;
+  top: 0;
+}
+
+.timeline-with-icons .timeline-icon {
+  position: absolute;
+  left: -48px;
+  background-color: #696cff;
+  color: white;
+  border-radius: 50%;
+  height: 31px;
+  width: 31px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.text-box{
+  max-width: 700px;
+  white-space: initial;
+}
+.card-status{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bx-brightness-half{
+  font: 4em sans-serif;
+}
+    .swal2-styled.swal2-confirm {
+      background-color: #27ae60; /* Green background color */
+      color: #fff; /* Text color */
+    }
+    .swal2-styled.swal2-cancel {
+      background-color: #c0392b; /* Red background color */
+      color: #fff; /* Text color */
+    }
 </style>
   <body>
     <!-- Layout wrapper -->
@@ -200,7 +248,7 @@ mark.orang {
               <span class="menu-header-text">จัดการข้อมูล</span>
             </li>
             <li class="menu-item">
-              <a href="cards-basic.html" class="menu-link">
+              <a href="shop.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-store"></i>
                 <div data-i18n="Basic">หน้าร้าน</div>
               </a>
@@ -287,7 +335,7 @@ mark.orang {
 
             <!-- ลูกค้าใหม่ -->
             <li class="menu-item">
-              <a href="#" class="menu-link">
+              <a href="customer_new.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-user-plus"></i>
                 <div data-i18n="Basic">ลูกค้าใหม่รายเดือน</div>
               </a>
@@ -681,7 +729,7 @@ AND MONTH(`order`.`order_reserve`) = $month;
         $Data[0]++;
       } else if ($status == 'รอตรวจสอบ') {
         $Data[1]++;
-      } else if ($status == 'อนุมัติ') {
+      } else if ($status == 'ชำระเงินแล้ว') {
         $Data[2]++;
       }
       $total++;
@@ -732,7 +780,7 @@ AND MONTH(`order`.`order_reserve`) = $month;
         $Data[0]++;
       } else if ($status == 'รอตรวจสอบ') {
         $Data[1]++;
-      } else if ($status == 'อนุมัติ') {
+      } else if ($status == 'ชำระเงินแล้ว') {
         $Data[2]++;
       }
       $total++;
@@ -782,7 +830,107 @@ AND MONTH(`order`.`order_reserve`) = $month;
                 </div>      
               </div>  
               </div>
-              <div class="row">
+              <h5 class="card-header">ตารางข้อมูลคำสั่งซื้อ</h5>
+                  <div class="table-responsive text-nowrap">
+                  <table class="table custom-datatable" id="table1" style="width: 100%;">
+                    <thead>
+                      <tr class="text-center">
+                        <th><h6>รหัสคำสั่งซื้อ</h6></th>
+                        <th><h6>ชื่อผู้สั่งซื้อ</h6></th>
+                        <th><h6>เบอร์โทรศัพท์</h6></th>
+                        <th><h6>ที่อยู่สำหรับติดตั้ง</h6></th>
+                        <th><h6>วันดำเนินงาน</h6></th>
+                        <th><h6>สถานะดำเนินงาน</h6></th>
+                        <th><h6>รายละเอียดคำสั่งซื้อ</h6></th>
+                        <th><h6>รายละเอียดงาน</h6></th>
+                      </tr>
+                    </thead>
+                    <?php
+                    include('connect.php');
+                    $query = "SELECT `order`.order_id, `order`.order_address, cumtomer.tel, cumtomer.name, performance.`date_ operate`, performance.status_performance
+FROM `order`
+INNER JOIN cumtomer ON `order`.`cm_id` = cumtomer.cm_id
+INNER JOIN performance ON `order`.`order_id` = performance.order_id
+WHERE `order`.oder_status = 'ชำระเงินแล้ว'
+AND performance.`date_ operate` = (
+    SELECT MAX(`date_ operate`)
+    FROM performance
+    WHERE performance.order_id = `order`.order_id
+)";
+
+                    $result = mysqli_query($conn, $query);
+
+                    if ($result) {
+                      $data = array();
+                      while ($row = mysqli_fetch_assoc($result)) {
+                        $data[] = $row;
+                      }
+
+                      // Now the $data array contains the fetched data
+                    } else {
+                      echo "Error: " . mysqli_error($conn);
+                    }
+
+                    // Close the connection
+                    ?>
+                    <tbody class="table-border-bottom-0">
+                    <?php
+
+                    foreach ($data as $fetch) {
+                      $thaiMonths = array(
+                        1 => 'มกราคม',
+                        2 => 'กุมภาพันธ์',
+                        3 => 'มีนาคม',
+                        4 => 'เมษายน',
+                        5 => 'พฤษภาคม',
+                        6 => 'มิถุนายน',
+                        7 => 'กรกฎาคม',
+                        8 => 'สิงหาคม',
+                        9 => 'กันยายน',
+                        10 => 'ตุลาคม',
+                        11 => 'พฤศจิกายน',
+                        12 => 'ธันวาคม'
+                      );
+                    ?>
+                                            <tr class="text-center">
+                                                <td><?php echo $fetch['order_id'] ?></td>
+                                                <td><?php echo $fetch['name'] ?></td>
+                                                <td><?php echo $fetch['tel'] ?></td>
+                                                <td><?php echo $fetch['order_address'] ?></td>
+                                                <td>
+                                                <?php
+                                                $date = $fetch['date_ operate'];
+                                                $timestamp = strtotime($date);
+                                                $buddhistYear = date("Y", $timestamp) + 543;
+                                                $monthNumber = date("n", $timestamp); // Get the month number (1-12)
+                                                $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
+                                                $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
+                                                echo $thaiFormattedDate; ?></td>
+                                                  <?php $status = $fetch['status_performance']; ?>
+                                                <td><mark class="<?php echo $status === 'ดำเนินการแก้ไข' ? 'yellow' : ($status === 'ดำเนินการเสร็จสิ้น' ? 'green' : ($status === 'รอดำเนินการติดตั้งสินค้า' ? 'orang' : '')); ?>"><?php echo $status ?></mark></td>
+                                                <td><button
+                                                    type="button"
+                                                    class="btn rounded-pill btn-icon btn-primary"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#exLargeModal<?php echo $fetch['order_id'] ?>"
+                                                                                  >
+                                                                                  <span class="bx bxs-package"></span>
+                                                                                  </button></td>
+                                              <td><button type="button" 
+                                                      class="btn rounded-pill btn-icon btn-primary"
+                                                      data-bs-toggle="modal"
+                                                      data-bs-target="#timeline<?php echo $fetch['order_id'] ?>">
+                                                      <span class="bx bx-search-alt-2"></span>
+                                              </button></td>
+                                        <?php
+                                        include('modal_perform.php');
+                                      }
+                                        ?>
+                    </tbody>
+                  </table>
+                </div>
+                </table>
+              <div class="row mt-5">
               <form action="status_order.php" method="post" onsubmit="return validateForm()">
                 <p>เลือก เดือน/ปี ที่ต้องการแสดงข้อมูล สถานะการชำระเงิน และ สถานะการดำเนินงาน</p>
                 <div class="col-xl-2">
@@ -817,7 +965,7 @@ AND MONTH(`order`.`order_reserve`) = $month;
   </form>
   
                 <div class="col-xl-6">
-                <h5 class="card-header">กราฟแสดงจำนวนสถานะการชำระเงิน</h5>
+                <h5 class="card-header">กราฟแสดงจำนวนสถานะการชำระเงินค่ามัดจำ</h5>
                 <?php if (count(array_filter($Data)) == 0) {
                   // มีข้อมูล
                   $no = "ไม่มีข้อมูล";
@@ -829,7 +977,7 @@ AND MONTH(`order`.`order_reserve`) = $month;
                 <h1 class="no text-center"><?php echo $no; ?></h1>
                 </div>
                 <div class="col-xl-6">
-                <h5 class="card-header">กราฟแสดงจำนวนสถานะการดำเนินงาน</h5>
+                <h5 class="card-header">กราฟแสดงจำนวนสถานะการดำเนินงาน (ชำระเงินค่ามัดจำแล้ว)</h5>
               <?php if (count(array_filter($monthlySalesData)) == 0) {
                 // มีข้อมูล
                 $no = "ไม่มีข้อมูล";
@@ -846,7 +994,7 @@ AND MONTH(`order`.`order_reserve`) = $month;
     <script>
        // หากคุณต้องการข้อมูลตัวอย่าง
 var data = {
-    labels: ["รอชำระเงิน", "รอตรวจสอบ", "อนุมัติ"],
+    labels: ["รอชำระเงิน", "รอตรวจสอบ", "ชำระเงินแล้ว"],
     datasets: [{
         data: <?php echo json_encode($Data); ?>,
         backgroundColor: ["#7FB3D5", "#EC7063", "#76D7C4"]

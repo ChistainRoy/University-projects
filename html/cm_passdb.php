@@ -1,13 +1,13 @@
 <?php
 session_start();
 include('connect.php');
-
+$id_admin = $_SESSION['id_em'];
 $id = $_POST['idcm'];
 $order = $_POST['idorder'];
 $date = $_POST['date'];
 
 // ทำการอัปเดตสถานะในตาราง order
-$sql = "UPDATE `order` SET `oder_status` = 'ชำระเงินแล้ว', `em_id` = '20' WHERE `order_id` = $order";
+$sql = "UPDATE `order` SET `oder_status` = 'ชำระเงินแล้ว', `em_id` = '$id_admin' WHERE `order_id` = $order";
 
 if (mysqli_query($conn, $sql)) {
     // เมื่ออัปเดตสถานะในตาราง order เสร็จสิ้น

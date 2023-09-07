@@ -31,11 +31,17 @@ session_start();
 
 if (isset($_GET['deldata'])) {
     $id = $_GET['id'];
-    $sql = "DELETE FROM `cumtomer` WHERE `cumtomer`.`cm_id` = $id";
-    if (mysqli_query($conn, $sql)) {
-        $_SESSION['success'] = "ลบผู้ใช้สำเร็จ";
+    $sqli = "SELECT * FROM `order` WHERE `order`.`cm_id` = $id;";
+    $row = mysqli_query($conn, $sqli);
+    if (mysqli_num_rows($row) >= 1) {
+        $_SESSION['errors'] = "ไม่สามารถลบผู้ใช้ได้";
     } else {
-        $_SESSION['errors'] = "ลบผู้ใช้ไม่สำเร็จ";
+        $sql = "DELETE FROM `cumtomer` WHERE `cumtomer`.`cm_id` = $id";
+        if (mysqli_query($conn, $sql)) {
+            $_SESSION['success'] = "ลบผู้ใช้สำเร็จ";
+        } else {
+            $_SESSION['errors'] = "ลบผู้ใช้ไม่สำเร็จ";
+        }
     }
 }
 header('location: cm.php');

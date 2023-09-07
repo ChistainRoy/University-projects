@@ -173,7 +173,7 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="pages-account-settings-notifications.html" class="menu-link">
+                  <a href="man_operate.php" class="menu-link">
                     <div data-i18n="Notifications">สถานะคำสั่งซื้อ</div>
                   </a>
                 </li>
@@ -204,7 +204,7 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="pages-account-settings-notifications.html" class="menu-link">
+                  <a href="category_chart.php" class="menu-link">
                     <div data-i18n="Notifications">ประเภทสินค้า</div>
                   </a>
                 </li>
@@ -230,7 +230,7 @@
 
             <!-- ความคิดเห็นลูกค้า -->
             <li class="menu-item">
-              <a href="cards-basic.html" class="menu-link">
+              <a href="comment_chart.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-message-rounded"></i>
                 <div data-i18n="Basic">ความคิดเห็นลูกค้า</div>
               </a>
@@ -342,7 +342,10 @@
           <div class="content-wrapper">
             <!-- Content -->
 <?php include('connect.php');
-$sql = "SELECT * FROM `shop`";
+$sql = "SELECT * 
+FROM `shop`
+JOIN `employee` ON `shop`.`em_id` = `employee`.`em_id`
+";
 $success = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($success);
 ?>
@@ -419,6 +422,9 @@ $row = mysqli_fetch_assoc($success);
 </script>
 <div class="col-xl-6 p-5">
                         <h5 class="text-center">ช่องทางติดต่อทางร้าน</h5>
+                        <p class="danger">
+                            ผู้เปลี่ยนแปลงล่าสุด : <?php echo $row['name'] ?>
+                        </p>
                         <p>
                             เจ้าของร้าน : <?php echo $row['boss_name'] ?>
                         </p>

@@ -196,7 +196,7 @@ mark.orang {
               <span class="menu-header-text">จัดการข้อมูล</span>
             </li>
             <li class="menu-item">
-              <a href="cards-basic.html" class="menu-link">
+              <a href="shop.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-store"></i>
                 <div data-i18n="Basic">หน้าร้าน</div>
               </a>
@@ -291,7 +291,7 @@ mark.orang {
 
             <!-- รายงานสถานะการติดตั้งสินค้าตามวันและเวลา -->
             <li class="menu-item">
-              <a href="#" class="menu-link">
+              <a href="status_order.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
                 <div data-i18n="Basic">สถานะการติดตั้ง</div>
               </a>
@@ -300,7 +300,7 @@ mark.orang {
 
             <!-- ความคิดเห็นลูกค้า -->
             <li class="menu-item">
-              <a href="#" class="menu-link">
+              <a href="comment_chart.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-message-rounded"></i>
                 <div data-i18n="Basic">ความคิดเห็นลูกค้า</div>
               </a>

@@ -196,6 +196,9 @@ mark.orang {
       background-color: #c0392b; /* Red background color */
       color: #fff; /* Text color */
     }
+    .btn-group .btn {
+    margin-right: 10px; /* ปรับระยะห่างตามที่คุณต้องการ */
+}
 </style>
   <body>
     <!-- Layout wrapper -->
@@ -234,7 +237,7 @@ mark.orang {
               <span class="menu-header-text">จัดการข้อมูล</span>
             </li>
             <li class="menu-item">
-              <a href="cards-basic.html" class="menu-link">
+              <a href="shop.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-store"></i>
                 <div data-i18n="Basic">หน้าร้าน</div>
               </a>
@@ -304,12 +307,12 @@ mark.orang {
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="#" class="menu-link">
+                  <a href="information_coin.php" class="menu-link">
                     <div data-i18n="Account">รายเดือน</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="#" class="menu-link">
+                  <a href="category_chart.php" class="menu-link">
                     <div data-i18n="Notifications">ประเภทสินค้า</div>
                   </a>
                 </li>
@@ -321,7 +324,7 @@ mark.orang {
 
             <!-- ลูกค้าใหม่ -->
             <li class="menu-item">
-              <a href="#" class="menu-link">
+              <a href="customer_new.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-user-plus"></i>
                 <div data-i18n="Basic">ลูกค้าใหม่รายเดือน</div>
               </a>
@@ -329,7 +332,7 @@ mark.orang {
 
             <!-- รายงานสถานะการติดตั้งสินค้าตามวันและเวลา -->
             <li class="menu-item">
-              <a href="#" class="menu-link">
+              <a href="status_order.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
                 <div data-i18n="Basic">สถานะการติดตั้ง</div>
               </a>
@@ -338,225 +341,11 @@ mark.orang {
 
             <!-- ความคิดเห็นลูกค้า -->
             <li class="menu-item">
-              <a href="#" class="menu-link">
+              <a href="comment_chart.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-message-rounded"></i>
                 <div data-i18n="Basic">ความคิดเห็นลูกค้า</div>
               </a>
             </li>
-
-
-
-
-
-            <!-- Components -->
-            <!-- <li class="menu-header small text-uppercase"><span class="menu-header-text">Components</span></li> -->
-            <!-- Cards -->
-            <!-- <li class="menu-item">
-              <a href="cards-basic.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-collection"></i>
-                <div data-i18n="Basic">Cards</div>
-              </a>
-            </li> -->
-            <!-- User interface -->
-            <!-- <li class="menu-item">
-              <a href="javascript:void(0)" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-box"></i>
-                <div data-i18n="User interface">User interface</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="ui-accordion.html" class="menu-link">
-                    <div data-i18n="Accordion">Accordion</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-alerts.html" class="menu-link">
-                    <div data-i18n="Alerts">Alerts</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-badges.html" class="menu-link">
-                    <div data-i18n="Badges">Badges</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-buttons.html" class="menu-link">
-                    <div data-i18n="Buttons">Buttons</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-carousel.html" class="menu-link">
-                    <div data-i18n="Carousel">Carousel</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-collapse.html" class="menu-link">
-                    <div data-i18n="Collapse">Collapse</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-dropdowns.html" class="menu-link">
-                    <div data-i18n="Dropdowns">Dropdowns</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-footer.html" class="menu-link">
-                    <div data-i18n="Footer">Footer</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-list-groups.html" class="menu-link">
-                    <div data-i18n="List Groups">List groups</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-modals.html" class="menu-link">
-                    <div data-i18n="Modals">Modals</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-navbar.html" class="menu-link">
-                    <div data-i18n="Navbar">Navbar</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-offcanvas.html" class="menu-link">
-                    <div data-i18n="Offcanvas">Offcanvas</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-pagination-breadcrumbs.html" class="menu-link">
-                    <div data-i18n="Pagination &amp; Breadcrumbs">Pagination &amp; Breadcrumbs</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-progress.html" class="menu-link">
-                    <div data-i18n="Progress">Progress</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-spinners.html" class="menu-link">
-                    <div data-i18n="Spinners">Spinners</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-tabs-pills.html" class="menu-link">
-                    <div data-i18n="Tabs &amp; Pills">Tabs &amp; Pills</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-toasts.html" class="menu-link">
-                    <div data-i18n="Toasts">Toasts</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-tooltips-popovers.html" class="menu-link">
-                    <div data-i18n="Tooltips & Popovers">Tooltips &amp; popovers</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-typography.html" class="menu-link">
-                    <div data-i18n="Typography">Typography</div>
-                  </a>
-                </li>
-              </ul>
-            </li> -->
-
-            <!-- Extended components -->
-            <!-- <li class="menu-item">
-              <a href="javascript:void(0)" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-copy"></i>
-                <div data-i18n="Extended UI">Extended UI</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="extended-ui-perfect-scrollbar.html" class="menu-link">
-                    <div data-i18n="Perfect Scrollbar">Perfect scrollbar</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="extended-ui-text-divider.html" class="menu-link">
-                    <div data-i18n="Text Divider">Text Divider</div>
-                  </a>
-                </li>
-              </ul>
-            </li> -->
-
-            <!-- <li class="menu-item">
-              <a href="icons-boxicons.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-crown"></i>
-                <div data-i18n="Boxicons">Boxicons</div>
-              </a>
-            </li> -->
-
-            <!-- Forms & Tables -->
-            <!-- <li class="menu-header small text-uppercase"><span class="menu-header-text">Forms &amp; Tables</span></li> -->
-            <!-- Forms -->
-            <!-- <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-detail"></i>
-                <div data-i18n="Form Elements">Form Elements</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="forms-basic-inputs.html" class="menu-link">
-                    <div data-i18n="Basic Inputs">Basic Inputs</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="forms-input-groups.html" class="menu-link">
-                    <div data-i18n="Input groups">Input groups</div>
-                  </a>
-                </li>
-              </ul>
-            </li> -->
-            <!-- <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-detail"></i>
-                <div data-i18n="Form Layouts">Form Layouts</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="form-layouts-vertical.html" class="menu-link">
-                    <div data-i18n="Vertical Form">Vertical Form</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="form-layouts-horizontal.html" class="menu-link">
-                    <div data-i18n="Horizontal Form">Horizontal Form</div>
-                  </a>
-                </li>
-              </ul>
-            </li> -->
-            <!-- Tables -->
-            <!-- <li class="menu-item">
-              <a href="tables-basic.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Tables">Tables</div>
-              </a>
-            </li> -->
-            <!-- Misc -->
-            <!-- <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li> -->
-            <!-- <li class="menu-item">
-              <a
-                href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
-                target="_blank"
-                class="menu-link"
-              >
-                <i class="menu-icon tf-icons bx bx-support"></i>
-                <div data-i18n="Support">Support</div>
-              </a>
-            </li> -->
-            <!-- <li class="menu-item">
-              <a
-                href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-                target="_blank"
-                class="menu-link"
-              >
-                <i class="menu-icon tf-icons bx bx-file"></i>
-                <div data-i18n="Documentation">Documentation</div>
-              </a>
-            </li> -->
           </ul>
         </aside>
         <!-- / Menu -->
@@ -590,19 +379,6 @@ mark.orang {
               </div>
               <!-- /Search -->
               <ul class="navbar-nav flex-row align-items-center ms-auto">
-                <!-- Place this tag where you want the button to render. -->
-                <!-- <li class="nav-item lh-1 me-3">
-                  <a
-                    class="github-button"
-                    href="https://github.com/themeselection/sneat-html-admin-template-free"
-                    data-icon="octicon-star"
-                    data-size="large"
-                    data-show-count="true"
-                    aria-label="Star themeselection/sneat-html-admin-template-free on GitHub"
-                    >Star</a
-                  >
-                </li> -->
-                <!-- User -->
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
@@ -702,87 +478,7 @@ if ($result) {
               <div class="card">
               <div class="add demo-inline-spacing">
               <div class="row mb-5">
-              <div class="col-md-6 col-lg-5 mb-3">
-              <?php
-              $currentDate = date("Y-m-d"); // Format: Year-Month-Day
-              $elseConditionEntered = false;
-              foreach ($data as $fetch) {
-                if ($fetch['date_ operate'] == $currentDate) {
-                }
-              } ?>
-                  <div class="card">
-                    <div class="card-body">
-                    <div class="row mb-5">
-                     <div class="col-xl-2">
-                     <i class='bx bx-brightness-half' style='color:#696cff'></i>
-                      </div>
-                      <div class="col-xl-10">
-                      <h5 class="card-title">งานวันนี้</h5>
-                      <p class="card-text">
-                        วันที่ 24 ธันวาคม 2544
-                      </p>
-                       </div>
-                </div>
-                <hr>
-                <button
-                  type="button"
-                  class="btn rounded-pill btn-icon btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exLargeModal<?php echo $fetch['order_id'] ?>">
-                  <span class="bx bxs-package"></span>
-                  </button>
-                  <button type="button" 
-                  class="btn rounded-pill btn-icon btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#timeline<?php echo $fetch['order_id'] ?>">
-                  <span class="bx bx-search-alt-2"></span>
-                </button>
-                <?php echo "<a class='btn rounded-pill btn-icon btn-primary bx bx-calendar-edit' href='test_calendar.php?id=" . $fetch['order_id'] . "'></a>"; ?>               
-                    </div>
-                  </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-xl-2 mt-4">
-                                    <i class='bx bx-brightness-half' style='color:#696cff'></i>
-                                </div>
-                                <div class="col-xl-10 mt-4 mb-4">
-                                    <h5 class="card-title">ไม่มีงานสำหรับวันนี้</h5>
-                                    <h3 class="card-text">
-                                    วันนี้ <?php
-                                            $thaiMonths = array(
-                                              1 => 'มกราคม',
-                                              2 => 'กุมภาพันธ์',
-                                              3 => 'มีนาคม',
-                                              4 => 'เมษายน',
-                                              5 => 'พฤษภาคม',
-                                              6 => 'มิถุนายน',
-                                              7 => 'กรกฎาคม',
-                                              8 => 'สิงหาคม',
-                                              9 => 'กันยายน',
-                                              10 => 'ตุลาคม',
-                                              11 => 'พฤศจิกายน',
-                                              12 => 'ธันวาคม'
-                                            );
-                                            $timestamp = strtotime($currentDate);
-                                            $buddhistYear = date("Y", $timestamp) + 543;
-                                            $monthNumber = date("n", $timestamp); // Get the month number (1-12)
-                                            $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
-                                            $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
-                                            echo $thaiFormattedDate;
-                                            ?>
-                                    </h3>
-                                </div>
-                            </div>             
-                        </div>
-                    </div>
-                    <?php
-
-
-
-                    ?>
-                </div>
-                <div class="col-md-6 col-lg-7 mb-3">
+              <div class="col-md-6 col-lg-7 mb-3">
                   <div class="card">
                     <div class="card-body">
                       <h5 class="card-title">ค้นหาสถานะการดำเนินงาน</h5>
@@ -796,6 +492,73 @@ if ($result) {
                     </div>
                   </div>
                 </div>   
+              <div class="col-md-6 col-lg-5 mb-3">
+              <?php
+              $currentDate = date("Y-m-d"); // Format: Year-Month-Day
+              $elseConditionEntered = false;
+              foreach ($data as $fetch) {
+                if ($fetch['date_ operate'] == $currentDate) {
+
+              ?> 
+              <div class="card">
+               <div class="card-body">
+               <div class="row mb-5">
+                <div class="col-xl-2">
+                <i class='bx bx-brightness-half' style='color:#696cff'></i>
+                 </div>
+                 <div class="col-xl-10">
+                 <h5 class="card-title">มีงานสำหรับวันนี้</h5>
+                 <h2 class="card-text">
+                   <?php
+                    $thaiMonths = array(
+                      1 => 'มกราคม',
+                      2 => 'กุมภาพันธ์',
+                      3 => 'มีนาคม',
+                      4 => 'เมษายน',
+                      5 => 'พฤษภาคม',
+                      6 => 'มิถุนายน',
+                      7 => 'กรกฎาคม',
+                      8 => 'สิงหาคม',
+                      9 => 'กันยายน',
+                      10 => 'ตุลาคม',
+                      11 => 'พฤศจิกายน',
+                      12 => 'ธันวาคม'
+                    );
+                    $date = $fetch['date_ operate'];
+                    $timestamp = strtotime($date);
+                    $buddhistYear = date("Y", $timestamp) + 543;
+                    $monthNumber = date("n", $timestamp); // Get the month number (1-12)
+                    $thaiMonth = $thaiMonths[$monthNumber]; // Get the Thai month name
+                    $thaiFormattedDate = date("j $thaiMonth พ.ศ. ", $timestamp) . $buddhistYear;
+                    echo $thaiFormattedDate; ?>    
+                </h2>
+                  </div>
+           </div>
+           <hr>
+           <div class="btn-group">
+    <button type="button"
+        class="btn rounded-pill btn-icon btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#exLargeModal<?php echo $fetch['order_id'] ?>">
+        <span class="bx bxs-package"></span>
+    </button>
+
+    <button type="button" 
+        class="btn rounded-pill btn-icon btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#timeline<?php echo $fetch['order_id'] ?>">
+        <span class="bx bx-search-alt-2"></span>
+    </button>
+
+    <?php echo "<a class='btn rounded-pill btn-icon btn-primary bx bx-calendar-edit' href='test_calendar.php?id=" . $fetch['order_id'] . "'></a>"; ?>
+</div>
+
+               </div>
+             </div><?php
+                  } else {
+                  }
+                } ?>
+                </div>
               </div>  
               </div>
               

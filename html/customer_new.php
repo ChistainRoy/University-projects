@@ -2,12 +2,12 @@
 <?php
 session_start();
 if (!isset($_SESSION['username_admin'])) {
-    header("location: login.php");
+  header("location: login.php");
 }
 if (isset($_GET['logout'])) {
-    session_destroy();
-    unset($_SESSION['username_admin']);
-    header("location: login.php");
+  session_destroy();
+  unset($_SESSION['username_admin']);
+  header("location: login.php");
 }
 ?>
 <!-- =========================================================
@@ -196,7 +196,7 @@ mark.orang {
               <span class="menu-header-text">จัดการข้อมูล</span>
             </li>
             <li class="menu-item">
-              <a href="cards-basic.html" class="menu-link">
+              <a href="shop.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-store"></i>
                 <div data-i18n="Basic">หน้าร้าน</div>
               </a>
@@ -300,7 +300,7 @@ mark.orang {
 
             <!-- ความคิดเห็นลูกค้า -->
             <li class="menu-item">
-              <a href="#" class="menu-link">
+              <a href="comment_chart.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-message-rounded"></i>
                 <div data-i18n="Basic">ความคิดเห็นลูกค้า</div>
               </a>
@@ -629,56 +629,54 @@ mark.orang {
 
           <!-- / Navbar -->
 <?php include('connect.php');
-if(isset($_POST['year'])){
+if (isset($_POST['year'])) {
   $year = $_POST['year'];
   $query = mysqli_query($conn, "SELECT * FROM `cumtomer` WHERE YEAR(`cumtomer`.`date_regis`) = $year");
 
   $monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
   $sum = 0;
   if ($query) {
-      while ($row = mysqli_fetch_assoc($query)) {
-          $dateRegis = $row['date_regis']; // Assuming 'date_regis' is the name of the column
-  
-          // Convert the date string to a DateTime object
-          $date = new DateTime($dateRegis);
-  
-          // Get the month and year
-          $month = (int)$date->format('m');
-          $year = (int)$date->format('Y');
-  
-          // Update the monthlySalesData array with the count of registrations in the respective month
-          $monthlySalesData[$month - 1]++;
-          $sum++;
-      }
+    while ($row = mysqli_fetch_assoc($query)) {
+      $dateRegis = $row['date_regis']; // Assuming 'date_regis' is the name of the column
+
+      // Convert the date string to a DateTime object
+      $date = new DateTime($dateRegis);
+
+      // Get the month and year
+      $month = (int)$date->format('m');
+      $year = (int)$date->format('Y');
+
+      // Update the monthlySalesData array with the count of registrations in the respective month
+      $monthlySalesData[$month - 1]++;
+      $sum++;
+    }
   } else {
-      echo "Error: " . mysqli_error($conn);
+    echo "Error: " . mysqli_error($conn);
   }
-  
-}else{
+} else {
   $year = 2023;
   $query = mysqli_query($conn, "SELECT * FROM `cumtomer` WHERE YEAR(`cumtomer`.`date_regis`) = $year");
 
   $monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
   $sum = 0;
   if ($query) {
-      while ($row = mysqli_fetch_assoc($query)) {
-          $dateRegis = $row['date_regis']; // Assuming 'date_regis' is the name of the column
-  
-          // Convert the date string to a DateTime object
-          $date = new DateTime($dateRegis);
-  
-          // Get the month and year
-          $month = (int)$date->format('m');
-          $year = (int)$date->format('Y');
-  
-          // Update the monthlySalesData array with the count of registrations in the respective month
-          $monthlySalesData[$month - 1]++;
-          $sum++;
-      }
+    while ($row = mysqli_fetch_assoc($query)) {
+      $dateRegis = $row['date_regis']; // Assuming 'date_regis' is the name of the column
+
+      // Convert the date string to a DateTime object
+      $date = new DateTime($dateRegis);
+
+      // Get the month and year
+      $month = (int)$date->format('m');
+      $year = (int)$date->format('Y');
+
+      // Update the monthlySalesData array with the count of registrations in the respective month
+      $monthlySalesData[$month - 1]++;
+      $sum++;
+    }
   } else {
-      echo "Error: " . mysqli_error($conn);
+    echo "Error: " . mysqli_error($conn);
   }
-  
 }
 
 
@@ -704,8 +702,8 @@ if(isset($_POST['year'])){
                     </div>
                     <div class="card-body col-xl-6">
                       <h1 class="card-title text-center coin"><?php
-                                                                $formattedNum = number_format($sum);
-                                                                echo  $sum ?> (บัญชี)</h1>
+                                                              $formattedNum = number_format($sum);
+                                                              echo  $sum ?> (บัญชี)</h1>
                     </div>
                     </div>
                   </div>

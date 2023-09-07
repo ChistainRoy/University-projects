@@ -150,7 +150,7 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="pages-account-settings-notifications.html" class="menu-link">
+                  <a href="man_operate.php" class="menu-link">
                     <div data-i18n="Notifications">สถานะคำสั่งซื้อ</div>
                   </a>
                 </li>
@@ -181,7 +181,7 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="pages-account-settings-notifications.html" class="menu-link">
+                  <a href="category_chart.php" class="menu-link">
                     <div data-i18n="Notifications">ประเภทสินค้า</div>
                   </a>
                 </li>

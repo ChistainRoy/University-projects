@@ -186,7 +186,7 @@ mark.orang {
               <span class="menu-header-text">จัดการข้อมูล</span>
             </li>
             <li class="menu-item">
-              <a href="cards-basic.html" class="menu-link">
+              <a href="shop.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-store"></i>
                 <div data-i18n="Basic">หน้าร้าน</div>
               </a>
@@ -256,12 +256,12 @@ mark.orang {
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="#" class="menu-link">
+                  <a href="information_coin.php" class="menu-link">
                     <div data-i18n="Account">รายเดือน</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="#" class="menu-link">
+                  <a href="category_chart.php" class="menu-link">
                     <div data-i18n="Notifications">ประเภทสินค้า</div>
                   </a>
                 </li>
@@ -273,7 +273,7 @@ mark.orang {
 
             <!-- ลูกค้าใหม่ -->
             <li class="menu-item">
-              <a href="#" class="menu-link">
+              <a href="customer_new.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-user-plus"></i>
                 <div data-i18n="Basic">ลูกค้าใหม่รายเดือน</div>
               </a>
@@ -281,7 +281,7 @@ mark.orang {
 
             <!-- รายงานสถานะการติดตั้งสินค้าตามวันและเวลา -->
             <li class="menu-item">
-              <a href="#" class="menu-link">
+              <a href="status_order.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
                 <div data-i18n="Basic">สถานะการติดตั้ง</div>
               </a>
@@ -290,7 +290,7 @@ mark.orang {
 
             <!-- ความคิดเห็นลูกค้า -->
             <li class="menu-item">
-              <a href="#" class="menu-link">
+              <a href="comment_chart.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-message-rounded"></i>
                 <div data-i18n="Basic">ความคิดเห็นลูกค้า</div>
               </a>
@@ -442,15 +442,16 @@ mark.orang {
                         <th><h6>วันจองตรวจสอบสถานที่ติดตั้ง</h6></th>
                         <th><h6>ราคาทั้งหมด</h6></th>
                         <th><h6>ชื่อผู้สั่ง</h6></th>
-                        <th><h6>ที่อยู่</h6></th>
+                        <th><h6>ที่อยู่จัดส่ง</h6></th>
                         <th><h6>สถานะ</h6></th>
+                        <th><h6>ผู้อนุมัติ</h6></th>
                         <th><h6>ตรวจสอบการชำระเงิน</h6></th>
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
                     <?php
                     include('connect.php');
-                    $query = mysqli_query($conn, "SELECT * FROM `order`");
+                    $query = mysqli_query($conn, "SELECT * FROM `order` JOIN `employee` ON `order`.`em_id` = `employee`.`em_id`;");
 
                     while ($fetch = mysqli_fetch_array($query)) {
                       $user = $fetch['cm_id'];
@@ -494,6 +495,7 @@ mark.orang {
                                                 <td><?php echo $fetch['order_address'] ?></td>
                                                 <?php $status = $fetch['oder_status']; ?>
                                                 <td><mark class="<?php echo $status === 'รอชำระเงิน' ? 'yellow' : ($status === 'ชำระเงินแล้ว' ? 'green' : ($status === 'รอการตรวจสอบ' ? 'orang' : '')); ?>"><?php echo $fetch['oder_status'] ?></mark></td>
+                                                <td><?php echo $fetch['name'] ?></td>
                                                 <?php if ($fetch['oder_status'] === 'รอการตรวจสอบ') { ?>
                                                 <td class="text-center"><button type="button" 
                                                       class="btn rounded-pill btn-icon btn-primary"
