@@ -2,12 +2,12 @@
 <?php
 session_start();
 if (!isset($_SESSION['username_admin'])) {
-  header("location: login.php");
+    header("location: login.php");
 }
 if (isset($_GET['logout'])) {
-  session_destroy();
-  unset($_SESSION['username_admin']);
-  header("location: login.php");
+    session_destroy();
+    unset($_SESSION['username_admin']);
+    header("location: login.php");
 }
 ?>
 <!-- =========================================================
@@ -155,13 +155,38 @@ mark.orang {
   }
   .coin{
     font-family: 'Sigmar', cursive;
-        font-size: 42px;
+        font-size: 20px;
     color: #696cff;
   }
+  .no{
+    margin-top: 20%;
+    
+  }
+  .star-rating {
+        font-size: 30px;
+    }
+
+    .star {
+        cursor: pointer;
+        color: lightgray;
+        font-size: 40px;
+    }
+
+    .star.active {
+        color: gold;
+    }
+    .order{
+      margin-left: 90%;
+      background-color: #696cff;
+      color: white;
+      border-radius: 20px;
+      max-width: 100%;
+      text-align: center;
+    }
 </style>
   <body>
-   <!-- Layout wrapper -->
-   <div class="layout-wrapper layout-content-navbar">
+     <!-- Layout wrapper -->
+     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
         <!-- Menu -->
 
@@ -210,14 +235,14 @@ mark.orang {
 
 
             <!-- จัดการข้อมูล -->
-            <li class="menu-item active open">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <li class="menu-item">
+              <a href="information_boss.php" class="menu-link menu-toggle">
               <i class='menu-icon tf-icons bx bx-coin'></i>
                 <div data-i18n="Account Settings">รายได้</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item active">
-                  <a href="coin_boss.php" class="menu-link">
+                <li class="menu-item">
+                  <a href="information_boss.php" class="menu-link">
                     <div data-i18n="Account">รายเดือน</div>
                   </a>
                 </li>
@@ -250,7 +275,7 @@ mark.orang {
 
 
             <!-- ความคิดเห็นลูกค้า -->
-            <li class="menu-item">
+            <li class="menu-item active">
               <a href="comment_boss.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-message-rounded"></i>
                 <div data-i18n="Basic">ความคิดเห็นลูกค้า</div>
@@ -340,180 +365,175 @@ mark.orang {
           </nav>
 
           <!-- / Navbar -->
-<?php include('connect.php');
-if (isset($_POST['year'])) {
-  if ($_POST['year'] == '2023') {
-    $query = mysqli_query($conn, "SELECT MONTH(`performance`.`date_ operate`) AS month, SUM(`order`.`oder_total`) AS total_oder_total 
-    FROM `order` 
-    INNER JOIN `performance` ON `order`.`order_id` = `performance`.`order_id` 
-    WHERE `performance`.`status_performance` = 'ดำเนินการเสร็จสิ้น' 
-    AND YEAR(`performance`.`date_ operate`) = 2023
-    GROUP BY MONTH(`performance`.`date_ operate`);");
-
-    $monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
-    $totalSum = 0;
-    $year = "2023";
-    if ($query) {
-      while ($row = mysqli_fetch_assoc($query)) {
-        $oder_total = $row['total_oder_total'];
-        $totalSum += $oder_total; // Add the oder_total to the total sum
-        $month = (int)$row['month'];
-        $total = (float)$row['total_oder_total'];
-        $monthlySalesData[$month - 1] = $total; // Assign total to the respective month index (0-based)
-
-      }
+<?php
+include('connect.php');
+$dataArray = array();
+$Count = array_fill(0, 2, 0);
+$Star = array_fill(0, 4, 0);
+$query = mysqli_query($conn, "SELECT cumtomer.name, `order`.`order_id`, performance.status_performance, comment.comment_detail, comment.comment_img 
+FROM `order` 
+LEFT JOIN cumtomer ON `order`.`cm_id` = cumtomer.cm_id
+LEFT JOIN performance ON `order`.`order_id` = performance.order_id 
+LEFT JOIN comment ON `order`.`order_id` = comment.order_id WHERE performance.status_performance = 'ดำเนินการเสร็จสิ้น';
+");
+while ($row = mysqli_fetch_assoc($query)) {
+    $dataArray[] = $row;
+    if (empty($row['comment_img'])) {
+        $Count[1]++;
     } else {
-      echo "Error: " . mysqli_error($conn);
+        $Count[0]++;
+        if ($row['comment_img'] == 1) {
+            $Star[0]++;
+        } elseif ($row['comment_img'] == 2) {
+            $Star[1]++;
+        } elseif ($row['comment_img'] == 3) {
+            $Star[2]++;
+        } elseif ($row['comment_img'] == 4) {
+            $Star[3]++;
+        } elseif ($row['comment_img'] == 5) {
+            $Star[4]++;
+        }
     }
-  } else if ($_POST['year'] == '2022') {
-    $query = mysqli_query($conn, "SELECT MONTH(`performance`.`date_ operate`) AS month, SUM(`order`.`oder_total`) AS total_oder_total 
-    FROM `order` 
-    INNER JOIN `performance` ON `order`.`order_id` = `performance`.`order_id` 
-    WHERE `performance`.`status_performance` = 'ดำเนินการเสร็จสิ้น' 
-    AND YEAR(`performance`.`date_ operate`) = 2022
-    GROUP BY MONTH(`performance`.`date_ operate`);");
+}
+// ตัวอย่างข้อมูล
+$total = array_sum($Count);
 
-    $monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
-    $totalSum = 0;
-    $year = "2022";
-    if ($query) {
-      while ($row = mysqli_fetch_assoc($query)) {
-        $oder_total = $row['total_oder_total'];
-        $totalSum += $oder_total; // Add the oder_total to the total sum
-        $month = (int)$row['month'];
-        $total = (float)$row['total_oder_total'];
-        $monthlySalesData[$month - 1] = $total; // Assign total to the respective month index (0-based)
-
-      }
-    } else {
-      echo "Error: " . mysqli_error($conn);
-    }
-  } else {
-    $query = mysqli_query($conn, "SELECT MONTH(`performance`.`date_ operate`) AS month, SUM(`order`.`oder_total`) AS total_oder_total 
-    FROM `order` 
-    INNER JOIN `performance` ON `order`.`order_id` = `performance`.`order_id` 
-    WHERE `performance`.`status_performance` = 'ดำเนินการเสร็จสิ้น' 
-    AND YEAR(`performance`.`date_ operate`) = 2024
-    GROUP BY MONTH(`performance`.`date_ operate`);");
-
-    $monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
-    $totalSum = 0;
-    $year = "2024";
-    if ($query) {
-      while ($row = mysqli_fetch_assoc($query)) {
-        $oder_total = $row['total_oder_total'];
-        $totalSum += $oder_total; // Add the oder_total to the total sum
-        $month = (int)$row['month'];
-        $total = (float)$row['total_oder_total'];
-        $monthlySalesData[$month - 1] = $total; // Assign total to the respective month index (0-based)
-
-      }
-    } else {
-      echo "Error: " . mysqli_error($conn);
-    }
-  }
-} else {
-  $query = mysqli_query($conn, "SELECT MONTH(`performance`.`date_ operate`) AS month, SUM(`order`.`oder_total`) AS total_oder_total 
-    FROM `order` 
-    INNER JOIN `performance` ON `order`.`order_id` = `performance`.`order_id` 
-    WHERE `performance`.`status_performance` = 'ดำเนินการเสร็จสิ้น' 
-    AND YEAR(`performance`.`date_ operate`) = 2023
-    GROUP BY MONTH(`performance`.`date_ operate`);");
-
-  $monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
-  $totalSum = 0;
-  $year = "2023";
-  if ($query) {
-    while ($row = mysqli_fetch_assoc($query)) {
-      $oder_total = $row['total_oder_total'];
-      $totalSum += $oder_total; // Add the oder_total to the total sum
-      $month = (int)$row['month'];
-      $total = (float)$row['total_oder_total'];
-      $monthlySalesData[$month - 1] = $total; // Assign total to the respective month index (0-based)
-
-    }
-  } else {
-    echo "Error: " . mysqli_error($conn);
-  }
+// คำนวณค่าเปอร์เซ็นต์และใส่ลงในอาร์เรย์ใหม่
+$percentages = array();
+foreach ($Count as $value) {
+    $percentage = ($value * 100) / $total;
+    $percentages[] = $percentage;
 }
 
+// print_r($Star);
+$sum = array_sum($Star);
+// echo $sum;
+foreach ($Star as $Stars) {
+    $percentage = ($Stars * 100) / $sum;
+    $percent_2[] = $percentage;
+}
+// print_r($percent_2);
 ?>
-          <!-- Content wrapper -->
-          <div class="content-wrapper">
-            <!-- Content -->
-
-            <div class="container-xxl flex-grow-1 container-p-y">
-              <!-- Basic Bootstrap Table -->
+    <!-- / Navbar -->
+    <div class="content-wrapper">
+    <!-- Content chart -->
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="row">
+              <div class="col-xl-4">
               <div class="card">
-              <div class="add demo-inline-spacing">
-              <div class="row mb-5">
-                <div class="col-md-6 col-lg-7 mb-3">
-                  <div class="card">
-                  <div class="row">
-                    <div class="card-body col-xl-6 col-divider">
-                      <h5 class="card-title">รายได้ทั้งหมด</h5>
-                      <p class="card-text">
-                        จำนวนเงินที่ได้รับทั้งหมดจากงานที่การดำเนินงานเสร็จสิ้นแล้ว
-                      </p>
-                    </div>
-                    <div class="card-body col-xl-6">
-                      <h1 class="card-title text-center coin"><?php
-                                                              $formattedNum = number_format($totalSum);
-                                                              echo  $formattedNum ?> ฿</h1>
-                    </div>
-                    </div>
-                  </div>
-                </div>   
-              </div>  
-              </div>
+              <div class="card-body d-flex justify-content-center align-items-center">
               
-                <h5 class="card-header">กราฟแสดงรายได้แต่ละเดือน</h5>
-                <form action="information_coin.php" method="post">
-                <select class="form-select" id="inputGroupSelect01" name="year">
-                    <option selected>เลือกปีของรายได้</option>
-                    <option value="2022"<?php if ($year == "2022") echo "selected"; ?>>2022</option>
-                    <option value="2023"<?php if ($year == "2023") echo "selected"; ?>>2023</option>
-                    <option value="2024"<?php if ($year == "2024") echo "selected"; ?>>2024</option>
-                </select>
-      <button class="btn btn-primary mt-3 d-flex" type="submit" name="pass">แสดงข้อมูล</button>
-  </form>
-                <canvas id="lineChart" width="450" height="100"></canvas>
-
-
-
-    <script src="line-chart.js"></script> <!-- Your JavaScript file -->
-    <script>
-        // Get the canvas element
-        var ctx = document.getElementById('lineChart').getContext('2d');
-
-        // Chart configuration
-        var chartConfig = {
-            type: 'line',
-            data: {
-                labels: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
-                datasets: [{
-                    label: 'รายได้ปี <?php echo $year ?>',
-                    data: <?php echo json_encode($monthlySalesData); ?>,
-                    borderColor: 'rgba(105, 108, 255, 1)',
-                    borderWidth: 2,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        };
-
-        // Create the line chart
-        var lineChart = new Chart(ctx, chartConfig);
-    </script>      
-                
+                <div class="center" style="width: 300px;">
+                <p class="text-center">ความคิดเห็นทั้งหมดแต่ละคะแนนโดยเฉลี่ย</p>
+                    <canvas id="myPieChart"></canvas>
+                    <script src="line-chart.js"></script>
+                </div>
+                </div>
               </div>
-            <!-- / Content -->
+              </div>
+              </div>
+          </div>
+<?php
+// จำนวนข้อมูลในแต่ละหน้า
+$perPage = 6;
+
+// หาหน้าปัจจุบัน
+if (isset($_GET['page'])) {
+    $currentPage = $_GET['page'];
+} else {
+    $currentPage = 1;
+}
+
+// ตรวจสอบการค้นหา
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+// คำนวณตำแหน่งเริ่มต้นในอาเรย์
+$start = ($currentPage - 1) * $perPage;
+
+// กรองข้อมูลตามการค้นหา
+$filteredData = array_filter($dataArray, function ($data) use ($search) {
+    if (empty($search)) {
+        return true; // ไม่มีการค้นหา, แสดงทุกข้อมูล
+    }
+
+    // กรองตามคำค้นหา
+    return stripos($data['name'], $search) !== false ||
+        stripos($data['order_id'], $search) !== false ||
+        stripos($data['comment_detail'], $search) !== false ||
+        stripos($data['comment_img'], $search) !== false;
+});
+
+// จำนวนหน้าทั้งหมด
+$totalPages = ceil(count($filteredData) / $perPage);
+
+// ตัดข้อมูลออกมาสำหรับหน้าปัจจุบัน
+$currentPageData = array_slice($filteredData, $start, $perPage);
+?>
+<!-- Content wrapper -->
+<div class="content-wrapper">
+    <!-- Content -->
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <!-- Basic Bootstrap Table -->
+   <!-- เพิ่มแบบฟอร์มค้นหา -->
+        <div class="card">
+            <div class="add demo-inline-spacing">
+                <div class="row mb-5">
+                    <?php foreach ($currentPageData as $data) {
+                        if (!empty($data['comment_img'])) {
+                    ?>
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <div class="card">
+                              <h3 class="p-1 order">#<?php echo $data['order_id']; ?></h3>
+                                <div class="row">
+                                    <div class="card-body col-xl-6">
+                                        <h5 class="card-title"><i class='bx bxs-user-circle p-1' style='color:#696cff; font-size: 36px;'  ></i><?php echo $data['name']; ?></h5>
+                                       
+                                        <!-- <h5 class="card-title">คะแนนความพึงพอใจ: <?php echo $data['comment_img']; ?></h5> -->
+                                        <h5 class="card-title p-1">ความคิดเห็นลูกค้า: <?php echo $data['comment_detail']; ?></h5>
+                                        <h1 class="d-none"><?php echo $data['comment_img']; ?></h5>
+                                         <div class="star-rating">
+                      <?php
+                            $rating = $data['comment_img']; // แปลงคะแนนเป็นจำนวนเต็ม
+
+                            // วนลูปสร้างดาวตามคะแนน
+                            for ($i = 1; $i <= 4; $i++) {
+                                if ($i <= $rating) {
+                                    // ถ้า $i น้อยกว่าหรือเท่ากับคะแนน ให้ใช้ class "active" เพื่อเปิดดาว
+                                    echo '<span class="star active">&#9733;</span>';
+                                } else {
+                                    // ถ้า $i มากกว่าคะแนน ให้ไม่ใช้ class "active" เพื่อปิดดาว
+                                    echo '<span class="star">&#9733;</span>';
+                                }
+                            }
+                        ?>
+</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php
+                        }
+                    } ?>
+                </div>
+                <!-- เพิ่มปุ่มเปลี่ยนหน้า -->
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="pagination justify-content-center">
+                            <?php for ($i = 1; $i <= $totalPages; $i++) { ?>
+                                <li class="page-item <?php echo ($i == $currentPage) ? 'active' : ''; ?>">
+                                    <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / Content -->
+    <!-- Content wrapper -->
+</div>
+</div>
 
             <!-- Footer -->
             <?php include 'footer_admin.html'; ?>
@@ -533,9 +553,39 @@ if (isset($_POST['year'])) {
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+       // หากคุณต้องการข้อมูลตัวอย่าง
+var data = {
+    labels: ["พอใช้", "ดี", "ดีมาก","เยี่ยม"],
+    datasets: [{
+        data: <?php echo json_encode($percent_2); ?>,
+        backgroundColor: ["#FF5F5F", "#FFF55F", "#97FF5F","#5F6BFF"]
+    }]
+};
 
-      
-    </script>
+// สร้าง Pie Chart
+var ctx = document.getElementById('myPieChart').getContext('2d');
+var myPieChart = new Chart(ctx, {
+    type: 'pie',
+    data: data,
+    options: {
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        var label = context.dataset.label || '';
+                        if (label) {
+                            label += ': ';
+                        }
+                        label += context.formattedValue + ' %'; // เพิ่ม % ตามหลังค่าเปอร์เซ็นต์
+                        return label;
+                    }
+                }
+            }
+        }
+    }
+});
+
+</script>
     <!-- / Layout wrapper -->
                     
     <!-- Core JS -->

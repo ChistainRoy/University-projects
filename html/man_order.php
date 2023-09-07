@@ -451,7 +451,7 @@ mark.orang {
                     <tbody class="table-border-bottom-0">
                     <?php
                     include('connect.php');
-                    $query = mysqli_query($conn, "SELECT * FROM `order` JOIN `employee` ON `order`.`em_id` = `employee`.`em_id`;");
+                    $query = mysqli_query($conn, "SELECT * FROM `order` LEFT JOIN `employee` ON `order`.`em_id` = `employee`.`em_id`;");
 
                     while ($fetch = mysqli_fetch_array($query)) {
                       $user = $fetch['cm_id'];

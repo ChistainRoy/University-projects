@@ -2,12 +2,12 @@
 <?php
 session_start();
 if (!isset($_SESSION['username_admin'])) {
-  header("location: login.php");
+    header("location: login.php");
 }
 if (isset($_GET['logout'])) {
-  session_destroy();
-  unset($_SESSION['username_admin']);
-  header("location: login.php");
+    session_destroy();
+    unset($_SESSION['username_admin']);
+    header("location: login.php");
 }
 ?>
 <!-- =========================================================
@@ -160,8 +160,8 @@ mark.orang {
   }
 </style>
   <body>
-   <!-- Layout wrapper -->
-   <div class="layout-wrapper layout-content-navbar">
+     <!-- Layout wrapper -->
+     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
         <!-- Menu -->
 
@@ -211,17 +211,17 @@ mark.orang {
 
             <!-- จัดการข้อมูล -->
             <li class="menu-item active open">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="information_boss.php" class="menu-link menu-toggle">
               <i class='menu-icon tf-icons bx bx-coin'></i>
                 <div data-i18n="Account Settings">รายได้</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item active">
-                  <a href="coin_boss.php" class="menu-link">
+                <li class="menu-item">
+                  <a href="information_boss.php" class="menu-link">
                     <div data-i18n="Account">รายเดือน</div>
                   </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item  active">
                   <a href="coin_boss.php" class="menu-link">
                     <div data-i18n="Notifications">ประเภทสินค้า</div>
                   </a>
@@ -251,7 +251,7 @@ mark.orang {
 
             <!-- ความคิดเห็นลูกค้า -->
             <li class="menu-item">
-              <a href="comment_boss.php" class="menu-link">
+              <a href="comment_chart.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-message-rounded"></i>
                 <div data-i18n="Basic">ความคิดเห็นลูกค้า</div>
               </a>
@@ -340,102 +340,97 @@ mark.orang {
           </nav>
 
           <!-- / Navbar -->
+
+          <!-- / Navbar -->
 <?php include('connect.php');
 if (isset($_POST['year'])) {
-  if ($_POST['year'] == '2023') {
-    $query = mysqli_query($conn, "SELECT MONTH(`performance`.`date_ operate`) AS month, SUM(`order`.`oder_total`) AS total_oder_total 
-    FROM `order` 
-    INNER JOIN `performance` ON `order`.`order_id` = `performance`.`order_id` 
-    WHERE `performance`.`status_performance` = 'ดำเนินการเสร็จสิ้น' 
-    AND YEAR(`performance`.`date_ operate`) = 2023
-    GROUP BY MONTH(`performance`.`date_ operate`);");
-
-    $monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
-    $totalSum = 0;
-    $year = "2023";
+    $year = (int)$_POST['year'];
+    $query = mysqli_query($conn, "SELECT
+category.cat_name,
+oderdetail.oder_qty,
+performance.`date_ operate`,
+performance.status_performance
+FROM
+ `order`
+INNER JOIN performance ON `order`.`order_id` =  performance.order_id
+INNER JOIN oderdetail ON oderdetail.oder_id = `order`.`order_id`
+INNER JOIN product ON product.product_id = oderdetail.product_id
+INNER JOIN category ON category.id_cat = product.category_id
+WHERE performance.status_performance = 'ดำเนินการเสร็จสิ้น'
+AND YEAR(performance.`date_ operate`) = $year;
+");
     if ($query) {
-      while ($row = mysqli_fetch_assoc($query)) {
-        $oder_total = $row['total_oder_total'];
-        $totalSum += $oder_total; // Add the oder_total to the total sum
-        $month = (int)$row['month'];
-        $total = (float)$row['total_oder_total'];
-        $monthlySalesData[$month - 1] = $total; // Assign total to the respective month index (0-based)
+        $totalQty = 0; // สำหรับรวมค่า 'oder_qty' ทั้งหมด
+        $Data1 = array_fill(0, 12, 0); // สำหรับประเภท 'หน้าต่างบานเลื่อน'
+        $Data2 = array_fill(0, 12, 0); // สำหรับประเภท 'หน้าต่างบานพับ'
+        $Data3 = array_fill(0, 12, 0); // สำหรับประเภท 'หน้าต่างห้องน้ำ'
+        $Data4 = array_fill(0, 12, 0); // สำหรับประเภท 'ประตูบานเลื่อน'
+        $Data5 = array_fill(0, 12, 0); // สำหรับประเภท 'ประตูบานพับ'
 
-      }
-    } else {
-      echo "Error: " . mysqli_error($conn);
+        while ($row = mysqli_fetch_assoc($query)) {
+            $dateOperate = $row['date_ operate'];
+            $month = date('n', strtotime($dateOperate));
+
+            // เช็คประเภทสินค้าและกำหนดค่าในอาร์เรย์ที่เหมาะสมตามเดือน
+            if ($row['cat_name'] == 'หน้าต่างบานเลื่อน') {
+                $Data1[$month - 1] += $row['oder_qty'];
+            } elseif ($row['cat_name'] == 'หน้าต่างบานพับ') {
+                $Data2[$month - 1] += $row['oder_qty'];
+            } elseif ($row['cat_name'] == 'หน้าต่างห้องน้ำ') {
+                $Data3[$month - 1] += $row['oder_qty'];
+            } elseif ($row['cat_name'] == 'ประตูบานเลื่อน') {
+                $Data4[$month - 1] += $row['oder_qty'];
+            } elseif ($row['cat_name'] == 'ประตูบานพับ') {
+                $Data5[$month - 1] += $row['oder_qty'];
+            }
+            $totalQty += $row['oder_qty'];
+        }
     }
-  } else if ($_POST['year'] == '2022') {
-    $query = mysqli_query($conn, "SELECT MONTH(`performance`.`date_ operate`) AS month, SUM(`order`.`oder_total`) AS total_oder_total 
-    FROM `order` 
-    INNER JOIN `performance` ON `order`.`order_id` = `performance`.`order_id` 
-    WHERE `performance`.`status_performance` = 'ดำเนินการเสร็จสิ้น' 
-    AND YEAR(`performance`.`date_ operate`) = 2022
-    GROUP BY MONTH(`performance`.`date_ operate`);");
-
-    $monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
-    $totalSum = 0;
-    $year = "2022";
-    if ($query) {
-      while ($row = mysqli_fetch_assoc($query)) {
-        $oder_total = $row['total_oder_total'];
-        $totalSum += $oder_total; // Add the oder_total to the total sum
-        $month = (int)$row['month'];
-        $total = (float)$row['total_oder_total'];
-        $monthlySalesData[$month - 1] = $total; // Assign total to the respective month index (0-based)
-
-      }
-    } else {
-      echo "Error: " . mysqli_error($conn);
-    }
-  } else {
-    $query = mysqli_query($conn, "SELECT MONTH(`performance`.`date_ operate`) AS month, SUM(`order`.`oder_total`) AS total_oder_total 
-    FROM `order` 
-    INNER JOIN `performance` ON `order`.`order_id` = `performance`.`order_id` 
-    WHERE `performance`.`status_performance` = 'ดำเนินการเสร็จสิ้น' 
-    AND YEAR(`performance`.`date_ operate`) = 2024
-    GROUP BY MONTH(`performance`.`date_ operate`);");
-
-    $monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
-    $totalSum = 0;
-    $year = "2024";
-    if ($query) {
-      while ($row = mysqli_fetch_assoc($query)) {
-        $oder_total = $row['total_oder_total'];
-        $totalSum += $oder_total; // Add the oder_total to the total sum
-        $month = (int)$row['month'];
-        $total = (float)$row['total_oder_total'];
-        $monthlySalesData[$month - 1] = $total; // Assign total to the respective month index (0-based)
-
-      }
-    } else {
-      echo "Error: " . mysqli_error($conn);
-    }
-  }
 } else {
-  $query = mysqli_query($conn, "SELECT MONTH(`performance`.`date_ operate`) AS month, SUM(`order`.`oder_total`) AS total_oder_total 
-    FROM `order` 
-    INNER JOIN `performance` ON `order`.`order_id` = `performance`.`order_id` 
-    WHERE `performance`.`status_performance` = 'ดำเนินการเสร็จสิ้น' 
-    AND YEAR(`performance`.`date_ operate`) = 2023
-    GROUP BY MONTH(`performance`.`date_ operate`);");
+    $year = 2023;
+    $query = mysqli_query($conn, "SELECT
+category.cat_name,
+oderdetail.oder_qty,
+performance.`date_ operate`,
+performance.status_performance
+FROM
+ `order`
+INNER JOIN performance ON `order`.`order_id` =  performance.order_id
+INNER JOIN oderdetail ON oderdetail.oder_id = `order`.`order_id`
+INNER JOIN product ON product.product_id = oderdetail.product_id
+INNER JOIN category ON category.id_cat = product.category_id
+WHERE performance.status_performance = 'ดำเนินการเสร็จสิ้น'
+AND YEAR(performance.`date_ operate`) = $year;
+");
+    if ($query) {
+        $totalQty = 0; // สำหรับรวมค่า 'oder_qty' ทั้งหมด
+        $Data1 = array_fill(0, 12, 0); // สำหรับประเภท 'หน้าต่างบานเลื่อน'
+        $Data2 = array_fill(0, 12, 0); // สำหรับประเภท 'หน้าต่างบานพับ'
+        $Data3 = array_fill(0, 12, 0); // สำหรับประเภท 'หน้าต่างห้องน้ำ'
+        $Data4 = array_fill(0, 12, 0); // สำหรับประเภท 'ประตูบานเลื่อน'
+        $Data5 = array_fill(0, 12, 0); // สำหรับประเภท 'ประตูบานพับ'
 
-  $monthlySalesData = array_fill(0, 12, 0); // Initialize an array to store monthly sales data with 12 zeros
-  $totalSum = 0;
-  $year = "2023";
-  if ($query) {
-    while ($row = mysqli_fetch_assoc($query)) {
-      $oder_total = $row['total_oder_total'];
-      $totalSum += $oder_total; // Add the oder_total to the total sum
-      $month = (int)$row['month'];
-      $total = (float)$row['total_oder_total'];
-      $monthlySalesData[$month - 1] = $total; // Assign total to the respective month index (0-based)
+        while ($row = mysqli_fetch_assoc($query)) {
+            $dateOperate = $row['date_ operate'];
+            $month = date('n', strtotime($dateOperate));
 
+            // เช็คประเภทสินค้าและกำหนดค่าในอาร์เรย์ที่เหมาะสมตามเดือน
+            if ($row['cat_name'] == 'หน้าต่างบานเลื่อน') {
+                $Data1[$month - 1] += $row['oder_qty'];
+            } elseif ($row['cat_name'] == 'หน้าต่างบานพับ') {
+                $Data2[$month - 1] += $row['oder_qty'];
+            } elseif ($row['cat_name'] == 'หน้าต่างห้องน้ำ') {
+                $Data3[$month - 1] += $row['oder_qty'];
+            } elseif ($row['cat_name'] == 'ประตูบานเลื่อน') {
+                $Data4[$month - 1] += $row['oder_qty'];
+            } elseif ($row['cat_name'] == 'ประตูบานพับ') {
+                $Data5[$month - 1] += $row['oder_qty'];
+            }
+            $totalQty += $row['oder_qty'];
+        }
     }
-  } else {
-    echo "Error: " . mysqli_error($conn);
-  }
 }
+
 
 ?>
           <!-- Content wrapper -->
@@ -451,67 +446,95 @@ if (isset($_POST['year'])) {
                   <div class="card">
                   <div class="row">
                     <div class="card-body col-xl-6 col-divider">
-                      <h5 class="card-title">รายได้ทั้งหมด</h5>
+                      <h5 class="card-title">สิ้นค้าขายทั้งหมด</h5>
                       <p class="card-text">
-                        จำนวนเงินที่ได้รับทั้งหมดจากงานที่การดำเนินงานเสร็จสิ้นแล้ว
+                        จำนวนสิ้นค้าทุกประเภทที่ขายไปทั้งหมดปี(<?php echo $year ?>)
                       </p>
                     </div>
                     <div class="card-body col-xl-6">
                       <h1 class="card-title text-center coin"><?php
-                                                              $formattedNum = number_format($totalSum);
-                                                              echo  $formattedNum ?> ฿</h1>
+                                                                $formattedNum = number_format($totalQty);
+                                                                echo  $formattedNum ?> ชิ้น</h1>
                     </div>
                     </div>
                   </div>
                 </div>   
               </div>  
               </div>
-              
-                <h5 class="card-header">กราฟแสดงรายได้แต่ละเดือน</h5>
-                <form action="information_coin.php" method="post">
+                <h5 class="card-header">กราฟแสดงจำนวนสินที่ถูกซื้อแต่ละประเภทสินค้า</h5>
+                <form action="category_chart.php" method="post">
                 <select class="form-select" id="inputGroupSelect01" name="year">
-                    <option selected>เลือกปีของรายได้</option>
-                    <option value="2022"<?php if ($year == "2022") echo "selected"; ?>>2022</option>
-                    <option value="2023"<?php if ($year == "2023") echo "selected"; ?>>2023</option>
-                    <option value="2024"<?php if ($year == "2024") echo "selected"; ?>>2024</option>
+                    <option>เลือกสินค้าที่ถูกซื้อทั้งหมด(ปี)</option>
+                    <option  value="2022"<?php if ($year == "2022") echo "selected"; ?>>2022</option>
+                    <option  value="2023"<?php if ($year == "2023") echo "selected"; ?>>2023</option>
+                    <option  value="2024"<?php if ($year == "2024") echo "selected"; ?>>2024</option>
                 </select>
       <button class="btn btn-primary mt-3 d-flex" type="submit" name="pass">แสดงข้อมูล</button>
   </form>
-                <canvas id="lineChart" width="450" height="100"></canvas>
+                <canvas id="barChart" width="70" height="20"></canvas>
+                </div>
+<script src="bar-chart.js"></script> <!-- Your JavaScript file -->
+<script>
+    // Get the canvas element
+    var ctx = document.getElementById('barChart').getContext('2d');
 
-
-
-    <script src="line-chart.js"></script> <!-- Your JavaScript file -->
-    <script>
-        // Get the canvas element
-        var ctx = document.getElementById('lineChart').getContext('2d');
-
-        // Chart configuration
-        var chartConfig = {
-            type: 'line',
+    // Chart configuration
+    var chartConfig = {
+        type: 'bar',
             data: {
-                labels: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
-                datasets: [{
-                    label: 'รายได้ปี <?php echo $year ?>',
-                    data: <?php echo json_encode($monthlySalesData); ?>,
-                    borderColor: 'rgba(105, 108, 255, 1)',
-                    borderWidth: 2,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+        labels: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+        datasets: [{
+            label: 'หน้าต่างบานเลื่อน',
+            data:  <?php echo json_encode($Data1); ?>,
+            backgroundColor: '#DE3163',
+            borderColor: '#DE3163',
+            borderWidth: 1
+        },
+        {
+            label: 'หน้าต่างบานพับ',
+            data:  <?php echo json_encode($Data2); ?>,
+            backgroundColor: '#FFBF00',
+            borderColor: '#FFBF00',
+            borderWidth: 1
+        },
+        { 
+            label: 'หน้าต่างห้องน้ำ',
+            data:  <?php echo json_encode($Data3); ?>,
+            backgroundColor: '#40E0D0',
+            borderColor: '#40E0D0',
+            borderWidth: 1
+        },
+        { 
+            label: 'ประตูบานเลื่อน',
+            data:  <?php echo json_encode($Data4); ?>,
+            backgroundColor: '#CCCCFF',
+            borderColor: '#CCCCFF',
+            borderWidth: 1
+        },
+        { 
+            label: 'ประตูบานพับ',
+            data:  <?php echo json_encode($Data5); ?>,
+            backgroundColor: '#6495ED',
+            borderColor: '#6495ED',
+            borderWidth: 1
+        }]
+        
+    },
+        
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
             }
-        };
+        }
+    };
 
-        // Create the line chart
-        var lineChart = new Chart(ctx, chartConfig);
-    </script>      
-                
+    // Create the bar chart
+    var barChart = new Chart(ctx, chartConfig);
+
+
+</script>           
               </div>
             <!-- / Content -->
 

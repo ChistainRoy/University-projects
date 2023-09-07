@@ -598,9 +598,9 @@ while ($row = mysqli_fetch_assoc($querywait)) {
                                                 </h4>
                                                 <hr>
                                                 <?php if ($pass['comment_detail'] == "") {
-                                                    echo '<button class="btn btn-secondary" disabled>แสดงความคิดเห็นแล้ว</button>';
-                                                } else {
                                                     echo "<a class='btn btn-primary' href='comment.php?ids=" . $pass['order_id'] . "'>แสดงความคิดเห็น</a>";
+                                                } else {
+                                                    echo '<button class="btn btn-secondary" disabled>แสดงความคิดเห็นแล้ว</button>';
                                                 } ?>
                                                 <br>
                                             </div>

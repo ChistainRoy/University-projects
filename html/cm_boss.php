@@ -1,0 +1,84 @@
+<!-- edit user -->
+<?php
+include("connect.php");
+session_start();
+
+if (isset($_POST['edituser'])) {
+    $iduser = $_POST['id'];
+    $user = $_POST['username'];
+    $pass = $_POST['pass'];
+    $nameuser = $_POST['name'];
+    $tel = $_POST['tel'];
+    $add = $_POST['address'];
+    $sql = "UPDATE `employee` SET `em_username` = '$user', `em_password` = '$pass', `name` = '$nameuser', `phone` = '$tel', `address_em` = '$add' WHERE `employee`.`em_id` = $iduser";
+    if (mysqli_query($conn, $sql)) {
+        $_SESSION['success'] = "แก้ไขผู้ใช้สำเร็จ";
+    } else {
+        $_SESSION['errors'] = "แก้ไขผู้ใช้ไม่สำเร็จ";
+    }
+}
+header('location: em_boss.php');
+mysqli_close($conn);
+?>
+<!-- add user -->
+<?php
+session_start();
+include('connect.php');
+if (isset($_POST['adduser'])) {
+    $username = $_POST['username'];
+    $password = ($_POST['pass']);
+    $name = ($_POST['name']);
+    $tel = ($_POST['tel']);
+    $add = ($_POST['address']);
+
+    $sql = "SELECT * FROM cumtomer WHERE username = '$username'";
+    $sqlem = "SELECT * FROM employee WHERE em_username = '$username'";
+
+    $result = mysqli_query($conn, $sql);
+    $resultem = mysqli_query($conn, $sqlem);
+
+    $row = mysqli_fetch_assoc($result);
+    $rowem = mysqli_fetch_assoc($resultem);
+
+    if ($row['username'] === $username) {
+        header('location: em_boss.php');
+        $_SESSION['errors'] = "ชื่อผู้ใช้ซ้ำ!!!";
+    } elseif ($rowem['em_username'] === $username) {
+        header('location: em_boss.php');
+        $_SESSION['errors'] = "ชื่อผู้ใช้ซ้ำ!!!";
+    } else {
+        $sql = "INSERT INTO `employee` (`em_username`, `em_password`, `name`, `phone`, `address_em`) VALUES ('$username', ' $password', '$name', '$tel', '$add')";
+        if (mysqli_query($conn, $sql)) {
+            $_SESSION['success'] = "ลงทะเบียนสำเร็จ โปรดเข้าสู่ระบบ";
+        } else {
+            $_SESSION['errors'] = "ลงทะเบียนไม่สำเร็จ";
+        }
+        header('location: em_boss.php');
+    }
+}
+mysqli_close($conn);
+
+?>
+<!-- del user -->
+<?php
+include("connect.php");
+session_start();
+
+if (isset($_GET['deldata'])) {
+    $id = $_GET['id'];
+    $sqli = "SELECT * FROM `order` WHERE `order`.`em_id` = $id;";
+    $row = mysqli_query($conn, $sqli);
+    if (mysqli_num_rows($row) >= 1) {
+        $_SESSION['errors'] = "ไม่สามารถลบผู้ใช้ได้";
+    } else {
+        $sql = "DELETE FROM `employee` WHERE `employee`.`em_id` = $id";
+        if (mysqli_query($conn, $sql)) {
+            $_SESSION['success'] = "ลบผู้ใช้สำเร็จ";
+        } else {
+            $_SESSION['errors'] = "ลบผู้ใช้ไม่สำเร็จ";
+        }
+    }
+}
+header('location: em_boss.php');
+mysqli_close($conn);
+?>
